@@ -13,7 +13,12 @@ const resourceActions: Record<string, string[]> = {
   brand: ['read', 'create', 'update', 'delete'],
   model: ['read', 'create', 'update', 'delete'],
   version: ['read', 'create', 'update', 'delete'],
-  media: ['read', 'create', 'delete'],
+  body_style: ['read', 'create', 'update', 'delete'],
+  transmission: ['read', 'create', 'update', 'delete'],
+  color: ['read', 'create', 'update', 'delete'],
+  region: ['read', 'create', 'update', 'delete'],
+  filter: ['read', 'create', 'update', 'delete'],
+  media: ['read', 'create', 'update', 'delete'],
   branch: ['read', 'create', 'update', 'delete'],
   content: ['read', 'create', 'update', 'delete', 'publish'],
   seo: ['read', 'update'],
@@ -21,15 +26,18 @@ const resourceActions: Record<string, string[]> = {
   customer: ['read', 'create', 'update', 'delete'],
   user: ['read', 'create', 'update', 'delete', 'assign_role'],
   audit: ['read'],
+  dashboard: ['read'],
 };
 
 const permissionCodes = Object.entries(resourceActions).flatMap(([resource, actions]) => actions.map((action) => `${resource}.${action}`));
 const assigned: Record<string, string[]> = {
   ADMIN: permissionCodes.filter((code) => !code.startsWith('user.assign_role')),
-  CONTENT_EDITOR: permissionCodes.filter((code) => code.startsWith('content.') || code === 'media.read' || code === 'media.create'),
-  INVENTORY_MANAGER: permissionCodes.filter((code) => ['car.', 'brand.', 'model.', 'version.', 'media.', 'branch.'].some((prefix) => code.startsWith(prefix))),
-  SALES: ['car.read', 'brand.read', 'model.read', 'version.read', 'lead.read', 'lead.update', 'customer.read'],
-  SEO_MANAGER: ['content.read', 'seo.read', 'seo.update', 'car.read'],
+  CONTENT_EDITOR: permissionCodes.filter((code) => code.startsWith('content.') ||
+    ['media.read', 'media.create', 'media.update', 'dashboard.read'].includes(code)),
+  INVENTORY_MANAGER: permissionCodes.filter((code) => ['car.', 'brand.', 'model.', 'version.', 'body_style.', 'transmission.',
+    'color.', 'region.', 'filter.', 'media.', 'branch.', 'dashboard.'].some((prefix) => code.startsWith(prefix))),
+  SALES: ['car.read', 'brand.read', 'model.read', 'version.read', 'lead.read', 'lead.update', 'customer.read', 'dashboard.read'],
+  SEO_MANAGER: ['content.read', 'seo.read', 'seo.update', 'car.read', 'dashboard.read'],
   SUPER_ADMIN: permissionCodes,
 };
 

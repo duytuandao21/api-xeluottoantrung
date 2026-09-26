@@ -2,6 +2,7 @@ import { Controller, Get, Inject, ServiceUnavailableException } from '@nestjs/co
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SkipThrottle } from '@nestjs/throttler';
 import { DatabaseService } from '../../database/database.service.js';
+import { Public } from '../auth/auth.decorators.js';
 
 @ApiTags('Health')
 @Controller('health')
@@ -9,6 +10,7 @@ export class HealthController {
   constructor(@Inject(DatabaseService) private readonly database: DatabaseService) {}
 
   @Get()
+  @Public()
   @SkipThrottle()
   @ApiOperation({ summary: 'Application and database readiness' })
   @ApiResponse({ status: 200, description: 'Application and database are ready', schema: { example: { status: 'ok', database: 'ok' } } })

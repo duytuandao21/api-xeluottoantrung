@@ -45,6 +45,7 @@ export const carMedia = pgTable('car_media', {
   sortOrder: integer('sort_order').default(0).notNull(), isCover: boolean('is_cover').default(false).notNull(),
   width: integer('width'), height: integer('height'), sizeBytes: bigint('size_bytes', { mode: 'number' }),
   mimeType: text('mime_type'), createdAt: createdAt(),
+  deletionPendingAt: timestamp('deletion_pending_at', { withTimezone: true }),
 }, (t) => [
   index('car_media_car_order_idx').on(t.carId, t.sortOrder),
   uniqueIndex('car_media_storage_key_uq').on(t.storageKey),

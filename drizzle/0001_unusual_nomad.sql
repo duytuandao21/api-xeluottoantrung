@@ -1,0 +1,1 @@
+ALTER TABLE "car_media" ADD COLUMN "deletion_pending_at" timestamp with time zone;

@@ -14,7 +14,7 @@ IsInt()(PaginationQuery.prototype, 'page');
 Min(1)(PaginationQuery.prototype, 'page');
 
 test('environment rejects wildcard CORS origins', () => {
-  assert.throws(() => validateEnv({ DATABASE_URL: 'postgresql://user:pass@localhost/db', CORS_ORIGINS: '*' }), /CORS_ORIGINS/);
+  assert.throws(() => validateEnv({ DATABASE_URL: 'postgresql://user:pass@localhost/db', CORS_ORIGINS: '*', SUPABASE_URL: 'https://project.supabase.co' }), /CORS_ORIGINS/);
 });
 
 test('global validation settings convert query numbers and reject unknown fields', async () => {

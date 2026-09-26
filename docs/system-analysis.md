@@ -1,5 +1,7 @@
 # Phase 1 — Phân tích web và admin
 
+> Tài liệu này ghi lại hiện trạng trước khi tích hợp. Trạng thái Phase 9 xem [architecture.md](architecture.md) và [frontend-integration.md](frontend-integration.md).
+
 Tài liệu này ghi nhận **code đang có**, làm đầu vào cho thiết kế database ở Phase 2. Chưa có schema hay API được triển khai. Phạm vi khảo sát: `web-xeluottoantrung/app`, `components`, `lib`, `types`, `data`; `admin-xeluottoantrung/src/app`, `src/components`, `src/lib`; các file cấu hình package. Các file `admin-page/*.html` là ảnh chụp giao diện cũ để tham khảo, không phải route Next.js đang chạy.
 
 ## 1. Công nghệ, route và nguồn dữ liệu hiện tại

@@ -1,5 +1,7 @@
 # Phase 2 — Database schema
 
+> Schema và migration đang được API sử dụng. Quy trình áp dụng migration và seed cho môi trường mới xem [deployment.md](deployment.md).
+
 Thiết kế dựa trên [system-analysis.md](./system-analysis.md), phiên bản thực thi là `src/database/schema/*.ts` và migration `drizzle/0000_wild_carmella_unuscione.sql`. Có 32 table. Migration đã chạy trên Supabase PostgreSQL; seed đã tạo 6 role và 44 permission. `drizzle-kit check` chạy thành công.
 
 ## Quy ước và quyết định
@@ -34,7 +36,7 @@ Thiết kế dựa trên [system-analysis.md](./system-analysis.md), phiên bả
 | `transmissions` — hộp số | `name text!`, `slug text!`, `sort_order int! D=0`, `status text! D=active` | `slug` unique |
 | `filter_options` — các chip/range admin | `group text!`, `name text!`, `slug text!`, `min_value int?`, `max_value int?`, `sort_order int! D=0`, `status text! D=active` | `(group,slug)` unique |
 | `cars` — xe | `legacy_id text?`, `sku text?`, `slug text!`, `name text!`, `brand_id uuid! FK→brands`, `model_id uuid! FK→car_models`, `version_id uuid? FK→car_versions`, `body_style_id uuid? FK→body_styles`, `branch_id uuid? FK→branches`, `year int!`, `price bigint!`, `original_price bigint?`, `mileage int?`, `transmission_id uuid? FK→transmissions`, `fuel text?`, `color_id uuid? FK→car_colors`, `license_plate text?`, `condition text?`, `seat_count int?`, `description text?`, `status car_status! D=inactive`, `featured bool! D=false`, `installment bool! D=false`, `new_arrival bool! D=false`, `published_at ts?`, `source_url text?`, `source_kind text?`, `deleted_at ts?` | `slug`, `legacy_id`, `sku`, `source_url` unique; `(status,created_at)`, `(brand_id,status)`, `model_id`, `version_id`, `body_style_id`, `branch_id`, `price`, `year` indexes; checks year 1886–2100, price/km ≥0, seats >0 |
-| `car_media` — ảnh/video xe | `car_id uuid! FK→cars` cascade, `type car_media_type! D=image`, `storage_key text?`, `public_url text!`, `alt_text text?`, `sort_order int! D=0`, `is_cover bool! D=false`, `width int?`, `height int?`, `size_bytes bigint?`, `mime_type text?` | `(car_id,sort_order)` index; `storage_key` unique; partial unique `car_id WHERE is_cover=true`; size ≥0 |
+| `car_media` — ảnh/video xe | `car_id uuid! FK→cars` cascade, `type car_media_type! D=image`, `storage_key text?`, `public_url text!`, `alt_text text?`, `sort_order int! D=0`, `is_cover bool! D=false`, `width int?`, `height int?`, `size_bytes bigint?`, `mime_type text?`, `deletion_pending_at timestamptz?` | `(car_id,sort_order)` index; `storage_key` unique; partial unique `car_id WHERE is_cover=true`; size ≥0; pending rows hidden until R2/DB deletion can finish |
 | `car_specifications` — thông số thêm từ web cũ | `car_id uuid! FK→cars` cascade, `key text!`, `label text!`, `value text!`, `sort_order int! D=0` | `(car_id,key)` unique |
 | `article_categories` — nhóm tin | `name text!`, `slug text!` | `slug` unique |
 | `articles` — tin/bài viết | `legacy_id text?`, `title text!`, `slug text!`, `category_id uuid? FK→article_categories`, `excerpt text?`, `content text!`, `image_url text?`, `author_id uuid? FK→profiles`, `author_name text?`, `featured bool! D=false`, `status text! D=draft`, `published_at ts?`, `deleted_at ts?` | `slug`, `legacy_id` unique; `(status,published_at)` index |
