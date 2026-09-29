@@ -40,7 +40,7 @@ Các `:id` admin là UUID. `DELETE /admin/cars/:id` là soft delete; trả 204. 
 }
 ```
 
-Public list trả dữ liệu cho card và URL ảnh cover, không tải full gallery/specifications và không trả SKU, biển số, nguồn import hay trường xóa nội bộ. Public detail trả gallery/specifications và các trường trình bày. Admin detail trả đầy đủ trường xe để chỉnh sửa.
+Public list trả dữ liệu cho card và URL ảnh cover, cùng `color` (tên màu) và `colorSlug` để web tạo gợi ý lọc từ xe đang đăng. Xe chưa gắn màu trả `null` cho hai trường này. Danh sách không tải full gallery/specifications và không trả SKU, biển số, nguồn import hay trường xóa nội bộ. Public detail trả gallery/specifications và các trường trình bày. Admin detail trả đầy đủ trường xe để chỉnh sửa.
 
 ## Vòng đời và toàn vẹn dữ liệu
 

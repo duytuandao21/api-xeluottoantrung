@@ -1,5 +1,5 @@
 import { sql } from 'drizzle-orm';
-import { boolean, check, index, integer, jsonb, pgTable, text, timestamp, uniqueIndex, uuid } from 'drizzle-orm/pg-core';
+import { boolean, check, date, index, integer, jsonb, pgTable, text, timestamp, uniqueIndex, uuid } from 'drizzle-orm/pg-core';
 import { createdAt, id, updatedAt } from './common.js';
 import { profiles } from './auth.js';
 
@@ -33,6 +33,7 @@ export const faqs = pgTable('faqs', {
 export const testimonials = pgTable('testimonials', {
   id: id(), name: text('name').notNull(), content: text('content').notNull(),
   rating: integer('rating').notNull(), avatarUrl: text('avatar_url'), carBought: text('car_bought'),
+  purchaseDate: date('purchase_date'),
   featured: boolean('featured').default(false).notNull(), sortOrder: integer('sort_order').default(0).notNull(),
   status: text('status').default('active').notNull(), createdAt: createdAt(), updatedAt: updatedAt(),
 }, (t) => [index('testimonials_status_order_idx').on(t.status, t.sortOrder), check('testimonials_rating_range', sql`${t.rating} BETWEEN 1 AND 5`)]);

@@ -16,7 +16,7 @@ const configs: Record<CollectionName, CollectionConfig> = {
     search: 'title', publicStatus: 'published', order: 'published_at', softDelete: true, detailColumn: 'path' },
   faqs: { table: 'faqs', fields: ['question', 'answer', 'featured', 'sortOrder', 'status'],
     required: ['question', 'answer'], search: 'question', publicStatus: 'active', order: 'sort_order' },
-  testimonials: { table: 'testimonials', fields: ['name', 'content', 'rating', 'avatarUrl', 'carBought', 'featured', 'sortOrder', 'status'],
+  testimonials: { table: 'testimonials', fields: ['name', 'content', 'rating', 'avatarUrl', 'carBought', 'purchaseDate', 'featured', 'sortOrder', 'status'],
     required: ['name', 'content', 'rating'], search: 'name', publicStatus: 'active', order: 'sort_order' },
   services: { table: 'services', fields: ['title', 'description', 'imageUrl', 'icon', 'sortOrder', 'status'],
     required: ['title', 'description'], search: 'title', publicStatus: 'active', order: 'sort_order' },
@@ -46,6 +46,12 @@ function payloadFor(config: CollectionConfig, dto: CollectionPayloadDto, creatin
   if (raw.status !== undefined) {
     const allowed = config.publicStatus === 'published' ? ['draft', 'published'] : ['active', 'inactive'];
     if (!allowed.includes(String(raw.status))) throw new BadRequestException('Invalid status for collection');
+  }
+  if (config.table === 'testimonials' && raw.purchaseDate != null) {
+    const [year, month, day] = String(raw.purchaseDate).split('-').map(Number);
+    const date = new Date(Date.UTC(year, month - 1, day));
+    if (date.getUTCFullYear() !== year || date.getUTCMonth() + 1 !== month || date.getUTCDate() !== day)
+      throw new BadRequestException('purchaseDate must be a valid date');
   }
   const result = Object.fromEntries(Object.entries(raw).map(([key, value]) => [dbName(key), value]));
   if (config.publicStatus === 'published' && raw.status !== undefined) result.published_at = raw.status === 'published' ? new Date() : null;

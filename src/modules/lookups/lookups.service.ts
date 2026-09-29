@@ -6,6 +6,7 @@ import { toSlug } from '../../common/slug.js';
 import { DatabaseService } from '../../database/database.service.js';
 import { auditLogs } from '../../database/schema/index.js';
 import { LookupPayloadDto, LookupQuery, lookupNames, type LookupName } from './lookups.dto.js';
+import { optionRange } from './filter-ranges.js';
 
 type LookupConfig = { table: string; permission: string; fields: readonly string[]; required: readonly string[] };
 export const lookupConfigs: Record<LookupName, LookupConfig> = {
@@ -49,6 +50,14 @@ function payload(config: LookupConfig, dto: LookupPayloadDto, creating: boolean,
   if (creating && !raw.slug) raw.slug = toSlug(String(raw.name));
   const minValue = raw.minValue === undefined ? existing?.minValue : raw.minValue;
   const maxValue = raw.maxValue === undefined ? existing?.maxValue : raw.maxValue;
+  if (config.table === 'filter_options' && (raw.group ?? existing?.group) === 'budget' &&
+    (creating || 'minValue' in raw || 'maxValue' in raw || (raw.group === 'budget' && existing?.group !== 'budget'))) {
+    if (minValue == null || maxValue == null || !Number.isInteger(minValue) || !Number.isInteger(maxValue) ||
+      Number(minValue) < 0 || Number(maxValue) <= Number(minValue))
+      throw new BadRequestException('Giá đến phải lớn hơn giá từ. Nhập đủ hai giá bằng triệu đồng.');
+    raw.name = `${minValue} - ${maxValue} triệu`;
+    if (creating && !dto.slug) raw.slug = toSlug(String(raw.name));
+  }
   if (minValue !== undefined && maxValue !== undefined && minValue !== null && maxValue !== null &&
     Number(minValue) > Number(maxValue)) throw new BadRequestException('minValue cannot exceed maxValue');
   return Object.fromEntries(Object.entries(raw).map(([key, value]) => [dbName(key), value]));
@@ -71,6 +80,18 @@ export class LookupsService {
     if (query.search?.trim()) filters.push(sql`name ILIKE ${`%${query.search.trim().replace(/[\\%_]/g, '\\$&')}%`}`);
     const where = filters.length ? sql` WHERE ${sql.join(filters, sql` AND `)}` : sql``;
     const table = sql.identifier(config.table);
+    if (name === 'filter-options' && query.group === 'budget') {
+      // Normalize legacy text-only ranges before sorting and pagination.
+      const result = await this.database.db.execute(sql`SELECT * FROM ${table}${where}`);
+      const items = rows(result).map((item): Record<string, unknown> & { minValue: number | null; maxValue: number | null } => {
+        const bounds = optionRange({ name: String(item.name), minValue: item.minValue as number | null,
+          maxValue: item.maxValue as number | null }, 'budget');
+        return { ...item, minValue: bounds?.min ?? null, maxValue: bounds?.max ?? null };
+      }).sort((a, b) => (a.minValue ?? Infinity) - (b.minValue ?? Infinity) ||
+        (a.maxValue ?? Infinity) - (b.maxValue ?? Infinity) || String(a.id).localeCompare(String(b.id)));
+      return { data: items.slice((query.page - 1) * query.limit, query.page * query.limit),
+        meta: { page: query.page, limit: query.limit, total: items.length, totalPages: Math.ceil(items.length / query.limit) } };
+    }
     const [items, countResult] = await Promise.all([
       this.database.db.execute(sql`SELECT * FROM ${table}${where} ORDER BY sort_order ASC, name ASC, id ASC LIMIT ${query.limit} OFFSET ${(query.page - 1) * query.limit}`),
       this.database.db.execute(sql`SELECT count(*)::int AS total FROM ${table}${where}`),

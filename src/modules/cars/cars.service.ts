@@ -1,5 +1,5 @@
 import { BadRequestException, ConflictException, Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { and, asc, count, desc, eq, gte, ilike, inArray, isNotNull, isNull, lte, or, type SQL } from 'drizzle-orm';
+import { and, asc, count, desc, eq, gte, ilike, inArray, isNotNull, isNull, lte, or, sql, type SQL } from 'drizzle-orm';
 import { throwOnConstraint } from '../../common/database-errors.js';
 import { toSlug } from '../../common/slug.js';
 import type { AuditContext } from '../../common/audit.js';
@@ -46,7 +46,7 @@ function orderFor(sort: ListCarsQuery['sort']) {
 export class CarsService {
   constructor(@Inject(DatabaseService) private readonly database: DatabaseService) {}
 
-  private conditions(query: ListCarsQuery, admin: boolean): SQL[] {
+  private conditions(query: ListCarsQuery, admin: boolean, salePlateSearch = false): SQL[] {
     validateRanges(query);
     const filters: SQL[] = [isNull(cars.deletedAt)];
     if (!admin) {
@@ -54,7 +54,11 @@ export class CarsService {
     }
     if (query.search?.trim()) {
       const term = `%${query.search.trim().replace(/[\\%_]/g, '\\$&')}%`;
-      const search = admin ? or(ilike(cars.name, term), ilike(cars.sku, term)) : ilike(cars.name, term);
+      const plateTerm = `%${query.search.trim().replace(/[^a-z0-9]/gi, '')}%`;
+      const search = admin ? or(ilike(cars.name, term), ilike(cars.sku, term))
+        : salePlateSearch && plateTerm !== '%%'
+          ? or(ilike(cars.name, term), ilike(sql`regexp_replace(coalesce(${cars.licensePlate}, ''), '[^A-Za-z0-9]', '', 'g')`, plateTerm))
+          : ilike(cars.name, term);
       if (search) filters.push(search);
     }
     if (query.brand) filters.push(slugFilter(brands.slug, query.brand));
@@ -76,8 +80,8 @@ export class CarsService {
     return filters;
   }
 
-  async list(query: ListCarsQuery, admin = false) {
-    const where = and(...this.conditions(query, admin));
+  async list(query: ListCarsQuery, admin = false, salePlateSearch = false) {
+    const where = and(...this.conditions(query, admin, salePlateSearch));
     const base = this.database.db.select({ total: count(cars.id) }).from(cars)
       .innerJoin(brands, eq(brands.id, cars.brandId))
       .innerJoin(carModels, eq(carModels.id, cars.modelId))
@@ -90,14 +94,16 @@ export class CarsService {
     const totalRow = await base;
     const rows = await this.database.db.select({
         id: cars.id, sku: cars.sku, slug: cars.slug, name: cars.name, year: cars.year, price: cars.price,
-        originalPrice: cars.originalPrice, mileage: cars.mileage, seatCount: cars.seatCount, status: cars.status,
+        originalPrice: cars.originalPrice, mileage: cars.mileage, seatCount: cars.seatCount,
+        licensePlate: cars.licensePlate, status: cars.status,
         transmissionId: cars.transmissionId,
         featured: cars.featured, installment: cars.installment, newArrival: cars.newArrival,
         publishedAt: cars.publishedAt, createdAt: cars.createdAt,
         brand: { id: brands.id, name: brands.name, slug: brands.slug },
         model: { id: carModels.id, name: carModels.name, slug: carModels.slug },
         version: carVersions.name, branch: branches.name,
-        bodyType: bodyStyles.name, transmission: transmissions.name, fuel: cars.fuel,
+        bodyType: bodyStyles.name, transmission: transmissions.name, color: carColors.name,
+        colorSlug: carColors.slug, fuel: cars.fuel,
         cover: carMedia.publicUrl,
       }).from(cars)
         .innerJoin(brands, eq(brands.id, cars.brandId))
@@ -112,9 +118,11 @@ export class CarsService {
     const total = totalRow[0]?.total ?? 0;
     return { data: rows.map((row) => admin ? row : ({
       slug: row.slug, name: row.name, year: row.year, price: row.price,
-      originalPrice: row.originalPrice, mileage: row.mileage, seatCount: row.seatCount, status: row.status,
+      originalPrice: row.originalPrice, mileage: row.mileage, seatCount: row.seatCount,
+      status: row.status,
       featured: row.featured, installment: row.installment, newArrival: row.newArrival,
       brand: row.brand, model: row.model, bodyType: row.bodyType, transmission: row.transmission,
+      color: row.color, colorSlug: row.colorSlug,
       fuel: row.fuel, cover: row.cover, branch: row.branch,
     })), meta: { page: query.page, limit: query.limit, total, totalPages: Math.ceil(total / query.limit) } };
   }
@@ -143,6 +151,18 @@ export class CarsService {
       newArrival: car.newArrival, brand: row.brand, model: row.model, version: row.version,
       bodyType: row.bodyType, transmission: row.transmission, color: row.color, branch: row.branch?.id ? row.branch : null,
       media, specifications };
+  }
+
+  async saleLicensePlates(slugs: string[]) {
+    const unique = [...new Set(slugs.map(slug => slug.trim()).filter(Boolean))];
+    if (unique.length > 50 || unique.some(slug => slug.length > 200)) throw new BadRequestException('Provide at most 50 valid car slugs');
+    if (!unique.length) return {};
+    const rows = await this.database.db.select({ slug: cars.slug, licensePlate: cars.licensePlate }).from(cars)
+      .innerJoin(brands, eq(brands.id, cars.brandId))
+      .innerJoin(carModels, eq(carModels.id, cars.modelId))
+      .where(and(inArray(cars.slug, unique), isNull(cars.deletedAt), isNotNull(cars.publishedAt),
+        inArray(cars.status, publicStatuses), eq(brands.status, 'active'), eq(carModels.status, 'active')));
+    return Object.fromEntries(rows.filter(row => row.licensePlate).map(row => [row.slug, row.licensePlate]));
   }
 
   async adminDetail(id: string) {

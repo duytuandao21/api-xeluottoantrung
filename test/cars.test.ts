@@ -11,7 +11,7 @@ import { drizzle } from 'drizzle-orm/pglite';
 import { eq } from 'drizzle-orm';
 import { CatalogService } from '../src/modules/catalog/catalog.service.js';
 import { CarsService } from '../src/modules/cars/cars.service.js';
-import { AdminCarsController, PublicCarsController } from '../src/modules/cars/cars.controller.js';
+import { AdminCarsController, PublicCarsController, SaleCarsController } from '../src/modules/cars/cars.controller.js';
 import { PERMISSIONS_KEY } from '../src/modules/auth/auth.decorators.js';
 import { JwtAuthGuard } from '../src/modules/auth/jwt-auth.guard.js';
 import { PermissionsGuard } from '../src/modules/auth/permissions.guard.js';
@@ -77,6 +77,7 @@ test('catalog and car lifecycle, filtering, pagination and audit', async () => {
     assert.equal(detail.seatCount, 5);
     assert.equal(detail.branch?.mapUrl, branch.mapUrl);
     assert.equal('licensePlate' in detail, false);
+    assert.deepEqual(await service.saleLicensePlates([car.slug]), { [car.slug]: '30A-00000' });
     assert.deepEqual(detail.media, []);
     await catalog.updateBrand(brand.id, { status: 'inactive', name: 'Toyota updated' });
     assert.equal((await service.list(query())).meta.total, 0);
@@ -103,21 +104,23 @@ test('catalog and car lifecycle, filtering, pagination and audit', async () => {
     await assert.rejects(service.create({ name: 'Invalid', brandId: secondBrand.id, modelId: model.id, year: 2023, price: 1 }, audit), /modelId/);
     await service.unpublish(car.id, audit);
     assert.equal((await service.list(query())).meta.total, 1);
+    assert.equal((await service.list(query({ search: '30A' }), false, true)).meta.total, 0);
     await service.delete(car.id, audit);
     await assert.rejects(service.adminDetail(car.id), NotFoundException);
     const actions = (await db.select({ action: auditLogs.action }).from(auditLogs).where(eq(auditLogs.entityId, car.id))).map((row) => row.action);
     assert.ok(['car.create', 'car.publish', 'car.update', 'car.price_change', 'car.status_change', 'car.unpublish', 'car.delete'].every((action) => actions.includes(action)));
 
     let granted: string[] = [];
+    let assignedRoles: string[] = [];
     @Module({
-      controllers: [AdminCarsController, PublicCarsController],
+      controllers: [AdminCarsController, PublicCarsController, SaleCarsController],
       providers: [
         { provide: DatabaseService, useValue: connection }, CarsService,
         { provide: JwtVerifierService, useValue: { verify: async () => ({ id: profile.authUserId }) } },
         { provide: AdminAccessService, useValue: { forAuthUser: async () => ({ profile: {
           id: profile.id, authUserId: profile.authUserId, fullName: profile.fullName, email: null, phone: null,
           status: 'active', createdAt: profile.createdAt, updatedAt: profile.updatedAt,
-        }, roles: ['TEST'], permissions: granted }) } },
+        }, roles: assignedRoles, permissions: granted }) } },
         { provide: APP_GUARD, useClass: JwtAuthGuard }, { provide: APP_GUARD, useClass: PermissionsGuard },
       ],
     })
@@ -128,7 +131,7 @@ test('catalog and car lifecycle, filtering, pagination and audit', async () => {
       app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true }));
       await app.init();
       const server = app.getHttpAdapter().getInstance();
-      const body = { name: 'HTTP Car', brandId: brand.id, modelId: model.id, year: 2020, price: 200_000_000 };
+      const body = { name: 'HTTP Car', brandId: brand.id, modelId: model.id, year: 2020, price: 200_000_000, licensePlate: '43A-12345' };
       const send = (payload: object, token = true) => server.inject({ method: 'POST', url: '/api/v1/admin/cars',
         headers: token ? { authorization: 'Bearer test-token' } : {}, payload });
       assert.equal((await send(body, false)).statusCode, 401);
@@ -145,6 +148,25 @@ test('catalog and car lifecycle, filtering, pagination and audit', async () => {
       const publicDetail = await server.inject({ method: 'GET', url: '/api/v1/cars/http-car' });
       assert.equal(publicDetail.statusCode, 200);
       assert.equal(publicDetail.json().price, body.price);
+      assert.equal('licensePlate' in publicDetail.json(), false);
+      const plateUrl = '/api/v1/sale/cars/license-plates?slugs=http-car';
+      assert.equal((await server.inject({ method: 'GET', url: plateUrl })).statusCode, 401);
+      assert.equal((await server.inject({ method: 'GET', url: plateUrl, headers: { authorization: 'Bearer test-token' } })).statusCode, 403);
+      const searchUrl = '/api/v1/sale/cars?search=43A-123.45';
+      assert.equal((await server.inject({ method: 'GET', url: searchUrl })).statusCode, 401);
+      assert.equal((await server.inject({ method: 'GET', url: searchUrl, headers: { authorization: 'Bearer test-token' } })).statusCode, 403);
+      assert.equal((await server.inject({ method: 'GET', url: '/api/v1/cars?search=43A-123.45' })).json().meta.total, 0);
+      assignedRoles = ['SALES'];
+      const saleSearch = await server.inject({ method: 'GET', url: searchUrl, headers: { authorization: 'Bearer test-token' } });
+      assert.equal(saleSearch.statusCode, 200);
+      assert.equal(saleSearch.json().meta.total, 1);
+      assert.equal(saleSearch.json().data[0].slug, 'http-car');
+      assert.equal('licensePlate' in saleSearch.json().data[0], false);
+      assert.equal((await server.inject({ method: 'GET', url: '/api/v1/sale/cars?search=12345&brand=honda',
+        headers: { authorization: 'Bearer test-token' } })).json().meta.total, 0);
+      const salePlates = await server.inject({ method: 'GET', url: plateUrl, headers: { authorization: 'Bearer test-token' } });
+      assert.equal(salePlates.statusCode, 200);
+      assert.deepEqual(salePlates.json(), { 'http-car': '43A-12345' });
       assert.equal((await server.inject({ method: 'GET', url: '/api/v1/admin/cars', headers: { authorization: 'Bearer test-token' } })).statusCode, 403);
     } finally {
       await app.close();

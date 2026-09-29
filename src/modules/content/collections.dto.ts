@@ -33,6 +33,8 @@ export class CollectionPayloadDto {
   @ApiPropertyOptional() @IsOptional() @Matches(/^(https:\/\/|\/)/) @MaxLength(2000) link?: string | null;
   @ApiPropertyOptional() @IsOptional() @IsString() @MaxLength(100) icon?: string | null;
   @ApiPropertyOptional() @IsOptional() @IsString() @MaxLength(200) carBought?: string | null;
+  @ApiPropertyOptional({ example: '2026-09-28', description: 'Ngày mua xe, định dạng YYYY-MM-DD' })
+  @IsOptional() @Matches(/^\d{4}-\d{2}-\d{2}$/) purchaseDate?: string | null;
   @ApiPropertyOptional() @IsOptional() @IsString() @MaxLength(200) salary?: string | null;
   @ApiPropertyOptional() @IsOptional() @IsString() @MaxLength(200) location?: string;
   @ApiPropertyOptional() @IsOptional() @IsString() @MaxLength(40) deadline?: string | null;

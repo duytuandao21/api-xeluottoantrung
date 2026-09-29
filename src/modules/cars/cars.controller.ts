@@ -1,8 +1,8 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, ParseUUIDPipe, Patch, Post, Query, Req } from '@nestjs/common';
+import { Body, Controller, Delete, ForbiddenException, Get, HttpCode, Param, ParseUUIDPipe, Patch, Post, Query, Req } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import type { FastifyRequest } from 'fastify';
 import { auditContext } from '../../common/audit.js';
-import { CurrentUser, Permissions, Public } from '../auth/auth.decorators.js';
+import { AdminAccessRequired, CurrentUser, Permissions, Public } from '../auth/auth.decorators.js';
 import type { AuthenticatedUser } from '../auth/auth.types.js';
 import { CarsService } from './cars.service.js';
 import { CreateCarDto, ListCarsQuery, UpdateCarDto } from './cars.dto.js';
@@ -20,6 +20,27 @@ export class PublicCarsController {
   @Get(':slug')
   @ApiOperation({ summary: 'Published car detail by slug' })
   detail(@Param('slug') slug: string) { return this.cars.publicDetail(slug); }
+}
+
+@ApiTags('Sale cars')
+@ApiBearerAuth()
+@AdminAccessRequired()
+@Controller('sale/cars')
+export class SaleCarsController {
+  constructor(private readonly cars: CarsService) {}
+
+  @Get()
+  @ApiOperation({ summary: 'Published cars searchable by name or license plate for sales staff' })
+  list(@Query() query: ListCarsQuery, @CurrentUser() user: AuthenticatedUser) {
+    if (!user.adminAccess?.roles.includes('SALES')) throw new ForbiddenException('Sales role required');
+    return this.cars.list(query, false, true);
+  }
+
+  @Get('license-plates')
+  licensePlates(@Query('slugs') slugs: string | undefined, @CurrentUser() user: AuthenticatedUser) {
+    if (!user.adminAccess?.roles.includes('SALES')) throw new ForbiddenException('Sales role required');
+    return this.cars.saleLicensePlates(typeof slugs === 'string' ? slugs.split(',') : []);
+  }
 }
 
 @ApiTags('Admin cars')

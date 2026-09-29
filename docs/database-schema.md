@@ -42,7 +42,7 @@ Thiết kế dựa trên [system-analysis.md](./system-analysis.md), phiên bả
 | `articles` — tin/bài viết | `legacy_id text?`, `title text!`, `slug text!`, `category_id uuid? FK→article_categories`, `excerpt text?`, `content text!`, `image_url text?`, `author_id uuid? FK→profiles`, `author_name text?`, `featured bool! D=false`, `status text! D=draft`, `published_at ts?`, `deleted_at ts?` | `slug`, `legacy_id` unique; `(status,published_at)` index |
 | `pages` — trang nội dung URL ổn định | `path text!`, `title text!`, `body text?`, `status text! D=draft`, `published_at ts?`, `deleted_at ts?` | `path` unique |
 | `faqs` — hỏi đáp | `question text!`, `answer text!`, `featured bool! D=false`, `sort_order int! D=0`, `status text! D=active` | `(status,sort_order)` index |
-| `testimonials` — cảm nhận | `name text!`, `content text!`, `rating int!` (1–5), `avatar_url text?`, `car_bought text?`, `featured bool! D=false`, `sort_order int! D=0`, `status text! D=active` | `(status,sort_order)` index |
+| `testimonials` — cảm nhận | `name text!`, `content text!`, `rating int!` (1–5), `avatar_url text?`, `car_bought text?`, `purchase_date date?`, `featured bool! D=false`, `sort_order int! D=0`, `status text! D=active` | `(status,sort_order)` index |
 | `services` — dịch vụ | `title text!`, `description text!`, `image_url text?`, `icon text?`, `sort_order int! D=0`, `status text! D=active` | PK only; volume nhỏ |
 | `recruitments` — tuyển dụng | `title text!`, `image_url text?`, `description text!`, `requirements text!`, `salary text?`, `location text!`, `deadline ts?`, `status text! D=active` | PK only; volume nhỏ |
 | `slides` — slideshow | `title text!`, `image_url text!`, `link text?`, `sort_order int! D=0`, `status text! D=active` | `(status,sort_order)` index |

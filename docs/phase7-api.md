@@ -16,6 +16,8 @@ The collections are `articles`, `article-categories`, `pages`, `faqs`, `testimon
 
 Public routes: `GET /articles`, `GET /articles/:slug`, `GET /article-categories`, `GET /faqs`, `GET /testimonials`, `GET /services`, `GET /recruitments`, `GET /slides`, and `GET /pages/by-path?path=/ve-chung-toi`. List routes support `page`, `limit`, and `search`. Articles/pages default to `draft`; setting `status: "published"` publishes them. Active/inactive collections default to `active`.
 
+Testimonials may include `purchaseDate` as a calendar date (`YYYY-MM-DD` in the API, entered as `dd/mm/yyyy` in admin). Existing records without a purchase date return `null`.
+
 Admin managed text blocks use `content_entries`:
 
 | Route | Permission | Purpose |

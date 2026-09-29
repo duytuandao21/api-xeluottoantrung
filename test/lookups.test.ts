@@ -46,6 +46,20 @@ test('phase 7 lookup CRUD, public visibility, relation checks, and per-resource 
     await assert.rejects(service.create('filter-options', { group: 'budget', name: 'Sai', minValue: 100, maxValue: 10 }, audit), BadRequestException);
     const filter = await service.create('filter-options', { group: 'budget', name: 'Dưới 500 triệu', minValue: 0, maxValue: 500 }, audit);
     assert.equal((await service.list('filter-options', { ...query, group: 'budget' }, true)).data[0].id, filter.id);
+    await assert.rejects(service.create('filter-options', { group: 'budget', name: 'Equal', minValue: 500, maxValue: 500 }, audit), BadRequestException);
+    await assert.rejects(service.create('filter-options', { group: 'budget', name: 'Missing', minValue: 500 }, audit), BadRequestException);
+    await assert.rejects(service.update('filter-options', String(filter.id), { maxValue: 0 }, audit), BadRequestException);
+    const high = await service.create('filter-options', { group: 'budget', name: 'High', minValue: 1200, maxValue: 1500, sortOrder: -10 }, audit);
+    assert.equal(high.name, '1200 - 1500 triệu');
+    await db.insert(schema.filterOptions).values({ group: 'budget', name: '1 - 1.2 tỷ', slug: 'legacy-budget' });
+    await db.insert(schema.filterOptions).values({ group: 'budget', name: '800 triệu - 1 tỷ', slug: 'legacy-mixed' });
+    for (const publicOnly of [true, false]) {
+      const sorted = await service.list('filter-options', { page: 1, limit: 10, group: 'budget' }, publicOnly);
+      assert.deepEqual(sorted.data.map(row => row.minValue), [0, 800, 1000, 1200]);
+      assert.deepEqual(sorted.data.map(row => row.maxValue), [500, 1000, 1200, 1500]);
+      const second = await service.list('filter-options', { page: 2, limit: 2, group: 'budget' }, publicOnly);
+      assert.deepEqual(second.data.map(row => row.minValue), [1000, 1200]);
+    }
     await assert.rejects(service.list('branches', { ...query, group: 'budget' }, false), BadRequestException);
     const [brand] = await db.insert(brands).values({ name: 'Toyota', slug: 'toyota' }).returning();
     const [firstModel] = await db.insert(carModels).values({ brandId: brand.id, name: 'Vios', slug: 'vios' }).returning();
