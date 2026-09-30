@@ -92,8 +92,11 @@ export class LookupsService {
       return { data: items.slice((query.page - 1) * query.limit, query.page * query.limit),
         meta: { page: query.page, limit: query.limit, total: items.length, totalPages: Math.ceil(items.length / query.limit) } };
     }
+    const carCount = !publicOnly && name === 'car-versions'
+      ? sql`, (SELECT count(*)::int FROM cars WHERE version_id = ${table}.id AND deleted_at IS NULL) AS count`
+      : sql``;
     const [items, countResult] = await Promise.all([
-      this.database.db.execute(sql`SELECT * FROM ${table}${where} ORDER BY sort_order ASC, name ASC, id ASC LIMIT ${query.limit} OFFSET ${(query.page - 1) * query.limit}`),
+      this.database.db.execute(sql`SELECT *${carCount} FROM ${table}${where} ORDER BY sort_order ASC, name ASC, id ASC LIMIT ${query.limit} OFFSET ${(query.page - 1) * query.limit}`),
       this.database.db.execute(sql`SELECT count(*)::int AS total FROM ${table}${where}`),
     ]);
     const total = Number(countResult.rows[0]?.total ?? 0);

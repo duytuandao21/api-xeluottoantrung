@@ -1,5 +1,5 @@
 import { sql } from 'drizzle-orm';
-import { boolean, check, date, index, integer, jsonb, pgTable, text, timestamp, uniqueIndex, uuid } from 'drizzle-orm/pg-core';
+import { bigint, boolean, check, date, index, integer, jsonb, pgTable, text, timestamp, uniqueIndex, uuid } from 'drizzle-orm/pg-core';
 import { createdAt, id, updatedAt } from './common.js';
 import { profiles } from './auth.js';
 
@@ -39,10 +39,10 @@ export const testimonials = pgTable('testimonials', {
 }, (t) => [index('testimonials_status_order_idx').on(t.status, t.sortOrder), check('testimonials_rating_range', sql`${t.rating} BETWEEN 1 AND 5`)]);
 
 export const services = pgTable('services', {
-  id: id(), title: text('title').notNull(), description: text('description').notNull(),
+  id: id(), title: text('title').notNull(), slug: text('slug').notNull(), description: text('description').notNull(),
   imageUrl: text('image_url'), icon: text('icon'), sortOrder: integer('sort_order').default(0).notNull(),
   status: text('status').default('active').notNull(), createdAt: createdAt(), updatedAt: updatedAt(),
-});
+}, (t) => [uniqueIndex('services_slug_uq').on(t.slug)]);
 
 export const recruitments = pgTable('recruitments', {
   id: id(), title: text('title').notNull(), imageUrl: text('image_url'), description: text('description').notNull(),
@@ -56,6 +56,29 @@ export const slides = pgTable('slides', {
   sortOrder: integer('sort_order').default(0).notNull(), status: text('status').default('active').notNull(),
   createdAt: createdAt(), updatedAt: updatedAt(),
 }, (t) => [index('slides_status_order_idx').on(t.status, t.sortOrder)]);
+
+export const accessoryBrands = pgTable('accessory_brands', {
+  id: id(), name: text('name').notNull(), imageUrl: text('image_url'),
+  status: text('status').default('active').notNull(), sortOrder: integer('sort_order').default(0).notNull(),
+  createdAt: createdAt(), updatedAt: updatedAt(),
+}, (t) => [uniqueIndex('accessory_brands_name_uq').on(sql`lower(btrim(${t.name}))`), index('accessory_brands_status_order_idx').on(t.status, t.sortOrder)]);
+
+export const accessoryCategories = pgTable('accessory_categories', {
+  id: id(), name: text('name').notNull(),
+  status: text('status').default('active').notNull(), sortOrder: integer('sort_order').default(0).notNull(),
+  createdAt: createdAt(), updatedAt: updatedAt(),
+}, (t) => [uniqueIndex('accessory_categories_name_uq').on(sql`lower(btrim(${t.name}))`), index('accessory_categories_status_order_idx').on(t.status, t.sortOrder)]);
+
+export const accessories = pgTable('accessories', {
+  id: id(), name: text('name').notNull(), brand: text('brand').notNull(),
+  brandId: uuid('brand_id').references(() => accessoryBrands.id),
+  categoryId: uuid('category_id').references(() => accessoryCategories.id),
+  price: bigint('price', { mode: 'number' }).notNull(),
+  imageUrl: text('image_url').notNull(), imageUrls: text('image_urls').array().default(sql`'{}'::text[]`).notNull(),
+  description: text('description'), status: text('status').default('active').notNull(),
+  sortOrder: integer('sort_order').default(0).notNull(),
+  createdAt: createdAt(), updatedAt: updatedAt(),
+}, (t) => [index('accessories_status_order_idx').on(t.status, t.sortOrder), index('accessories_brand_idx').on(t.brandId), index('accessories_category_idx').on(t.categoryId)]);
 
 // Ordered admin-managed blocks: introduction, steps, social links, call buttons, banners, colors excluded.
 export const contentEntries = pgTable('content_entries', {

@@ -19,8 +19,16 @@ export class PublicCollectionsController {
   @Get('faqs') faqs(@Query() query: CollectionQuery) { return this.collections.list('faqs', query, true); }
   @Get('testimonials') testimonials(@Query() query: CollectionQuery) { return this.collections.list('testimonials', query, true); }
   @Get('services') services(@Query() query: CollectionQuery) { return this.collections.list('services', query, true); }
+  @Get('services/:slug') service(@Param('slug') slug: string) {
+    const isId = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(slug);
+    return this.collections.detail('services', slug, true, !isId);
+  }
   @Get('recruitments') recruitments(@Query() query: CollectionQuery) { return this.collections.list('recruitments', query, true); }
   @Get('slides') slides(@Query() query: CollectionQuery) { return this.collections.list('slides', query, true); }
+  @Get('accessories') accessories(@Query() query: CollectionQuery) { return this.collections.list('accessories', query, true); }
+  @Get('accessories/:id') accessory(@Param('id', ParseUUIDPipe) id: string) { return this.collections.detail('accessories', id, true); }
+  @Get('accessory-brands') accessoryBrands(@Query() query: CollectionQuery) { return this.collections.list('accessory-brands', query, true); }
+  @Get('accessory-categories') accessoryCategories(@Query() query: CollectionQuery) { return this.collections.list('accessory-categories', query, true); }
   @Get('pages/by-path') @ApiOperation({ summary: 'Published page by its absolute path' })
   page(@Query('path') path: string) { return this.collections.detail('pages', path, true, true); }
 }

@@ -49,6 +49,10 @@ test('catalog and car lifecycle, filtering, pagination and audit', async () => {
 
     const car = await service.create({ name: 'Toyota Vios 2022', brandId: brand.id, modelId: model.id, versionId: version.id, year: 2022,
       price: 450_000_000, mileage: 20_000, seatCount: 5, branchId: branch.id, licensePlate: '30A-00000' }, audit);
+    assert.equal((await catalog.adminBrands()).find(row => row.id === brand.id)?.count, 1);
+    assert.equal((await catalog.adminBrands()).find(row => row.id === secondBrand.id)?.count, 0);
+    assert.equal((await catalog.adminModels()).find(row => row.id === model.id)?.count, 1);
+    assert.equal((await catalog.adminModels(secondBrand.id)).find(row => row.id === secondModel.id)?.count, 0);
     await assert.rejects(catalog.deleteBrand(brand.id), ConflictException);
     await assert.rejects(service.create({ name: 'Toyota Vios 2022', brandId: brand.id, modelId: model.id, year: 2022,
       price: 450_000_000 }, audit), ConflictException);
@@ -106,6 +110,8 @@ test('catalog and car lifecycle, filtering, pagination and audit', async () => {
     assert.equal((await service.list(query())).meta.total, 1);
     assert.equal((await service.list(query({ search: '30A' }), false, true)).meta.total, 0);
     await service.delete(car.id, audit);
+    assert.equal((await catalog.adminBrands()).find(row => row.id === brand.id)?.count, 0);
+    assert.equal((await catalog.adminModels()).find(row => row.id === model.id)?.count, 0);
     await assert.rejects(service.adminDetail(car.id), NotFoundException);
     const actions = (await db.select({ action: auditLogs.action }).from(auditLogs).where(eq(auditLogs.entityId, car.id))).map((row) => row.action);
     assert.ok(['car.create', 'car.publish', 'car.update', 'car.price_change', 'car.status_change', 'car.unpublish', 'car.delete'].every((action) => actions.includes(action)));

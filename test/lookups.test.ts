@@ -8,6 +8,7 @@ import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, type NestFastifyApplication } from '@nestjs/platform-fastify';
 import { PGlite } from '@electric-sql/pglite';
 import { drizzle } from 'drizzle-orm/pglite';
+import { eq } from 'drizzle-orm';
 import { DatabaseService } from '../src/database/database.service.js';
 import * as schema from '../src/database/schema/index.js';
 import { brands, carModels, cars, profiles } from '../src/database/schema/index.js';
@@ -65,9 +66,16 @@ test('phase 7 lookup CRUD, public visibility, relation checks, and per-resource 
     const [firstModel] = await db.insert(carModels).values({ brandId: brand.id, name: 'Vios', slug: 'vios' }).returning();
     const [secondModel] = await db.insert(carModels).values({ brandId: brand.id, name: 'Camry', slug: 'camry' }).returning();
     const version = await service.create('car-versions', { name: 'G', modelId: firstModel.id }, audit);
-    await db.insert(cars).values({ name: 'Xe', slug: 'xe', brandId: brand.id, modelId: firstModel.id,
-      versionId: String(version.id), year: 2022, price: 100_000_000 });
+    const [linkedCar] = await db.insert(cars).values({ name: 'Xe', slug: 'xe', brandId: brand.id, modelId: firstModel.id,
+      versionId: String(version.id), year: 2022, price: 100_000_000 }).returning();
+    const emptyVersion = await service.create('car-versions', { name: 'E', modelId: firstModel.id }, audit);
+    const versionRows = (await service.list('car-versions', query, false)).data;
+    assert.equal(versionRows.find(row => row.id === version.id)?.count, 1);
+    assert.equal(versionRows.find(row => row.id === emptyVersion.id)?.count, 0);
+    assert.equal('count' in (await service.list('car-versions', query, true)).data[0], false);
     await assert.rejects(service.update('car-versions', String(version.id), { modelId: secondModel.id }, audit), /cannot move/);
+    await db.update(cars).set({ deletedAt: new Date() }).where(eq(cars.id, linkedCar.id));
+    assert.equal((await service.list('car-versions', query, false)).data.find(row => row.id === version.id)?.count, 0);
 
     let granted: string[] = [];
     @Module({ controllers: [AdminLookupsController, PublicLookupsController], providers: [

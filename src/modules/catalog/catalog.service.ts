@@ -1,5 +1,5 @@
 import { BadRequestException, ConflictException, Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { and, asc, eq } from 'drizzle-orm';
+import { and, asc, eq, getTableColumns, sql } from 'drizzle-orm';
 import { throwOnConstraint } from '../../common/database-errors.js';
 import { toSlug } from '../../common/slug.js';
 import { DatabaseService } from '../../database/database.service.js';
@@ -31,7 +31,9 @@ export class CatalogService {
   }
 
   async adminBrands() {
-    return this.database.db.select().from(brands).orderBy(asc(brands.sortOrder), asc(brands.name));
+    return this.database.db.select({ ...getTableColumns(brands),
+      count: sql<number>`(SELECT count(*)::int FROM ${cars} counted_cars WHERE counted_cars.brand_id = ${brands}.id AND counted_cars.deleted_at IS NULL)`,
+    }).from(brands).orderBy(asc(brands.sortOrder), asc(brands.name));
   }
 
   async adminBrand(id: string) {
@@ -65,7 +67,9 @@ export class CatalogService {
   }
 
   async adminModels(brandId?: string) {
-    return this.database.db.select().from(carModels).where(brandId ? eq(carModels.brandId, brandId) : undefined)
+    return this.database.db.select({ ...getTableColumns(carModels),
+      count: sql<number>`(SELECT count(*)::int FROM ${cars} counted_cars WHERE counted_cars.model_id = ${carModels}.id AND counted_cars.deleted_at IS NULL)`,
+    }).from(carModels).where(brandId ? eq(carModels.brandId, brandId) : undefined)
       .orderBy(asc(carModels.sortOrder), asc(carModels.name));
   }
 

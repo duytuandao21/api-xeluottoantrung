@@ -1,8 +1,8 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsBoolean, IsIn, IsInt, IsOptional, IsString, IsUUID, Matches, Max, MaxLength, Min } from 'class-validator';
+import { ArrayMaxSize, IsArray, IsBoolean, IsIn, IsInt, IsOptional, IsString, IsUUID, Matches, Max, MaxLength, Min } from 'class-validator';
 
-export const collectionNames = ['articles', 'article-categories', 'pages', 'faqs', 'testimonials', 'services', 'recruitments', 'slides'] as const;
+export const collectionNames = ['articles', 'article-categories', 'pages', 'faqs', 'testimonials', 'services', 'recruitments', 'slides', 'accessories', 'accessory-brands', 'accessory-categories'] as const;
 export type CollectionName = typeof collectionNames[number];
 
 export class CollectionQuery {
@@ -10,6 +10,9 @@ export class CollectionQuery {
   @ApiPropertyOptional({ type: Number, default: 20 }) @IsOptional() @Type(() => Number) @IsInt() @Min(1) @Max(100) limit = 20;
   @ApiPropertyOptional() @IsOptional() @IsString() @MaxLength(120) search?: string;
   @ApiPropertyOptional() @IsOptional() @IsIn(['active', 'inactive', 'draft', 'published']) status?: string;
+  @ApiPropertyOptional({ format: 'uuid' }) @IsOptional() @IsUUID() brandId?: string;
+  @ApiPropertyOptional({ format: 'uuid' }) @IsOptional() @IsUUID() categoryId?: string;
+  @ApiPropertyOptional() @IsOptional() @IsIn(['newest', 'price-asc', 'price-desc']) sort?: string;
 }
 
 // A shared payload covers the fields used by the existing admin content forms.
@@ -17,6 +20,11 @@ export class CollectionQuery {
 export class CollectionPayloadDto {
   @ApiPropertyOptional() @IsOptional() @IsString() @MaxLength(240) title?: string;
   @ApiPropertyOptional() @IsOptional() @IsString() @MaxLength(180) name?: string;
+  @ApiPropertyOptional() @IsOptional() @IsString() @MaxLength(180) brand?: string;
+  @ApiPropertyOptional({ format: 'uuid' }) @IsOptional() @IsUUID() brandId?: string;
+  @ApiPropertyOptional() @IsOptional() @IsInt() @Min(0) @Max(1_000_000_000_000) price?: number;
+  @ApiPropertyOptional({ type: [String] }) @IsOptional() @IsArray() @ArrayMaxSize(10)
+  @Matches(/^https?:\/\//, { each: true }) imageUrls?: string[];
   @ApiPropertyOptional() @IsOptional() @Matches(/^[a-z0-9]+(?:-[a-z0-9]+)*$/) @MaxLength(240) slug?: string;
   @ApiPropertyOptional() @IsOptional() @Matches(/^\/(?:[a-z0-9-]+\/?)*$/) @MaxLength(300) path?: string;
   @ApiPropertyOptional() @IsOptional() @IsString() @MaxLength(300) question?: string;

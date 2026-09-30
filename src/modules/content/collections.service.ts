@@ -19,16 +19,31 @@ const configs: Record<CollectionName, CollectionConfig> = {
   testimonials: { table: 'testimonials', fields: ['name', 'content', 'rating', 'avatarUrl', 'carBought', 'purchaseDate', 'featured', 'sortOrder', 'status'],
     required: ['name', 'content', 'rating'], search: 'name', publicStatus: 'active', order: 'sort_order' },
   services: { table: 'services', fields: ['title', 'description', 'imageUrl', 'icon', 'sortOrder', 'status'],
-    required: ['title', 'description'], search: 'title', publicStatus: 'active', order: 'sort_order' },
+    required: ['title', 'description'], search: 'title', publicStatus: 'active', order: 'sort_order', detailColumn: 'slug' },
   recruitments: { table: 'recruitments', fields: ['title', 'description', 'requirements', 'salary', 'location', 'imageUrl', 'deadline', 'status'],
     required: ['title', 'description', 'requirements', 'location'], search: 'title', publicStatus: 'active', order: 'created_at' },
   slides: { table: 'slides', fields: ['title', 'imageUrl', 'link', 'sortOrder', 'status'],
     required: ['title', 'imageUrl'], search: 'title', publicStatus: 'active', order: 'sort_order' },
+  accessories: { table: 'accessories', fields: ['name', 'brandId', 'categoryId', 'price', 'imageUrl', 'imageUrls', 'description', 'sortOrder', 'status'],
+    required: ['name', 'brandId', 'price', 'imageUrl'], search: 'name', publicStatus: 'active', order: 'sort_order' },
+  'accessory-brands': { table: 'accessory_brands', fields: ['name', 'imageUrl', 'sortOrder', 'status'],
+    required: ['name'], search: 'name', publicStatus: 'active', order: 'sort_order' },
+  'accessory-categories': { table: 'accessory_categories', fields: ['name', 'sortOrder', 'status'],
+    required: ['name'], search: 'name', publicStatus: 'active', order: 'sort_order' },
 };
 
 function configFor(name: string): CollectionConfig {
   if (!collectionNames.includes(name as CollectionName)) throw new NotFoundException('Content collection not found');
   return configs[name as CollectionName];
+}
+function serviceSlugBase(title: string): string {
+  return title.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D')
+    .toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 220).replace(/-$/, '');
+}
+function availableServiceSlug(base: string, taken: Set<string>): string {
+  let slug = base;
+  for (let suffix = 2; taken.has(slug); suffix++) slug = `${base}-${suffix}`;
+  return slug;
 }
 function dbName(key: string): string { return key.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`); }
 function camelize(row: Record<string, unknown>): Record<string, unknown> {
@@ -62,11 +77,16 @@ function payloadFor(config: CollectionConfig, dto: CollectionPayloadDto, creatin
   }
   return result;
 }
+function fieldValueSql(key: string, value: unknown): SQL {
+  if (key === 'image_urls' && Array.isArray(value))
+    return sql`ARRAY[${sql.join(value.map((url) => sql`${url}`), sql`, `)}]::text[]`;
+  return sql`${value}`;
+}
 function valuesSql(data: Record<string, unknown>): SQL {
-  return sql`(${sql.join(Object.keys(data).map((key) => sql.identifier(key)), sql`, `)}) VALUES (${sql.join(Object.values(data).map((value) => sql`${value}`), sql`, `)})`;
+  return sql`(${sql.join(Object.keys(data).map((key) => sql.identifier(key)), sql`, `)}) VALUES (${sql.join(Object.entries(data).map(([key, value]) => fieldValueSql(key, value)), sql`, `)})`;
 }
 function setsSql(data: Record<string, unknown>): SQL {
-  return sql.join(Object.entries(data).map(([key, value]) => sql`${sql.identifier(key)} = ${value}`), sql`, `);
+  return sql.join(Object.entries(data).map(([key, value]) => sql`${sql.identifier(key)} = ${fieldValueSql(key, value)}`), sql`, `);
 }
 
 @Injectable()
@@ -75,16 +95,27 @@ export class CollectionsService {
 
   async list(name: string, query: CollectionQuery, publicOnly: boolean) {
     const config = configFor(name);
+    if (name !== 'accessories' && (query.brandId || query.categoryId || query.sort)) throw new BadRequestException('Unsupported filters');
     if (query.status && !config.fields.includes('status')) throw new BadRequestException('This collection has no status');
     const filters: SQL[] = [];
     if (config.softDelete) filters.push(sql`deleted_at IS NULL`);
     if (publicOnly && config.publicStatus) filters.push(sql`status = ${config.publicStatus}`);
     if (query.status && !publicOnly) filters.push(sql`status = ${query.status}`);
-    if (query.search?.trim()) filters.push(sql`${sql.identifier(config.search)} ILIKE ${`%${query.search.trim().replace(/[\\%_]/g, '\\$&')}%`}`);
+    if (query.search?.trim()) {
+      const term = `%${query.search.trim().replace(/[\\%_]/g, '\\$&')}%`;
+      filters.push(name === 'accessories'
+        ? sql`(name ILIKE ${term} OR brand ILIKE ${term})`
+        : sql`${sql.identifier(config.search)} ILIKE ${term}`);
+    }
+    if (name === 'accessories' && query.brandId) filters.push(sql`brand_id = ${query.brandId}`);
+    if (name === 'accessories' && query.categoryId) filters.push(sql`category_id = ${query.categoryId}`);
     const where = filters.length ? sql` WHERE ${sql.join(filters, sql` AND `)}` : sql``;
     const table = sql.identifier(config.table);
+    const order = name === 'accessories' && query.sort ? query.sort === 'price-asc' ? sql`price ASC, id ASC`
+      : query.sort === 'price-desc' ? sql`price DESC, id ASC` : sql`created_at DESC, id ASC`
+      : sql`${sql.identifier(config.order)} ${config.order === 'sort_order' ? sql`ASC` : sql`DESC`}, id ASC`;
     const [items, totalResult] = await Promise.all([
-      this.database.db.execute(sql`SELECT * FROM ${table}${where} ORDER BY ${sql.identifier(config.order)} ${config.order === 'sort_order' ? sql`ASC` : sql`DESC`}, id ASC LIMIT ${query.limit} OFFSET ${(query.page - 1) * query.limit}`),
+      this.database.db.execute(sql`SELECT * FROM ${table}${where} ORDER BY ${order} LIMIT ${query.limit} OFFSET ${(query.page - 1) * query.limit}`),
       this.database.db.execute(sql`SELECT count(*)::int AS total FROM ${table}${where}`),
     ]);
     const total = Number(totalResult.rows[0]?.total ?? 0);
@@ -109,6 +140,19 @@ export class CollectionsService {
     const data = payloadFor(config, dto, true);
     try {
       return await this.database.db.transaction(async (tx) => {
+        if (name === 'services') {
+          const base = serviceSlugBase(String(data.title));
+          if (!base) throw new BadRequestException('Tên dịch vụ cần có chữ hoặc số để tạo liên kết');
+          const existing = await tx.execute(sql`SELECT slug FROM services WHERE slug = ${base} OR slug LIKE ${`${base}-%`}`);
+          data.slug = availableServiceSlug(base, new Set(existing.rows.map(row => String(row.slug))));
+        }
+        if (name === 'accessories') {
+          if (data.brand_id) {
+            const brand = await tx.execute(sql`SELECT name FROM accessory_brands WHERE id = ${data.brand_id} LIMIT 1`);
+            if (!brand.rows[0]) throw new BadRequestException('Thương hiệu phụ kiện không tồn tại');
+            data.brand = brand.rows[0].name;
+          }
+        }
         const result = await tx.execute(sql`INSERT INTO ${sql.identifier(config.table)} ${valuesSql(data)} RETURNING *`);
         const created = rows(result)[0];
         await tx.insert(auditLogs).values({ ...audit, action: 'content.create', entityType: config.table,
@@ -127,9 +171,22 @@ export class CollectionsService {
         const oldResult = await tx.execute(sql`SELECT * FROM ${sql.identifier(config.table)} WHERE id = ${id} ${config.softDelete ? sql`AND deleted_at IS NULL` : sql``} FOR UPDATE`);
         const old = rows(oldResult)[0];
         if (!old) throw new NotFoundException('Content not found');
+        if (name === 'services' && data.title !== undefined && data.title !== old.title) {
+          const base = serviceSlugBase(String(data.title));
+          if (!base) throw new BadRequestException('Tên dịch vụ cần có chữ hoặc số để tạo liên kết');
+          const existing = await tx.execute(sql`SELECT slug FROM services WHERE id <> ${id} AND (slug = ${base} OR slug LIKE ${`${base}-%`})`);
+          data.slug = availableServiceSlug(base, new Set(existing.rows.map(row => String(row.slug))));
+        }
+        if (name === 'accessories' && data.brand_id) {
+          const brand = await tx.execute(sql`SELECT name FROM accessory_brands WHERE id = ${data.brand_id} LIMIT 1`);
+          if (!brand.rows[0]) throw new BadRequestException('Thương hiệu phụ kiện không tồn tại');
+          data.brand = brand.rows[0].name;
+        }
         if (data.published_at instanceof Date && old.publishedAt instanceof Date) data.published_at = old.publishedAt;
         const updatedResult = await tx.execute(sql`UPDATE ${sql.identifier(config.table)} SET ${setsSql(data)} WHERE id = ${id} RETURNING *`);
         const updated = rows(updatedResult)[0];
+        if (name === 'accessory-brands' && data.name !== undefined)
+          await tx.execute(sql`UPDATE accessories SET brand = ${data.name}, updated_at = now() WHERE brand_id = ${id}`);
         await tx.insert(auditLogs).values({ ...audit, action: 'content.update', entityType: config.table,
           entityId: id, oldData: old, newData: updated });
         return updated;
