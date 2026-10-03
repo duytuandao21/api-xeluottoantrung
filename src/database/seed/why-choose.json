@@ -1,0 +1,38 @@
+[
+  {
+    "group": "thiet-lap-tai-sao-chon",
+    "key": "lam-viec-nhanh-don-gian",
+    "title": "Làm việc nhanh, đơn giản",
+    "body": "Làm việc nhanh, đơn giản Làm việc nhanh, đơn giản Làm việc nhanh, đơn giản",
+    "imageUrl": "/thumbs/100x100x1/upload/news/noi-that-8062.png",
+    "sortOrder": 1,
+    "status": "active"
+  },
+  {
+    "group": "thiet-lap-tai-sao-chon",
+    "key": "lam-viec-nhanh-don-gian-2",
+    "title": "Làm việc nhanh, đơn giản",
+    "body": "Làm việc nhanh, đơn giản Làm việc nhanh, đơn giản Làm việc nhanh, đơn giản",
+    "imageUrl": "/thumbs/100x100x1/upload/news/icon3-1078.png",
+    "sortOrder": 2,
+    "status": "active"
+  },
+  {
+    "group": "thiet-lap-tai-sao-chon",
+    "key": "lam-viec-nhanh-don-gian-3",
+    "title": "Làm việc nhanh, đơn giản",
+    "body": "Làm việc nhanh, đơn giản Làm việc nhanh, đơn giản Làm việc nhanh, đơn giản",
+    "imageUrl": "/thumbs/100x100x1/upload/news/675528-3695.png",
+    "sortOrder": 3,
+    "status": "active"
+  },
+  {
+    "group": "thiet-lap-tai-sao-chon",
+    "key": "lam-viec-nhanh-don-gian-4",
+    "title": "Làm việc nhanh, đơn giản",
+    "body": "Làm việc nhanh, đơn giản Làm việc nhanh, đơn giản Làm việc nhanh, đơn giản",
+    "imageUrl": "/thumbs/100x100x1/upload/news/622624-3519.png",
+    "sortOrder": 4,
+    "status": "active"
+  }
+]

@@ -11,17 +11,19 @@ type CollectionConfig = { table: string; fields: readonly string[]; required: re
 const configs: Record<CollectionName, CollectionConfig> = {
   articles: { table: 'articles', fields: ['title', 'slug', 'categoryId', 'excerpt', 'content', 'imageUrl', 'authorName', 'featured', 'status'],
     required: ['title', 'slug', 'content'], search: 'title', publicStatus: 'published', order: 'published_at', softDelete: true, detailColumn: 'slug' },
+  'driving-experiences': { table: 'driving_experiences', fields: ['title', 'slug', 'categoryId', 'excerpt', 'content', 'imageUrl', 'authorName', 'featured', 'status'],
+    required: ['title', 'slug', 'content'], search: 'title', publicStatus: 'published', order: 'published_at', softDelete: true, detailColumn: 'slug' },
   'article-categories': { table: 'article_categories', fields: ['name', 'slug'], required: ['name', 'slug'], search: 'name', order: 'created_at' },
   pages: { table: 'pages', fields: ['path', 'title', 'body', 'status'], required: ['path', 'title'],
     search: 'title', publicStatus: 'published', order: 'published_at', softDelete: true, detailColumn: 'path' },
-  faqs: { table: 'faqs', fields: ['question', 'answer', 'featured', 'sortOrder', 'status'],
-    required: ['question', 'answer'], search: 'question', publicStatus: 'active', order: 'sort_order' },
+  faqs: { table: 'faqs', fields: ['question', 'answer', 'excerpt', 'imageUrl', 'featured', 'sortOrder', 'status'],
+    required: ['question', 'answer'], search: 'question', publicStatus: 'active', order: 'sort_order', detailColumn: 'slug' },
   testimonials: { table: 'testimonials', fields: ['name', 'content', 'rating', 'avatarUrl', 'carBought', 'purchaseDate', 'featured', 'sortOrder', 'status'],
     required: ['name', 'content', 'rating'], search: 'name', publicStatus: 'active', order: 'sort_order' },
   services: { table: 'services', fields: ['title', 'description', 'imageUrl', 'icon', 'sortOrder', 'status'],
     required: ['title', 'description'], search: 'title', publicStatus: 'active', order: 'sort_order', detailColumn: 'slug' },
-  recruitments: { table: 'recruitments', fields: ['title', 'description', 'requirements', 'salary', 'location', 'imageUrl', 'deadline', 'status'],
-    required: ['title', 'description', 'requirements', 'location'], search: 'title', publicStatus: 'active', order: 'created_at' },
+  recruitments: { table: 'recruitments', fields: ['title', 'description', 'excerpt', 'imageUrl', 'status'],
+    required: ['title', 'description'], search: 'title', publicStatus: 'active', order: 'created_at', detailColumn: 'slug' },
   slides: { table: 'slides', fields: ['title', 'imageUrl', 'link', 'sortOrder', 'status'],
     required: ['title', 'imageUrl'], search: 'title', publicStatus: 'active', order: 'sort_order' },
   accessories: { table: 'accessories', fields: ['name', 'brandId', 'categoryId', 'price', 'imageUrl', 'imageUrls', 'description', 'sortOrder', 'status'],
@@ -70,11 +72,6 @@ function payloadFor(config: CollectionConfig, dto: CollectionPayloadDto, creatin
   }
   const result = Object.fromEntries(Object.entries(raw).map(([key, value]) => [dbName(key), value]));
   if (config.publicStatus === 'published' && raw.status !== undefined) result.published_at = raw.status === 'published' ? new Date() : null;
-  if (config.table === 'recruitments' && raw.deadline !== undefined) {
-    const date = raw.deadline === null ? null : new Date(String(raw.deadline));
-    if (date && Number.isNaN(date.getTime())) throw new BadRequestException('deadline must be a valid date');
-    result.deadline = date;
-  }
   return result;
 }
 function fieldValueSql(key: string, value: unknown): SQL {
@@ -140,10 +137,10 @@ export class CollectionsService {
     const data = payloadFor(config, dto, true);
     try {
       return await this.database.db.transaction(async (tx) => {
-        if (name === 'services') {
-          const base = serviceSlugBase(String(data.title));
-          if (!base) throw new BadRequestException('Tên dịch vụ cần có chữ hoặc số để tạo liên kết');
-          const existing = await tx.execute(sql`SELECT slug FROM services WHERE slug = ${base} OR slug LIKE ${`${base}-%`}`);
+        if (name === 'services' || name === 'recruitments' || name === 'faqs') {
+          const base = serviceSlugBase(String(name === 'faqs' ? data.question : data.title));
+          if (!base) throw new BadRequestException('Tiêu đề cần có chữ hoặc số để tạo liên kết');
+          const existing = await tx.execute(sql`SELECT slug FROM ${sql.identifier(config.table)} WHERE slug = ${base} OR slug LIKE ${`${base}-%`}`);
           data.slug = availableServiceSlug(base, new Set(existing.rows.map(row => String(row.slug))));
         }
         if (name === 'accessories') {
@@ -171,10 +168,11 @@ export class CollectionsService {
         const oldResult = await tx.execute(sql`SELECT * FROM ${sql.identifier(config.table)} WHERE id = ${id} ${config.softDelete ? sql`AND deleted_at IS NULL` : sql``} FOR UPDATE`);
         const old = rows(oldResult)[0];
         if (!old) throw new NotFoundException('Content not found');
-        if (name === 'services' && data.title !== undefined && data.title !== old.title) {
-          const base = serviceSlugBase(String(data.title));
-          if (!base) throw new BadRequestException('Tên dịch vụ cần có chữ hoặc số để tạo liên kết');
-          const existing = await tx.execute(sql`SELECT slug FROM services WHERE id <> ${id} AND (slug = ${base} OR slug LIKE ${`${base}-%`})`);
+        const titleField = name === 'faqs' ? 'question' : 'title';
+        if ((name === 'services' || name === 'recruitments' || name === 'faqs') && data[titleField] !== undefined && data[titleField] !== old[titleField]) {
+          const base = serviceSlugBase(String(data[titleField]));
+          if (!base) throw new BadRequestException('Tiêu đề cần có chữ hoặc số để tạo liên kết');
+          const existing = await tx.execute(sql`SELECT slug FROM ${sql.identifier(config.table)} WHERE id <> ${id} AND (slug = ${base} OR slug LIKE ${`${base}-%`})`);
           data.slug = availableServiceSlug(base, new Set(existing.rows.map(row => String(row.slug))));
         }
         if (name === 'accessories' && data.brand_id) {

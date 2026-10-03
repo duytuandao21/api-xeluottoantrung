@@ -1,0 +1,81 @@
+{
+  "settings": {
+    "thiet-lap-anh-vi-sao-chon": {
+      "image": "/upload/photo/z542696452086627bb2b6a9a249c269886d0a6ef071eaa-4670.jpg"
+    },
+    "thiet-lap-text-ban-xe": {
+      "visible": "1",
+      "title": "Bán xe của bạn với giá tốt nhất",
+      "subtitle": "Nhập thông tin chi tiết xe của bạn và nhận báo giá ngay",
+      "content": "<p><span style=\"font-size:18px\">Liên hệ bán xe nhanh&nbsp;</span></p>",
+      "image": "/upload/news/z5430048952628bebc88299e1b87e96914633c2da3326c-removebg-preview-6304.png",
+      "seoTitle": "Bán xe của bạn với giá tốt nhất | OTO TOAN TRUNG | O TO CU TPHCM",
+      "seoKeywords": "",
+      "seoDescription": ""
+    },
+    "thiet-lap-text-len-doi": {
+      "visible": "1",
+      "title": "Lên đời xe của bạn",
+      "subtitle": "Nhập thông tin chi tiết xe của bạn",
+      "content": "",
+      "image": "/upload/news/z5430025073029f4f2d428b858e67dec08bdf6ad3ab3d9-removebg-preview-4869.png",
+      "seoTitle": "Lên đời xe của bạn | OTO TOAN TRUNG | O TO CU TPHCM",
+      "seoKeywords": "",
+      "seoDescription": ""
+    },
+    "thiet-lap-text-tra-gop": {
+      "visible": "1",
+      "content": "<p><span style=\"font-size:14px\">Tính số tiền trả góp hàng tháng phù hợp với điều kiện của bạn bằng cách nhập số tiền trả trước ưa thích của bạn.</span></p>\n<p><span style=\"font-size:14px\">Lưu ý quan trọng: Lãi suất được ước tính và có thể khác nhau dựa trên đánh giá tín dụng và số tiền vay từ các tổ chức tài chính.</span></p>\n<p><span style=\"font-size:14px\">Tìm hiểu thêm về chính sách khoản vay của ngân hàng VPBank&nbsp;<a href=\"https://www.vpbank.com.vn/ca-nhan/vay\" rel=\"nofollow\" target=\"_blank\">Tại đây</a></span></p>"
+    },
+    "thiet-lap-logo": {
+      "logo": "/upload/photo/logo-tt-gold-6981.png",
+      "logoDark": "/upload/photo/logo-tt-gold-6981.png",
+      "logoMobile": "/upload/photo/logo-tt-gold-6981.png"
+    },
+    "thiet-lap-favicon": {
+      "favicon": "/upload/photo/favicon-3815.png"
+    }
+  },
+  "entries": {
+    "thiet-lap-banner-dong-xe": [
+      {
+        "key": "mua-xe",
+        "title": "Sẵn sàng tìm chiếc xe ưng ý? Mua xe ngay tại Toàn Trung.",
+        "imageUrl": "/images/mua-xe-banner.png",
+        "link": "/san-pham",
+        "sortOrder": 1
+      },
+      {
+        "key": "ban-xe",
+        "title": "Muốn bán xe nhanh? Định giá minh bạch, hỗ trợ nhanh chóng. Bán xe ngay.",
+        "imageUrl": "/images/ban-xe-banner.png",
+        "link": "/ban-xe",
+        "sortOrder": 2
+      }
+    ],
+    "thiet-lap-mang-xa-hoi": [
+      {
+        "key": "facebook",
+        "title": "Facebook",
+        "imageUrl": "/upload/photo/20673-8148.png",
+        "link": "https://www.facebook.com/ototoantrung",
+        "sortOrder": 1
+      },
+      {
+        "key": "tiktok",
+        "title": "TikTok",
+        "imageUrl": "/upload/photo/4138198-7894.png",
+        "link": "https://www.tiktok.com/@toantrunggialai",
+        "sortOrder": 2
+      },
+      {
+        "key": "youtube",
+        "title": "YouTube",
+        "imageUrl": "/upload/photo/youtube-150-4900.png",
+        "link": "https://www.youtube.com/@ototoantrung",
+        "sortOrder": 3
+      }
+    ],
+    "thiet-lap-ung-dung": []
+  }
+}

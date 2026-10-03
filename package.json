@@ -19,6 +19,11 @@
     "media:retry-deletes": "tsx src/modules/media/retry-deletes.ts",
     "db:migrate": "drizzle-kit migrate",
     "db:seed": "tsx src/database/seed/roles-permissions.ts",
+    "db:seed-call-contacts": "tsx src/database/seed/call-contacts.ts --apply",
+    "db:seed-recruitment": "tsx src/database/seed/recruitment-article.ts",
+    "db:seed-website-content": "tsx src/database/seed/website-content.ts",
+    "db:seed-website-settings": "tsx src/database/seed/website-settings.ts --apply",
+    "db:seed-seo": "tsx src/database/seed/seo-website.ts --apply",
     "admin:check-user": "tsx src/database/check-auth-user.ts",
     "admin:bootstrap": "tsx src/database/seed/bootstrap-admin.ts"
   },

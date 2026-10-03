@@ -34,7 +34,8 @@ import { AdminAccessService } from '../src/modules/auth/admin-access.service.js'
 test('phase 7 content, SEO, enquiries and newsletter use real schema and permissions', async () => {
   const pg = new PGlite();
   try {
-    for (const migration of ['0000_wild_carmella_unuscione', '0001_unusual_nomad'])
+    const journal = JSON.parse(await readFile('drizzle/meta/_journal.json', 'utf8')) as { entries: { tag: string }[] };
+    for (const { tag: migration } of journal.entries)
       await pg.exec((await readFile(`drizzle/${migration}.sql`, 'utf8')).replaceAll('--> statement-breakpoint', ''));
     const db = drizzle(pg, { schema });
     const connection = { db } as unknown as DatabaseService;

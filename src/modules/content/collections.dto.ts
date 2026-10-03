@@ -2,7 +2,7 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { ArrayMaxSize, IsArray, IsBoolean, IsIn, IsInt, IsOptional, IsString, IsUUID, Matches, Max, MaxLength, Min } from 'class-validator';
 
-export const collectionNames = ['articles', 'article-categories', 'pages', 'faqs', 'testimonials', 'services', 'recruitments', 'slides', 'accessories', 'accessory-brands', 'accessory-categories'] as const;
+export const collectionNames = ['articles', 'driving-experiences', 'article-categories', 'pages', 'faqs', 'testimonials', 'services', 'recruitments', 'slides', 'accessories', 'accessory-brands', 'accessory-categories'] as const;
 export type CollectionName = typeof collectionNames[number];
 
 export class CollectionQuery {
@@ -28,10 +28,10 @@ export class CollectionPayloadDto {
   @ApiPropertyOptional() @IsOptional() @Matches(/^[a-z0-9]+(?:-[a-z0-9]+)*$/) @MaxLength(240) slug?: string;
   @ApiPropertyOptional() @IsOptional() @Matches(/^\/(?:[a-z0-9-]+\/?)*$/) @MaxLength(300) path?: string;
   @ApiPropertyOptional() @IsOptional() @IsString() @MaxLength(300) question?: string;
-  @ApiPropertyOptional() @IsOptional() @IsString() @MaxLength(20_000) answer?: string;
+  @ApiPropertyOptional() @IsOptional() @IsString() @MaxLength(40_000) answer?: string;
   @ApiPropertyOptional() @IsOptional() @IsString() @MaxLength(40_000) content?: string;
   @ApiPropertyOptional() @IsOptional() @IsString() @MaxLength(20_000) body?: string;
-  @ApiPropertyOptional() @IsOptional() @IsString() @MaxLength(10_000) description?: string;
+  @ApiPropertyOptional() @IsOptional() @IsString() @MaxLength(40_000) description?: string;
   @ApiPropertyOptional() @IsOptional() @IsString() @MaxLength(10_000) requirements?: string;
   @ApiPropertyOptional() @IsOptional() @IsString() @MaxLength(1000) excerpt?: string;
   @ApiPropertyOptional() @IsOptional() @IsString() @MaxLength(200) authorName?: string;

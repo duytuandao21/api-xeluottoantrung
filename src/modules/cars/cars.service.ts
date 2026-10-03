@@ -131,7 +131,7 @@ export class CarsService {
     const [row] = await this.database.db.select({ car: cars, brand: { id: brands.id, name: brands.name, slug: brands.slug },
       model: { id: carModels.id, name: carModels.name, slug: carModels.slug },
       version: carVersions.name, bodyType: bodyStyles.name, transmission: transmissions.name,
-      color: carColors.name, branch: { id: branches.id, name: branches.name, slug: branches.slug, address: branches.address, phone: branches.phone, mapUrl: branches.mapUrl },
+      color: carColors.name, branch: { id: branches.id, name: branches.name, slug: branches.slug, address: branches.address, phone: branches.phone, mapUrl: branches.mapUrl, imageUrl: branches.imageUrl },
     }).from(cars)
       .innerJoin(brands, eq(brands.id, cars.brandId)).innerJoin(carModels, eq(carModels.id, cars.modelId))
       .leftJoin(carVersions, eq(carVersions.id, cars.versionId)).leftJoin(bodyStyles, eq(bodyStyles.id, cars.bodyStyleId))

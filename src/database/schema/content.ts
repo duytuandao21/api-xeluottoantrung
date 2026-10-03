@@ -18,6 +18,15 @@ export const articles = pgTable('articles', {
   createdAt: createdAt(), updatedAt: updatedAt(), deletedAt: timestamp('deleted_at', { withTimezone: true }),
 }, (t) => [uniqueIndex('articles_slug_uq').on(t.slug), uniqueIndex('articles_legacy_id_uq').on(t.legacyId), index('articles_status_published_idx').on(t.status, t.publishedAt)]);
 
+export const drivingExperiences = pgTable('driving_experiences', {
+  id: id(), title: text('title').notNull(), slug: text('slug').notNull(),
+  categoryId: uuid('category_id').references(() => articleCategories.id),
+  excerpt: text('excerpt'), content: text('content').notNull(), imageUrl: text('image_url'), authorName: text('author_name'),
+  featured: boolean('featured').default(false).notNull(), status: text('status').default('draft').notNull(),
+  publishedAt: timestamp('published_at', { withTimezone: true }),
+  createdAt: createdAt(), updatedAt: updatedAt(), deletedAt: timestamp('deleted_at', { withTimezone: true }),
+}, (t) => [uniqueIndex('driving_experiences_slug_uq').on(t.slug), index('driving_experiences_status_published_idx').on(t.status, t.publishedAt)]);
+
 export const pages = pgTable('pages', {
   id: id(), path: text('path').notNull(), title: text('title').notNull(), body: text('body'),
   status: text('status').default('draft').notNull(), publishedAt: timestamp('published_at', { withTimezone: true }),
@@ -25,10 +34,11 @@ export const pages = pgTable('pages', {
 }, (t) => [uniqueIndex('pages_path_uq').on(t.path)]);
 
 export const faqs = pgTable('faqs', {
-  id: id(), question: text('question').notNull(), answer: text('answer').notNull(),
+  id: id(), question: text('question').notNull(), slug: text('slug').notNull(), answer: text('answer').notNull(),
+  excerpt: text('excerpt'), imageUrl: text('image_url'),
   featured: boolean('featured').default(false).notNull(), sortOrder: integer('sort_order').default(0).notNull(),
   status: text('status').default('active').notNull(), createdAt: createdAt(), updatedAt: updatedAt(),
-}, (t) => [index('faqs_status_order_idx').on(t.status, t.sortOrder)]);
+}, (t) => [index('faqs_status_order_idx').on(t.status, t.sortOrder), uniqueIndex('faqs_slug_uq').on(t.slug)]);
 
 export const testimonials = pgTable('testimonials', {
   id: id(), name: text('name').notNull(), content: text('content').notNull(),
@@ -45,11 +55,11 @@ export const services = pgTable('services', {
 }, (t) => [uniqueIndex('services_slug_uq').on(t.slug)]);
 
 export const recruitments = pgTable('recruitments', {
-  id: id(), title: text('title').notNull(), imageUrl: text('image_url'), description: text('description').notNull(),
-  requirements: text('requirements').notNull(), salary: text('salary'), location: text('location').notNull(),
+  id: id(), title: text('title').notNull(), slug: text('slug').notNull(), excerpt: text('excerpt'), imageUrl: text('image_url'), description: text('description').notNull(),
+  requirements: text('requirements').default('').notNull(), salary: text('salary'), location: text('location').default('').notNull(),
   deadline: timestamp('deadline', { withTimezone: true }), status: text('status').default('active').notNull(),
   createdAt: createdAt(), updatedAt: updatedAt(),
-});
+}, (t) => [uniqueIndex('recruitments_slug_uq').on(t.slug)]);
 
 export const slides = pgTable('slides', {
   id: id(), title: text('title').notNull(), imageUrl: text('image_url').notNull(), link: text('link'),
