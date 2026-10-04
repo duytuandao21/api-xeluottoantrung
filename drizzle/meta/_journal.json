@@ -71,6 +71,13 @@
       "when": 1790838497403,
       "tag": "0009_bent_franklin_storm",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1790992132491,
+      "tag": "0010_outgoing_polaris",
+      "breakpoints": true
     }
   ]
 }

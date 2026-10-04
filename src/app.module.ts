@@ -17,6 +17,7 @@ import { LeadsModule } from './modules/leads/leads.module.js';
 import { LookupsModule } from './modules/lookups/lookups.module.js';
 import { CustomersModule } from './modules/customers/customers.module.js';
 import { DashboardModule } from './modules/dashboard/dashboard.module.js';
+import { AuspiciousDateModule } from './modules/auspicious-date/auspicious-date.module.js';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { DashboardModule } from './modules/dashboard/dashboard.module.js';
     LookupsModule,
     CustomersModule,
     DashboardModule,
+    AuspiciousDateModule,
     HealthModule,
   ],
   providers: [
