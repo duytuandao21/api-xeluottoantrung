@@ -1,5 +1,5 @@
 import { BadRequestException, ConflictException, Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { and, asc, eq, getTableColumns, sql } from 'drizzle-orm';
+import { and, asc, count, desc, eq, getTableColumns, inArray, isNotNull, isNull, sql } from 'drizzle-orm';
 import { throwOnConstraint } from '../../common/database-errors.js';
 import { toSlug } from '../../common/slug.js';
 import { DatabaseService } from '../../database/database.service.js';
@@ -17,8 +17,15 @@ export class CatalogService {
   constructor(@Inject(DatabaseService) private readonly database: DatabaseService) {}
 
   async publicBrands() {
-    return this.database.db.select({ id: brands.id, name: brands.name, slug: brands.slug, imageUrl: brands.imageUrl })
-      .from(brands).where(eq(brands.status, 'active')).orderBy(asc(brands.sortOrder), asc(brands.name));
+    // Count public cars still in stock, including deposits awaiting handover.
+    const inventory = this.database.db.select({ brandId: cars.brandId, stockCount: count(cars.id).as('stock_count') })
+      .from(cars).innerJoin(carModels, eq(carModels.id, cars.modelId))
+      .where(and(isNull(cars.deletedAt), isNotNull(cars.publishedAt), inArray(cars.status, ['active', 'deposit']), eq(carModels.status, 'active')))
+      .groupBy(cars.brandId).as('brand_inventory');
+    const stockCount = sql<number>`coalesce(${inventory.stockCount}, 0)::int`;
+    return this.database.db.select({ id: brands.id, name: brands.name, slug: brands.slug, imageUrl: brands.imageUrl, stockCount })
+      .from(brands).leftJoin(inventory, eq(brands.id, inventory.brandId)).where(eq(brands.status, 'active'))
+      .orderBy(desc(stockCount), asc(brands.sortOrder), asc(brands.name), asc(brands.id));
   }
 
   async publicModels(brandSlug: string) {

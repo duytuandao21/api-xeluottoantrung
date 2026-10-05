@@ -11,7 +11,7 @@ export class PublicCatalogController {
   constructor(private readonly catalog: CatalogService) {}
 
   @Get('brands')
-  @ApiOperation({ summary: 'Active brands' })
+  @ApiOperation({ summary: 'Active brands ordered by public in-stock car count, descending' })
   brands() { return this.catalog.publicBrands(); }
 
   @Get('brands/:slug/models')
