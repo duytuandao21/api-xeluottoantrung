@@ -1,4 +1,6 @@
 import type { ConfigModuleOptions } from '@nestjs/config';
+import { isIP } from 'node:net';
+import { validateAIConfig } from './ai-models.js';
 
 export type AppConfig = {
   NODE_ENV: 'development' | 'test' | 'production';
@@ -16,6 +18,16 @@ export type AppConfig = {
   R2_SECRET_ACCESS_KEY: string;
   R2_BUCKET: string;
   R2_PUBLIC_BASE_URL: string;
+  AI_PROVIDER: 'openrouter' | 'groq' | '';
+  OPENROUTER_API_KEY: string;
+  OPENROUTER_MODEL: string;
+  GROQ_API_KEY: string;
+  GROQ_MODEL: string;
+  GROQ_FREE_TIER_CONFIRMED: boolean;
+  CHAT_RATE_LIMIT: number;
+  CHAT_RATE_WINDOW_MS: number;
+  CHAT_TIMEOUT_MS: number;
+  CHAT_TRUSTED_PROXY_IPS: string;
 };
 
 function positiveInt(value: unknown, name: string, fallback: number): number {
@@ -72,7 +84,20 @@ export function validateEnv(input: Record<string, unknown>): AppConfig {
     R2_SECRET_ACCESS_KEY: r2.R2_SECRET_ACCESS_KEY,
     R2_BUCKET: r2.R2_BUCKET,
     R2_PUBLIC_BASE_URL: r2.R2_PUBLIC_BASE_URL,
+    ...validateAIConfig(input),
+    OPENROUTER_API_KEY: String(input.OPENROUTER_API_KEY || '').trim(),
+    GROQ_API_KEY: String(input.GROQ_API_KEY || '').trim(),
+    CHAT_RATE_LIMIT: positiveInt(input.CHAT_RATE_LIMIT, 'CHAT_RATE_LIMIT', 10),
+    CHAT_RATE_WINDOW_MS: positiveInt(input.CHAT_RATE_WINDOW_MS, 'CHAT_RATE_WINDOW_MS', 600000),
+    CHAT_TIMEOUT_MS: positiveInt(input.CHAT_TIMEOUT_MS, 'CHAT_TIMEOUT_MS', 30000),
+    CHAT_TRUSTED_PROXY_IPS: trustedChatProxies(input.CHAT_TRUSTED_PROXY_IPS),
   };
+}
+
+function trustedChatProxies(value: unknown): string {
+  const ips = String(value || '').trim();
+  if (ips && ips.split(',').some(ip => !isIP(ip.trim()))) throw new Error('CHAT_TRUSTED_PROXY_IPS must contain explicit IP addresses');
+  return ips;
 }
 
 export const configOptions: ConfigModuleOptions = { isGlobal: true, envFilePath: '.env', validate: validateEnv };

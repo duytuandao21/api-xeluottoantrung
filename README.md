@@ -2,6 +2,33 @@
 
 Backend NestJS chạy trên Fastify, dùng Drizzle ORM, Supabase PostgreSQL và Cloudflare R2. Admin và website đã tích hợp các API xác thực/RBAC, xe/media, danh mục, nội dung, SEO, lead và newsletter. Chi tiết tích hợp xem [docs/frontend-integration.md](docs/frontend-integration.md).
 
+## Trợ lý AI ô tô
+
+Module độc lập `src/modules/chatbot/` cung cấp `POST /api/v1/chat` public, streaming SSE từ OpenRouter hoặc Groq qua provider abstraction. Chỉ cho phép model trong `src/config/ai-models.ts`; không fallback model/provider. Không truy vấn tồn kho và không lưu hội thoại vào database.
+
+Thêm vào **backend** `.env`:
+
+```env
+AI_PROVIDER=openrouter
+OPENROUTER_API_KEY=your-backend-only-key
+OPENROUTER_MODEL=qwen/qwen3.8-27b:free
+GROQ_API_KEY=
+GROQ_MODEL=
+GROQ_FREE_TIER_CONFIRMED=false
+CHAT_RATE_LIMIT=10
+CHAT_RATE_WINDOW_MS=600000
+CHAT_TIMEOUT_MS=30000
+CHAT_TRUSTED_PROXY_IPS=
+```
+
+Không thêm key vào frontend hoặc biến `NEXT_PUBLIC_*`. Model/provider chọn bằng env backend; không lấy từ request. OpenRouter chỉ dùng ID `:free` trong allowlist, `max_price=0` và `allow_fallbacks=false`. Để dùng Groq, đặt `AI_PROVIDER=groq`, `GROQ_MODEL` trong allowlist và **xác minh tài khoản đang dùng Free Plan** trước khi đặt `GROQ_FREE_TIER_CONFIRMED=true`. Cùng ID model có thể tính phí trên Developer Plan; backend không có API để tự xác minh gói tài khoản và không gọi billing endpoint. Gemini không còn được chatbot sử dụng.
+
+Chạy `npm run dev`, sau đó frontend gọi endpoint qua proxy Next.js `/api/v1/chat`. Request: `{ "message": "ABS là gì?", "history": [] }`. SSE giữ nguyên `content`, `sources`, `done`, `error`; nguồn hiện là `[]`, không có Google Search/tool. Chưa có key/model thì chỉ chatbot trả lỗi cấu hình 503; API khác vẫn chạy. Model/provider không hợp lệ sẽ bị từ chối bởi config validator.
+
+Chatbot có rate limit riêng **10 request / 10 phút / IP**, trả 429 và `Retry-After`. Memory store có thể thay bằng Redis qua provider `ChatRateStore` khi chạy nhiều instance. Khi chạy sau Next.js/reverse proxy, cấu hình `CHAT_TRUSTED_PROXY_IPS` bằng **đúng IP** các proxy tin cậy và bảo đảm proxy ghi chuỗi `X-Forwarded-For` đúng; không tin header này từ peer ngoài danh sách. Không thay rate limit của endpoint khác.
+
+Kiểm thử: `npm test`, `npm run lint`, `npm run build`. Smoke test thật, một request tới đúng provider/model trong env: `npx tsx scripts/chatbot-provider-smoke.ts`. Đổi env cần restart API. Xem [AI_PROVIDER_MIGRATION.md](../technical%20documentation/AI_PROVIDER_MIGRATION.md).
+
 ## Cài đặt
 
 Yêu cầu Node.js tương thích với NestJS 12 và một database PostgreSQL/Supabase. Trong thư mục này:

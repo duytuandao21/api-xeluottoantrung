@@ -19,6 +19,7 @@ import { CustomersModule } from './modules/customers/customers.module.js';
 import { DashboardModule } from './modules/dashboard/dashboard.module.js';
 import { AuspiciousDateModule } from './modules/auspicious-date/auspicious-date.module.js';
 import { SearchModule } from './modules/search/search.module.js';
+import { ChatbotModule } from './modules/chatbot/chatbot.module.js';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { SearchModule } from './modules/search/search.module.js';
     DashboardModule,
     AuspiciousDateModule,
     SearchModule,
+    ChatbotModule,
     HealthModule,
   ],
   providers: [
