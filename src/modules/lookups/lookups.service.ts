@@ -138,6 +138,8 @@ export class LookupsService {
         if (name === 'car-versions' && dto.modelId && dto.modelId !== old.modelId) {
           const linked = await tx.execute(sql`SELECT id FROM cars WHERE version_id = ${id} LIMIT 1`);
           if (linked.rows.length) throw new ConflictException('Version is used by cars and cannot move to another model');
+          const valuation = await tx.execute(sql`SELECT id FROM valuation_reference_prices WHERE variant_id = ${id} UNION ALL SELECT id FROM valuation_rules WHERE variant_id = ${id} LIMIT 1`);
+          if (valuation.rows.length) throw new ConflictException('Phiên bản đã dùng trong định giá, không thể chuyển dòng xe.');
         }
         const data = payload(config, dto, false, old);
         data.updated_at = new Date();

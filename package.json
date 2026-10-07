@@ -25,6 +25,7 @@
     "db:seed-website-settings": "tsx src/database/seed/website-settings.ts --apply",
     "db:seed-seo": "tsx src/database/seed/seo-website.ts --apply",
     "db:seed-auspicious": "tsx src/database/seed/auspicious-date.ts",
+    "db:seed-valuation": "tsx src/database/seed/valuation.ts",
     "auspicious:regression": "tsx scripts/auspicious-regression.ts",
     "auspicious:activate": "tsx scripts/activate-auspicious-date.ts",
     "admin:check-user": "tsx src/database/check-auth-user.ts",

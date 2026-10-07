@@ -16,7 +16,9 @@ export class ApiExceptionFilter implements ExceptionFilter {
     const body = typeof response === 'object' && response !== null ? response as Record<string, unknown> : {};
     const message = statusCode === 500 ? 'Internal server error' : typeof body.message === 'string' ? body.message : typeof response === 'string' ? response : exception instanceof HttpException ? exception.message : 'Request failed';
     const details = body.details ?? (Array.isArray(body.message) ? body.message : undefined);
-    if (statusCode >= 500) this.logger.instance.error({ requestId: request.id, method: request.method, path: request.url.split('?')[0], status: statusCode, err: exception instanceof Error ? { name: exception.name, message: exception.message } : undefined }, 'server error');
+    const path = request.url.split('?')[0], privateValuation = /^\/api\/v1\/(?:admin\/)?valuation(?:\/|$)/.test(path);
+    // Drizzle error messages can contain SQL parameter values, including contact PII.
+    if (statusCode >= 500) this.logger.instance.error({ requestId: request.id, method: request.method, path, status: statusCode, err: exception instanceof Error ? { name: exception.name, ...(!privateValuation ? { message: exception.message } : {}) } : undefined }, 'server error');
     reply.status(statusCode).send({ statusCode, error: HttpStatus[statusCode] ? String(HttpStatus[statusCode]).replaceAll('_', ' ').toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase()) : 'Error', message, ...(details !== undefined ? { details } : {}) });
   }
 }

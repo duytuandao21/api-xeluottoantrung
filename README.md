@@ -135,3 +135,7 @@ See [docs/media-api.md](docs/media-api.md) for R2 configuration, bucket CORS, di
 # Content, SEO, enquiries (Phase 7)
 
 See [docs/phase7-api.md](docs/phase7-api.md) for public and admin endpoints, permissions, validation, and scope decisions.
+
+## Định giá xe cũ
+
+Xem [docs/valuation-system.md](docs/valuation-system.md) để biết công thức, API/quyền, nguồn giá khởi tạo, quản trị bộ cấu hình chung, bật/tắt, cập nhật giá và khôi phục tỷ lệ. Admin sửa giá/rule/cấu hình rồi lưu để áp dụng ngay. Tiện ích đã bật trên database phát triển/test; dữ liệu niêm yết và tỷ lệ khởi tạo chỉ dùng tham khảo, cần kiểm định để xác nhận giá thu mua.

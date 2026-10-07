@@ -8,12 +8,14 @@ import helmet from '@fastify/helmet';
 import { AppModule } from './app.module.js';
 import { PinoLoggerService } from './common/logging/pino-logger.service.js';
 import { configureChatTransport } from './modules/chatbot/chatbot.transport.js';
+import { configureValuationTransport } from './modules/valuation/valuation.transport.js';
 
 export async function bootstrap(): Promise<NestFastifyApplication> {
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter({ logger: false }), { bufferLogs: true });
   const config = app.get(ConfigService);
   const logger = app.get(PinoLoggerService);
   configureChatTransport(app.getHttpAdapter().getInstance());
+  configureValuationTransport(app.getHttpAdapter().getInstance());
   app.useLogger(logger);
   app.getHttpAdapter().getInstance().addHook('onResponse', (request, reply, done) => {
     logger.instance.info({ requestId: request.id, method: request.method, path: request.url.split('?')[0], status: reply.statusCode, durationMs: Math.round(reply.elapsedTime) }, 'request completed');

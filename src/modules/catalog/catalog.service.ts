@@ -111,6 +111,10 @@ export class CatalogService {
       if (existingCar) throw new ConflictException('Cannot change brand or body style of a model used by cars');
     }
     await this.validateModelReferences(dto.brandId ?? current.brandId, dto.bodyStyleId === undefined ? current.bodyStyleId : dto.bodyStyleId);
+    if (dto.brandId && dto.brandId !== current.brandId) {
+      const linked = await this.database.db.execute(sql`SELECT id FROM valuation_rules WHERE model_id = ${id} UNION ALL SELECT r.id FROM valuation_reference_prices r JOIN car_versions v ON v.id = r.variant_id WHERE v.model_id = ${id} UNION ALL SELECT r.id FROM valuation_rules r JOIN car_versions v ON v.id = r.variant_id WHERE v.model_id = ${id} LIMIT 1`);
+      if (linked.rows.length) throw new ConflictException('Dòng xe đã dùng trong định giá, không thể chuyển hãng.');
+    }
     const values = { ...dto, ...(dto.name !== undefined ? { name: cleanName(dto.name) } : {}), updatedAt: new Date() };
     try {
       const [updated] = await this.database.db.update(carModels).set(values).where(eq(carModels.id, id)).returning();

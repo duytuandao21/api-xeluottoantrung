@@ -20,6 +20,7 @@ import { DashboardModule } from './modules/dashboard/dashboard.module.js';
 import { AuspiciousDateModule } from './modules/auspicious-date/auspicious-date.module.js';
 import { SearchModule } from './modules/search/search.module.js';
 import { ChatbotModule } from './modules/chatbot/chatbot.module.js';
+import { ValuationModule } from './modules/valuation/valuation.module.js';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { ChatbotModule } from './modules/chatbot/chatbot.module.js';
     AuspiciousDateModule,
     SearchModule,
     ChatbotModule,
+    ValuationModule,
     HealthModule,
   ],
   providers: [
