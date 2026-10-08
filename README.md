@@ -139,3 +139,9 @@ See [docs/phase7-api.md](docs/phase7-api.md) for public and admin endpoints, per
 ## Định giá xe cũ
 
 Xem [docs/valuation-system.md](docs/valuation-system.md) để biết công thức, API/quyền, nguồn giá khởi tạo, quản trị bộ cấu hình chung, bật/tắt, cập nhật giá và khôi phục tỷ lệ. Admin sửa giá/rule/cấu hình rồi lưu để áp dụng ngay. Tiện ích đã bật trên database phát triển/test; dữ liệu niêm yết và tỷ lệ khởi tạo chỉ dùng tham khảo, cần kiểm định để xác nhận giá thu mua.
+
+## Mua xe theo nhu cầu
+
+Public quiz, ranking theo dữ liệu kho thật và lịch sử PostgreSQL. [Phase 1](docs/mua-xe-theo-nhu-cau/phase-1-report.md) ghi API public, migration 0014, seed và retention. [Phase 2](docs/mua-xe-theo-nhu-cau/phase-2-report.md) ghi API admin, migration 0015 và cách sử dụng 4 tab tại Admin → Tiện ích → Mua xe theo nhu cầu. Admin sửa trực tiếp một cấu hình; lịch sử giữ snapshot. Cấu hình đã bật trên database phát triển/test; không seed hồ sơ đặc tính giả.
+
+[Cập nhật giao diện và phân trang](docs/mua-xe-theo-nhu-cau/ui-pagination-update.md): hiệu ứng chuyển câu hỏi, thẻ kết quả gọn hơn, 6 xe mỗi lần tải và Xem thêm; migration 0016 mở giới hạn tổng kết quả.

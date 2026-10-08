@@ -1,0 +1,1 @@
+CREATE INDEX "recommendation_sessions_criteria_idx" ON "recommendation_sessions" USING gin ("criteria");

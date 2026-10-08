@@ -29,7 +29,9 @@
     "auspicious:regression": "tsx scripts/auspicious-regression.ts",
     "auspicious:activate": "tsx scripts/activate-auspicious-date.ts",
     "admin:check-user": "tsx src/database/check-auth-user.ts",
-    "admin:bootstrap": "tsx src/database/seed/bootstrap-admin.ts"
+    "admin:bootstrap": "tsx src/database/seed/bootstrap-admin.ts",
+    "db:seed-car-recommendations": "tsx src/database/seed/car-recommendations.ts",
+    "recommendations:prune": "tsx scripts/prune-car-recommendations.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1140.0",

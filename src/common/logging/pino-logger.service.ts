@@ -6,7 +6,7 @@ export class PinoLoggerService implements LoggerService {
   readonly instance: Logger = pino({
     level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
     redact: {
-      paths: ['req.headers.authorization', 'req.headers.cookie', 'password', 'accessToken', 'refreshToken', 'leadToken', 'leadTokenHash', 'req.body.leadToken', 'DATABASE_URL', 'R2_SECRET_ACCESS_KEY', 'SUPABASE_SERVICE_ROLE_KEY'],
+      paths: ['req.headers.authorization', 'req.headers.cookie', 'password', 'accessToken', 'refreshToken', 'leadToken', 'leadTokenHash', 'req.body.leadToken', 'capability', 'capabilityHash', 'req.body.capability', 'DATABASE_URL', 'R2_SECRET_ACCESS_KEY', 'SUPABASE_SERVICE_ROLE_KEY'],
       censor: '[REDACTED]',
     },
   });

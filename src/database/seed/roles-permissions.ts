@@ -1,3 +1,4 @@
+import { RECOMMENDATION_PERMISSIONS } from '../../modules/car-recommendations/domain.js';
 import 'dotenv/config';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
@@ -31,14 +32,14 @@ const resourceActions: Record<string, string[]> = {
   auspicious_date: ['read', 'settings.update', 'rules.read', 'rules.update', 'content.update', 'sources.manage', 'versions.manage', 'publish', 'simulate', 'audit.read'],
 };
 
-const permissionCodes = [...Object.entries(resourceActions).flatMap(([resource, actions]) => actions.map((action) => `${resource}.${action}`)), ...VALUATION_PERMISSIONS];
+const permissionCodes = [...Object.entries(resourceActions).flatMap(([resource, actions]) => actions.map((action) => `${resource}.${action}`)), ...VALUATION_PERMISSIONS, ...RECOMMENDATION_PERMISSIONS];
 const assigned: Record<string, string[]> = {
   ADMIN: permissionCodes.filter((code) => !code.startsWith('user.assign_role')),
   CONTENT_EDITOR: permissionCodes.filter((code) => code.startsWith('content.') ||
     ['media.read', 'media.create', 'media.update', 'dashboard.read', 'auspicious_date.read', 'auspicious_date.rules.read', 'auspicious_date.content.update'].includes(code)),
   INVENTORY_MANAGER: permissionCodes.filter((code) => ['car.', 'brand.', 'model.', 'version.', 'body_style.', 'transmission.',
     'color.', 'region.', 'filter.', 'media.', 'branch.', 'dashboard.'].some((prefix) => code.startsWith(prefix))),
-  SALES: ['car.read', 'brand.read', 'model.read', 'version.read', 'lead.read', 'lead.update', 'customer.read', 'dashboard.read', 'valuation.read', 'valuation.history.read', 'valuation.history.update'],
+  SALES: ['car.read', 'brand.read', 'model.read', 'version.read', 'lead.read', 'lead.update', 'customer.read', 'dashboard.read', 'valuation.read', 'valuation.history.read', 'valuation.history.update', 'car_recommendation.sessions.read'],
   SEO_MANAGER: ['content.read', 'seo.read', 'seo.update', 'car.read', 'dashboard.read'],
   SUPER_ADMIN: permissionCodes,
 };
