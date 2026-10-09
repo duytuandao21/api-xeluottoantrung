@@ -1,0 +1,410 @@
+{
+  "capturedAt": "2026-10-09T03:43:57.844Z",
+  "brands": [
+    {
+      "id": "2fe5c5df-92d2-4ff7-ab0e-bb968c172a09",
+      "name": "BMW",
+      "slug": "bmw",
+      "status": "active",
+      "sort_order": 0,
+      "image_url": "https://pub-edb90463be404b1d8b79b79517518131.r2.dev/assets/eac16480-1b61-4d2e-b0b2-2c98c8b0e793.png"
+    },
+    {
+      "id": "2f8a52fd-e1aa-4586-8a00-90d2b7440475",
+      "name": "Chevrolet",
+      "slug": "chevrolet",
+      "status": "active",
+      "sort_order": 0,
+      "image_url": "https://pub-edb90463be404b1d8b79b79517518131.r2.dev/assets/7f1a64d4-22e9-48ef-8666-9a214490d528.png"
+    },
+    {
+      "id": "272dd35c-bedf-447c-a470-66bd1f36436b",
+      "name": "Ford",
+      "slug": "ford",
+      "status": "active",
+      "sort_order": 0,
+      "image_url": "https://pub-edb90463be404b1d8b79b79517518131.r2.dev/assets/fffb32ce-bfc3-422c-9555-1b6485b69e33.png"
+    },
+    {
+      "id": "1ee8ba0e-a9a5-4500-b718-9877137819e7",
+      "name": "Honda",
+      "slug": "honda",
+      "status": "active",
+      "sort_order": 0,
+      "image_url": "https://pub-edb90463be404b1d8b79b79517518131.r2.dev/assets/e8e4ca0a-5e01-4d5b-9dcb-a7f7dc44925e.png"
+    },
+    {
+      "id": "fec74e1c-da5f-4fdb-a864-fcad87af3f32",
+      "name": "Huynhdai",
+      "slug": "huynhdai",
+      "status": "active",
+      "sort_order": 0,
+      "image_url": "https://pub-edb90463be404b1d8b79b79517518131.r2.dev/assets/8cca4985-816d-4b38-ae3c-b044b121d296.png"
+    },
+    {
+      "id": "99f20a39-b9c5-47c4-8021-7dc896d000ba",
+      "name": "Isuzu",
+      "slug": "isuzu",
+      "status": "active",
+      "sort_order": 0,
+      "image_url": "https://pub-edb90463be404b1d8b79b79517518131.r2.dev/assets/78675046-2c41-492b-b009-d8fd4d879e5b.png"
+    },
+    {
+      "id": "3bf2a667-09db-4f68-a89f-bd34cb0cbfd3",
+      "name": "Kia",
+      "slug": "kia",
+      "status": "active",
+      "sort_order": 0,
+      "image_url": "https://pub-edb90463be404b1d8b79b79517518131.r2.dev/assets/7778afff-3f85-4f33-8bcc-51da75c52f03.png"
+    },
+    {
+      "id": "e9642d42-4d52-4df0-936d-77039310541e",
+      "name": "Lexus",
+      "slug": "lexus",
+      "status": "active",
+      "sort_order": 0,
+      "image_url": "https://pub-edb90463be404b1d8b79b79517518131.r2.dev/assets/a2ff1ae5-e40b-4958-9d1b-b26714d460e1.png"
+    },
+    {
+      "id": "a97015b5-1613-44a0-b1df-e261fd57eab4",
+      "name": "Mazda",
+      "slug": "mazda",
+      "status": "active",
+      "sort_order": 0,
+      "image_url": "https://pub-edb90463be404b1d8b79b79517518131.r2.dev/assets/5674b4bd-135b-4cce-ae05-f7ecae6be9c4.png"
+    },
+    {
+      "id": "0a4b59e3-f4b2-48db-933e-c866512a07a4",
+      "name": "Mercedes",
+      "slug": "mercedes",
+      "status": "active",
+      "sort_order": 0,
+      "image_url": "https://pub-edb90463be404b1d8b79b79517518131.r2.dev/assets/ceec3c84-a929-49cb-a25f-9f4f358c41ab.png"
+    },
+    {
+      "id": "33d921c3-029c-4d94-9397-cf5c63025f94",
+      "name": "Mitsubishi",
+      "slug": "mitsubishi",
+      "status": "active",
+      "sort_order": 0,
+      "image_url": "https://pub-edb90463be404b1d8b79b79517518131.r2.dev/assets/83be19f2-b997-432f-b52d-7735ab06a4ec.png"
+    },
+    {
+      "id": "954dffb3-18a9-48cd-8fe9-19b6f7310a2e",
+      "name": "Nissan",
+      "slug": "nissan",
+      "status": "active",
+      "sort_order": 0,
+      "image_url": "https://pub-edb90463be404b1d8b79b79517518131.r2.dev/assets/3710d5a2-d786-4710-975c-c84c66af0978.png"
+    },
+    {
+      "id": "f66c5314-e4f0-410b-9652-85a9a9677897",
+      "name": "Peugeot",
+      "slug": "peugeot",
+      "status": "active",
+      "sort_order": 0,
+      "image_url": "https://pub-edb90463be404b1d8b79b79517518131.r2.dev/assets/a7290921-70dc-4712-ad11-32c3a888072b.png"
+    },
+    {
+      "id": "3ed9e8ab-3a3f-4c23-bda3-a2e1233d5ce1",
+      "name": "Subaru",
+      "slug": "subaru",
+      "status": "active",
+      "sort_order": 0,
+      "image_url": "https://pub-edb90463be404b1d8b79b79517518131.r2.dev/assets/75215d73-1977-4114-b7bb-df5fd91a1f0b.png"
+    },
+    {
+      "id": "5efa3be7-5d7d-4ee9-9549-af6c29e75c32",
+      "name": "Suzuki",
+      "slug": "suzuki",
+      "status": "active",
+      "sort_order": 0,
+      "image_url": "https://pub-edb90463be404b1d8b79b79517518131.r2.dev/assets/58e1e83b-25bf-47bf-8508-f06edadb7ee9.png"
+    },
+    {
+      "id": "46c02c59-e660-4759-be18-308875e55cac",
+      "name": "Toyota",
+      "slug": "toyota",
+      "status": "active",
+      "sort_order": 0,
+      "image_url": "https://pub-edb90463be404b1d8b79b79517518131.r2.dev/assets/882d0edf-7b15-4297-acf4-1b32dfb523ac.png"
+    },
+    {
+      "id": "8fcb4332-cef0-4d05-80d1-c4c72c59e015",
+      "name": "Vinfast",
+      "slug": "vinfast",
+      "status": "active",
+      "sort_order": 0,
+      "image_url": "https://pub-edb90463be404b1d8b79b79517518131.r2.dev/assets/ecaf9882-7534-4bbc-80bd-cfdd7bb50d1a.png"
+    }
+  ],
+  "models": [
+    {
+      "id": "976b7a61-f259-4fe8-9015-165d3ad832b6",
+      "brand_id": "1ee8ba0e-a9a5-4500-b718-9877137819e7",
+      "name": "City",
+      "slug": "city",
+      "status": "active",
+      "body_style_id": "0e4c4c49-47dc-4015-97cd-371e4bd56a21",
+      "sort_order": 0,
+      "image_url": null
+    },
+    {
+      "id": "6615e111-3784-4944-ae1f-b34365f2f296",
+      "brand_id": "33d921c3-029c-4d94-9397-cf5c63025f94",
+      "name": "Outlander",
+      "slug": "outlander",
+      "status": "active",
+      "body_style_id": "7f84e59a-bb46-4fad-a27b-2b2991703ffc",
+      "sort_order": 0,
+      "image_url": null
+    },
+    {
+      "id": "1ee17706-d24a-423a-96b1-1d84ae195d15",
+      "brand_id": "33d921c3-029c-4d94-9397-cf5c63025f94",
+      "name": "Xforce",
+      "slug": "xforce",
+      "status": "active",
+      "body_style_id": "95a46e5f-fd40-4db0-ac1e-e97689ee01b7",
+      "sort_order": 0,
+      "image_url": null
+    },
+    {
+      "id": "cd098acb-18eb-41c6-8c72-5608b913e01c",
+      "brand_id": "3bf2a667-09db-4f68-a89f-bd34cb0cbfd3",
+      "name": "K3",
+      "slug": "k3",
+      "status": "active",
+      "body_style_id": "0e4c4c49-47dc-4015-97cd-371e4bd56a21",
+      "sort_order": 0,
+      "image_url": null
+    },
+    {
+      "id": "00aa0ef7-5be1-41a0-b1eb-bccdc6abd5ca",
+      "brand_id": "3bf2a667-09db-4f68-a89f-bd34cb0cbfd3",
+      "name": "Morning",
+      "slug": "morning",
+      "status": "active",
+      "body_style_id": "c0b39de2-b1ea-4f4f-97fb-fe3f013f8c99",
+      "sort_order": 0,
+      "image_url": null
+    },
+    {
+      "id": "d727ac61-fb49-4a2d-983b-dff2487b4c2c",
+      "brand_id": "46c02c59-e660-4759-be18-308875e55cac",
+      "name": "Camry",
+      "slug": "camry",
+      "status": "active",
+      "body_style_id": "0e4c4c49-47dc-4015-97cd-371e4bd56a21",
+      "sort_order": 0,
+      "image_url": null
+    },
+    {
+      "id": "c79b4e9b-1398-496a-9be6-fefffa0776b5",
+      "brand_id": "99f20a39-b9c5-47c4-8021-7dc896d000ba",
+      "name": "Dmax",
+      "slug": "dmax",
+      "status": "active",
+      "body_style_id": "3f5a4ba0-4da1-4764-94e6-62f3ddcdccc3",
+      "sort_order": 0,
+      "image_url": null
+    },
+    {
+      "id": "9f590739-27df-40d8-a4e4-848faa45f6b9",
+      "brand_id": "a97015b5-1613-44a0-b1df-e261fd57eab4",
+      "name": "CX8",
+      "slug": "cx8",
+      "status": "active",
+      "body_style_id": "7f84e59a-bb46-4fad-a27b-2b2991703ffc",
+      "sort_order": 0,
+      "image_url": null
+    },
+    {
+      "id": "54daea75-0512-4ef6-9884-bdcfdf793962",
+      "brand_id": "a97015b5-1613-44a0-b1df-e261fd57eab4",
+      "name": "Mazda 3",
+      "slug": "mazda-3",
+      "status": "active",
+      "body_style_id": "0e4c4c49-47dc-4015-97cd-371e4bd56a21",
+      "sort_order": 0,
+      "image_url": null
+    },
+    {
+      "id": "e317caf5-9fec-4b78-8b1d-c673122cb61c",
+      "brand_id": "fec74e1c-da5f-4fdb-a864-fcad87af3f32",
+      "name": "Accent",
+      "slug": "accent",
+      "status": "active",
+      "body_style_id": "0e4c4c49-47dc-4015-97cd-371e4bd56a21",
+      "sort_order": 0,
+      "image_url": null
+    },
+    {
+      "id": "bfa51d8b-96f5-4eee-bb29-76ba9bcef5ed",
+      "brand_id": "fec74e1c-da5f-4fdb-a864-fcad87af3f32",
+      "name": "I10",
+      "slug": "i10",
+      "status": "active",
+      "body_style_id": "c0b39de2-b1ea-4f4f-97fb-fe3f013f8c99",
+      "sort_order": 0,
+      "image_url": null
+    },
+    {
+      "id": "c2c460e8-c489-464f-9644-af681b9e6192",
+      "brand_id": "fec74e1c-da5f-4fdb-a864-fcad87af3f32",
+      "name": "Santafe",
+      "slug": "santafe",
+      "status": "active",
+      "body_style_id": "7f84e59a-bb46-4fad-a27b-2b2991703ffc",
+      "sort_order": 0,
+      "image_url": null
+    },
+    {
+      "id": "398b2982-de64-47dc-ada1-f62fdcae2d8d",
+      "brand_id": "fec74e1c-da5f-4fdb-a864-fcad87af3f32",
+      "name": "Stargazer",
+      "slug": "stargazer",
+      "status": "active",
+      "body_style_id": "f1d6427a-15a6-4dec-8159-c53caef07647",
+      "sort_order": 0,
+      "image_url": null
+    }
+  ],
+  "versions": [
+    {
+      "id": "1247c682-9414-44f4-99bf-d100aa1718ba",
+      "model_id": "00aa0ef7-5be1-41a0-b1eb-bccdc6abd5ca",
+      "name": "1.2 MT",
+      "slug": "1-2-mt",
+      "status": "active",
+      "sort_order": 0,
+      "image_url": null
+    },
+    {
+      "id": "0917fa34-e42b-4ea5-bc10-a74b083f6934",
+      "model_id": "1ee17706-d24a-423a-96b1-1d84ae195d15",
+      "name": "GLX",
+      "slug": "glx",
+      "status": "active",
+      "sort_order": 0,
+      "image_url": null
+    },
+    {
+      "id": "d7b97352-7e31-4189-b8fa-c8b67fb23d2d",
+      "model_id": "398b2982-de64-47dc-ada1-f62fdcae2d8d",
+      "name": "X Cao Cấp",
+      "slug": "x-cao-cap",
+      "status": "active",
+      "sort_order": 0,
+      "image_url": null
+    },
+    {
+      "id": "ea26d65c-e4a6-47a4-8482-e483633c2421",
+      "model_id": "54daea75-0512-4ef6-9884-bdcfdf793962",
+      "name": "1.5 AT",
+      "slug": "1-5-at",
+      "status": "active",
+      "sort_order": 0,
+      "image_url": null
+    },
+    {
+      "id": "83f1285a-af21-4ecc-842b-7591cb5625d6",
+      "model_id": "6615e111-3784-4944-ae1f-b34365f2f296",
+      "name": "CVT",
+      "slug": "cvt",
+      "status": "active",
+      "sort_order": 0,
+      "image_url": null
+    },
+    {
+      "id": "32e795e2-d08e-4a86-8a54-9b3653f485bd",
+      "model_id": "976b7a61-f259-4fe8-9015-165d3ad832b6",
+      "name": "G",
+      "slug": "g",
+      "status": "active",
+      "sort_order": 0,
+      "image_url": null
+    },
+    {
+      "id": "987b6b32-ef67-4282-bc95-d8a8f6e06e75",
+      "model_id": "9f590739-27df-40d8-a4e4-848faa45f6b9",
+      "name": "Deluxe",
+      "slug": "deluxe",
+      "status": "active",
+      "sort_order": 0,
+      "image_url": null
+    },
+    {
+      "id": "2f4d40d6-d8dd-4eb5-9e54-0dd7b878ecf7",
+      "model_id": "bfa51d8b-96f5-4eee-bb29-76ba9bcef5ed",
+      "name": "1.2AT",
+      "slug": "1-2at",
+      "status": "active",
+      "sort_order": 0,
+      "image_url": null
+    },
+    {
+      "id": "52925246-43f7-4059-90b6-87723ebbb6d1",
+      "model_id": "c2c460e8-c489-464f-9644-af681b9e6192",
+      "name": "2.2L 4WD",
+      "slug": "2-2l-4wd",
+      "status": "active",
+      "sort_order": 0,
+      "image_url": null
+    },
+    {
+      "id": "16b6f6d3-999a-4d84-9af1-e12dcdfeb197",
+      "model_id": "c79b4e9b-1398-496a-9be6-fefffa0776b5",
+      "name": "UTZ 4x4",
+      "slug": "utz-4x4",
+      "status": "active",
+      "sort_order": 0,
+      "image_url": null
+    },
+    {
+      "id": "8c0da6b5-fee7-44ef-88d0-87a24fbff8f9",
+      "model_id": "cd098acb-18eb-41c6-8c72-5608b913e01c",
+      "name": "Premium",
+      "slug": "premium",
+      "status": "active",
+      "sort_order": 0,
+      "image_url": null
+    },
+    {
+      "id": "d183f17f-0d0c-47b7-a4d2-d0406d866948",
+      "model_id": "d727ac61-fb49-4a2d-983b-dff2487b4c2c",
+      "name": "2.5HEV Mid",
+      "slug": "2-5hev-mid",
+      "status": "active",
+      "sort_order": 0,
+      "image_url": null
+    },
+    {
+      "id": "ffd55957-aa4a-4c72-8a16-aec0b475c8ff",
+      "model_id": "d727ac61-fb49-4a2d-983b-dff2487b4c2c",
+      "name": "2.5HEV Top",
+      "slug": "2-5hev-top",
+      "status": "active",
+      "sort_order": 0,
+      "image_url": null
+    },
+    {
+      "id": "7e5a4293-03a8-4d32-91f4-9197302b38cc",
+      "model_id": "d727ac61-fb49-4a2d-983b-dff2487b4c2c",
+      "name": "2.5Q",
+      "slug": "2-5q",
+      "status": "active",
+      "sort_order": 0,
+      "image_url": null
+    },
+    {
+      "id": "2b1bfbf8-7672-4538-893b-aadf418ad25d",
+      "model_id": "e317caf5-9fec-4b78-8b1d-c673122cb61c",
+      "name": "1.5AT",
+      "slug": "1-5at",
+      "status": "active",
+      "sort_order": 0,
+      "image_url": null
+    }
+  ]
+}

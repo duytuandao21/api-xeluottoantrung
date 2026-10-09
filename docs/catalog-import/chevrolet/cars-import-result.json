@@ -1,0 +1,265 @@
+{
+  "createdAt": "2026-10-09T04:02:06.225Z",
+  "applied": true,
+  "inputPath": "E:\\ToanTrungWorkplace\\xeluottoantrung\\api-xeluottoantrung\\docs\\catalog-import\\chevrolet\\chevrolet-vietnam-2026.json",
+  "sourceSha256": "2b020b95e2ae68c5a6a0d43e980abce944ad50e8a86a21cb086d23a4aa3b6609",
+  "sourceBrands": 1,
+  "matchedBrands": [
+    {
+      "source": "Chevrolet",
+      "target": "Chevrolet",
+      "id": "2f8a52fd-e1aa-4586-8a00-90d2b7440475",
+      "addedModels": 8,
+      "addedVersions": 17
+    }
+  ],
+  "skippedBrands": [],
+  "existingBrandsWithoutSource": [
+    "Mercedes",
+    "Honda",
+    "Ford",
+    "BMW",
+    "Mitsubishi",
+    "Kia",
+    "Subaru",
+    "Toyota",
+    "Suzuki",
+    "Vinfast",
+    "Nissan",
+    "Isuzu",
+    "Mazda",
+    "Lexus",
+    "Peugeot",
+    "Huynhdai"
+  ],
+  "countsBefore": {
+    "brands": 17,
+    "models": 168,
+    "versions": 647
+  },
+  "added": {
+    "brands": 0,
+    "models": 8,
+    "versions": 17
+  },
+  "reusedModels": [],
+  "existingVersions": 0,
+  "skippedInactive": [],
+  "newModels": [
+    {
+      "id": "eeeaf627-d581-4967-ab9d-9ee294ebbab6",
+      "brand_id": "2f8a52fd-e1aa-4586-8a00-90d2b7440475",
+      "name": "Spark",
+      "slug": "spark",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "f3f825fc-b555-4cd2-a7d5-1f3a06b88d44",
+      "brand_id": "2f8a52fd-e1aa-4586-8a00-90d2b7440475",
+      "name": "Aveo",
+      "slug": "aveo",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "771d6739-f0bf-410e-a82e-53922aae4dcc",
+      "brand_id": "2f8a52fd-e1aa-4586-8a00-90d2b7440475",
+      "name": "Cruze",
+      "slug": "cruze",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "fc966c18-09ec-46a1-8af7-ee8f78acdd9c",
+      "brand_id": "2f8a52fd-e1aa-4586-8a00-90d2b7440475",
+      "name": "Captiva",
+      "slug": "captiva",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "eb3c322e-397d-4bd6-a5d8-534adab99375",
+      "brand_id": "2f8a52fd-e1aa-4586-8a00-90d2b7440475",
+      "name": "Colorado",
+      "slug": "colorado",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "760a7f5c-2770-4ae3-ba96-e646c7afd7d3",
+      "brand_id": "2f8a52fd-e1aa-4586-8a00-90d2b7440475",
+      "name": "Trailblazer",
+      "slug": "trailblazer",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "185e1552-6ebd-4adc-b90d-77f2e1df5d20",
+      "brand_id": "2f8a52fd-e1aa-4586-8a00-90d2b7440475",
+      "name": "Orlando",
+      "slug": "orlando",
+      "status": "active",
+      "sort_order": 7
+    },
+    {
+      "id": "678382c1-a824-424d-b1df-e011d1e93d9a",
+      "brand_id": "2f8a52fd-e1aa-4586-8a00-90d2b7440475",
+      "name": "Trax",
+      "slug": "trax",
+      "status": "active",
+      "sort_order": 8
+    }
+  ],
+  "newVersions": [
+    {
+      "id": "f4f3ab00-e1e7-4de4-951e-8080dd0d2bac",
+      "model_id": "eeeaf627-d581-4967-ab9d-9ee294ebbab6",
+      "name": "LS",
+      "slug": "ls",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "87aacafe-1d2c-4b60-ac73-e68200082294",
+      "model_id": "eeeaf627-d581-4967-ab9d-9ee294ebbab6",
+      "name": "LT",
+      "slug": "lt",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "9a89372d-c095-4fd7-9e60-c2d15e555e19",
+      "model_id": "f3f825fc-b555-4cd2-a7d5-1f3a06b88d44",
+      "name": "LT",
+      "slug": "lt",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "461c47a6-9bec-4d08-a954-708dcd2d09a3",
+      "model_id": "f3f825fc-b555-4cd2-a7d5-1f3a06b88d44",
+      "name": "LTZ",
+      "slug": "ltz",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "20300cec-f5b6-4353-805b-db40b41b07dc",
+      "model_id": "771d6739-f0bf-410e-a82e-53922aae4dcc",
+      "name": "LT",
+      "slug": "lt",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "c3a71b83-b984-4ec3-a628-17f78f3360ee",
+      "model_id": "771d6739-f0bf-410e-a82e-53922aae4dcc",
+      "name": "LTZ",
+      "slug": "ltz",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "ed70e657-d258-4909-bd5f-1c2c790e4fb3",
+      "model_id": "fc966c18-09ec-46a1-8af7-ee8f78acdd9c",
+      "name": "LT",
+      "slug": "lt",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "7b19227b-c16a-445d-b330-d39cac30095c",
+      "model_id": "fc966c18-09ec-46a1-8af7-ee8f78acdd9c",
+      "name": "LTZ",
+      "slug": "ltz",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "6c9ec2a2-7c3f-42df-a6d0-faabdb664970",
+      "model_id": "fc966c18-09ec-46a1-8af7-ee8f78acdd9c",
+      "name": "MAXX",
+      "slug": "maxx",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "f29a64ce-7f12-493f-92d3-dc4bfa170c43",
+      "model_id": "eb3c322e-397d-4bd6-a5d8-534adab99375",
+      "name": "LT",
+      "slug": "lt",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "cbaf4612-cd8e-48b4-bb5e-a6619c9f13eb",
+      "model_id": "eb3c322e-397d-4bd6-a5d8-534adab99375",
+      "name": "LTZ",
+      "slug": "ltz",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "f7296d1e-0144-4bf0-a42a-e8e95e460162",
+      "model_id": "eb3c322e-397d-4bd6-a5d8-534adab99375",
+      "name": "High Country",
+      "slug": "high-country",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "c25f6250-2b35-4066-b20e-7ddcee3b2824",
+      "model_id": "760a7f5c-2770-4ae3-ba96-e646c7afd7d3",
+      "name": "LT",
+      "slug": "lt",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "066282f8-f934-47d4-b953-04c9a860d513",
+      "model_id": "760a7f5c-2770-4ae3-ba96-e646c7afd7d3",
+      "name": "LTZ",
+      "slug": "ltz",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "771b54b6-b51d-4b64-817a-a9ef1a8f31e3",
+      "model_id": "185e1552-6ebd-4adc-b90d-77f2e1df5d20",
+      "name": "LT",
+      "slug": "lt",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "7bd58df0-26ab-41f6-b737-b85e421dd67c",
+      "model_id": "185e1552-6ebd-4adc-b90d-77f2e1df5d20",
+      "name": "LTZ",
+      "slug": "ltz",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "9df28599-9e85-417d-9c3f-30ede5c3fe9e",
+      "model_id": "678382c1-a824-424d-b1df-e011d1e93d9a",
+      "name": "LTZ",
+      "slug": "ltz",
+      "status": "active",
+      "sort_order": 1
+    }
+  ],
+  "policy": "Only active existing brands; insert missing models/versions; preserve all existing rows; no model-year, price or vehicle inventory changes.",
+  "status": "committed",
+  "countsAfter": {
+    "brands": 17,
+    "models": 176,
+    "versions": 664
+  },
+  "verified": {
+    "existingRowsPreserved": true,
+    "noNewBrands": true,
+    "remainingModels": 0,
+    "remainingVersions": 0
+  }
+}

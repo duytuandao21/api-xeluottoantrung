@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-10-09T03:49:02.161Z",
+  "apiOrigin": "http://localhost:4000",
+  "publicBrandCount": 17,
+  "publicModelsForImportedBrands": 168,
+  "publicVersionCount": 647,
+  "addedModelsVisible": 155,
+  "addedVersionsVisible": 632,
+  "missingModels": 0,
+  "missingVersions": 0,
+  "noNewBrands": true,
+  "allExistingDatabaseRowsPreserved": true
+}

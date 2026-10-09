@@ -1,0 +1,6534 @@
+{
+  "createdAt": "2026-10-09T03:47:38.821Z",
+  "applied": false,
+  "inputPath": "E:\\ToanTrungWorkplace\\xeluottoantrung\\cars.json",
+  "sourceSha256": "bb1bd6e926755db67e123d1fb878cf390037af767d40f99cbf36770dffc1e9cb",
+  "sourceBrands": 31,
+  "matchedBrands": [
+    {
+      "source": "Toyota",
+      "target": "Toyota",
+      "id": "46c02c59-e660-4759-be18-308875e55cac",
+      "addedModels": 18,
+      "addedVersions": 73
+    },
+    {
+      "source": "Hyundai",
+      "target": "Huynhdai",
+      "id": "fec74e1c-da5f-4fdb-a864-fcad87af3f32",
+      "addedModels": 9,
+      "addedVersions": 55
+    },
+    {
+      "source": "Kia",
+      "target": "Kia",
+      "id": "3bf2a667-09db-4f68-a89f-bd34cb0cbfd3",
+      "addedModels": 13,
+      "addedVersions": 81
+    },
+    {
+      "source": "Mazda",
+      "target": "Mazda",
+      "id": "a97015b5-1613-44a0-b1df-e261fd57eab4",
+      "addedModels": 7,
+      "addedVersions": 40
+    },
+    {
+      "source": "Ford",
+      "target": "Ford",
+      "id": "272dd35c-bedf-447c-a470-66bd1f36436b",
+      "addedModels": 8,
+      "addedVersions": 34
+    },
+    {
+      "source": "Mitsubishi",
+      "target": "Mitsubishi",
+      "id": "33d921c3-029c-4d94-9397-cf5c63025f94",
+      "addedModels": 8,
+      "addedVersions": 33
+    },
+    {
+      "source": "Honda",
+      "target": "Honda",
+      "id": "1ee8ba0e-a9a5-4500-b718-9877137819e7",
+      "addedModels": 8,
+      "addedVersions": 35
+    },
+    {
+      "source": "VinFast",
+      "target": "Vinfast",
+      "id": "8fcb4332-cef0-4d05-80d1-c4c72c59e015",
+      "addedModels": 15,
+      "addedVersions": 25
+    },
+    {
+      "source": "Suzuki",
+      "target": "Suzuki",
+      "id": "5efa3be7-5d7d-4ee9-9549-af6c29e75c32",
+      "addedModels": 7,
+      "addedVersions": 18
+    },
+    {
+      "source": "Nissan",
+      "target": "Nissan",
+      "id": "954dffb3-18a9-48cd-8fe9-19b6f7310a2e",
+      "addedModels": 7,
+      "addedVersions": 25
+    },
+    {
+      "source": "Isuzu",
+      "target": "Isuzu",
+      "id": "99f20a39-b9c5-47c4-8021-7dc896d000ba",
+      "addedModels": 1,
+      "addedVersions": 11
+    },
+    {
+      "source": "Peugeot",
+      "target": "Peugeot",
+      "id": "f66c5314-e4f0-410b-9652-85a9a9677897",
+      "addedModels": 6,
+      "addedVersions": 20
+    },
+    {
+      "source": "Subaru",
+      "target": "Subaru",
+      "id": "3ed9e8ab-3a3f-4c23-bda3-a2e1233d5ce1",
+      "addedModels": 7,
+      "addedVersions": 17
+    },
+    {
+      "source": "Mercedes-Benz",
+      "target": "Mercedes",
+      "id": "0a4b59e3-f4b2-48db-933e-c866512a07a4",
+      "addedModels": 15,
+      "addedVersions": 63
+    },
+    {
+      "source": "BMW",
+      "target": "BMW",
+      "id": "2fe5c5df-92d2-4ff7-ab0e-bb968c172a09",
+      "addedModels": 16,
+      "addedVersions": 70
+    },
+    {
+      "source": "Lexus",
+      "target": "Lexus",
+      "id": "e9642d42-4d52-4df0-936d-77039310541e",
+      "addedModels": 10,
+      "addedVersions": 32
+    }
+  ],
+  "skippedBrands": [
+    "MG",
+    "Volkswagen",
+    "Audi",
+    "Volvo",
+    "Porsche",
+    "Land Rover",
+    "Mini",
+    "BYD",
+    "Wuling",
+    "Omoda",
+    "Jaecoo",
+    "Geely",
+    "GAC",
+    "Lynk & Co",
+    "Haval"
+  ],
+  "existingBrandsWithoutSource": [
+    "Chevrolet"
+  ],
+  "countsBefore": {
+    "brands": 17,
+    "models": 13,
+    "versions": 15
+  },
+  "added": {
+    "brands": 0,
+    "models": 155,
+    "versions": 632
+  },
+  "reusedModels": [
+    {
+      "brand": "Toyota",
+      "source": "Camry",
+      "target": "Camry",
+      "id": "d727ac61-fb49-4a2d-983b-dff2487b4c2c"
+    },
+    {
+      "brand": "Huynhdai",
+      "source": "Grand i10",
+      "target": "I10",
+      "id": "bfa51d8b-96f5-4eee-bb29-76ba9bcef5ed"
+    },
+    {
+      "brand": "Huynhdai",
+      "source": "Accent",
+      "target": "Accent",
+      "id": "e317caf5-9fec-4b78-8b1d-c673122cb61c"
+    },
+    {
+      "brand": "Huynhdai",
+      "source": "Santa Fe",
+      "target": "Santafe",
+      "id": "c2c460e8-c489-464f-9644-af681b9e6192"
+    },
+    {
+      "brand": "Huynhdai",
+      "source": "Stargazer",
+      "target": "Stargazer",
+      "id": "398b2982-de64-47dc-ada1-f62fdcae2d8d"
+    },
+    {
+      "brand": "Kia",
+      "source": "Morning",
+      "target": "Morning",
+      "id": "00aa0ef7-5be1-41a0-b1eb-bccdc6abd5ca"
+    },
+    {
+      "brand": "Kia",
+      "source": "K3",
+      "target": "K3",
+      "id": "cd098acb-18eb-41c6-8c72-5608b913e01c"
+    },
+    {
+      "brand": "Mazda",
+      "source": "Mazda3",
+      "target": "Mazda 3",
+      "id": "54daea75-0512-4ef6-9884-bdcfdf793962"
+    },
+    {
+      "brand": "Mazda",
+      "source": "CX-8",
+      "target": "CX8",
+      "id": "9f590739-27df-40d8-a4e4-848faa45f6b9"
+    },
+    {
+      "brand": "Mitsubishi",
+      "source": "Outlander",
+      "target": "Outlander",
+      "id": "6615e111-3784-4944-ae1f-b34365f2f296"
+    },
+    {
+      "brand": "Mitsubishi",
+      "source": "Xforce",
+      "target": "Xforce",
+      "id": "1ee17706-d24a-423a-96b1-1d84ae195d15"
+    },
+    {
+      "brand": "Honda",
+      "source": "City",
+      "target": "City",
+      "id": "976b7a61-f259-4fe8-9015-165d3ad832b6"
+    },
+    {
+      "brand": "Isuzu",
+      "source": "D-Max",
+      "target": "Dmax",
+      "id": "c79b4e9b-1398-496a-9be6-fefffa0776b5"
+    }
+  ],
+  "existingVersions": 6,
+  "skippedInactive": [],
+  "newModels": [
+    {
+      "id": "91f8187c-8278-406f-8515-053315596718",
+      "brand_id": "46c02c59-e660-4759-be18-308875e55cac",
+      "name": "Vios",
+      "slug": "vios",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "fcf29072-34a4-47b3-b927-baa9ebee4958",
+      "brand_id": "46c02c59-e660-4759-be18-308875e55cac",
+      "name": "Yaris",
+      "slug": "yaris",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "db2b349a-2b2d-4bd8-b990-cb6344e31c9d",
+      "brand_id": "46c02c59-e660-4759-be18-308875e55cac",
+      "name": "Wigo",
+      "slug": "wigo",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "8db73db6-2c11-426a-bc27-620e4b135a70",
+      "brand_id": "46c02c59-e660-4759-be18-308875e55cac",
+      "name": "Corolla Altis",
+      "slug": "corolla-altis",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "20402def-172c-4f67-99c4-69ed168adc02",
+      "brand_id": "46c02c59-e660-4759-be18-308875e55cac",
+      "name": "Yaris Cross",
+      "slug": "yaris-cross",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "3d552405-ec3f-48b3-92e3-9178e06f02c7",
+      "brand_id": "46c02c59-e660-4759-be18-308875e55cac",
+      "name": "Corolla Cross",
+      "slug": "corolla-cross",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "d4953a19-9e23-4423-892a-a811682e9511",
+      "brand_id": "46c02c59-e660-4759-be18-308875e55cac",
+      "name": "Raize",
+      "slug": "raize",
+      "status": "active",
+      "sort_order": 7
+    },
+    {
+      "id": "65bd7b31-96f7-4637-b03a-ebf191c42004",
+      "brand_id": "46c02c59-e660-4759-be18-308875e55cac",
+      "name": "Avanza",
+      "slug": "avanza",
+      "status": "active",
+      "sort_order": 8
+    },
+    {
+      "id": "63cb02cc-077a-4bcb-b217-998bad613468",
+      "brand_id": "46c02c59-e660-4759-be18-308875e55cac",
+      "name": "Avanza Premio",
+      "slug": "avanza-premio",
+      "status": "active",
+      "sort_order": 9
+    },
+    {
+      "id": "5ea6cb91-6e97-43a5-b81e-a05e3a7d7c1c",
+      "brand_id": "46c02c59-e660-4759-be18-308875e55cac",
+      "name": "Veloz Cross",
+      "slug": "veloz-cross",
+      "status": "active",
+      "sort_order": 10
+    },
+    {
+      "id": "4e7e511a-11d5-44a4-9975-0fd81f95a6e3",
+      "brand_id": "46c02c59-e660-4759-be18-308875e55cac",
+      "name": "Innova",
+      "slug": "innova",
+      "status": "active",
+      "sort_order": 11
+    },
+    {
+      "id": "23bb52f5-cd1d-4fa6-9ed7-8a0119184dde",
+      "brand_id": "46c02c59-e660-4759-be18-308875e55cac",
+      "name": "Innova Cross",
+      "slug": "innova-cross",
+      "status": "active",
+      "sort_order": 12
+    },
+    {
+      "id": "b3ba1344-060b-43ad-90f4-6eb4f98a4326",
+      "brand_id": "46c02c59-e660-4759-be18-308875e55cac",
+      "name": "Fortuner",
+      "slug": "fortuner",
+      "status": "active",
+      "sort_order": 13
+    },
+    {
+      "id": "2914d47e-7218-4ed7-97fb-97377e089c55",
+      "brand_id": "46c02c59-e660-4759-be18-308875e55cac",
+      "name": "Hilux",
+      "slug": "hilux",
+      "status": "active",
+      "sort_order": 14
+    },
+    {
+      "id": "6e880bd9-f72f-4a41-8e68-9103e879c368",
+      "brand_id": "46c02c59-e660-4759-be18-308875e55cac",
+      "name": "Land Cruiser Prado",
+      "slug": "land-cruiser-prado",
+      "status": "active",
+      "sort_order": 15
+    },
+    {
+      "id": "80fbbd27-363a-4731-8f63-f71ea28155ee",
+      "brand_id": "46c02c59-e660-4759-be18-308875e55cac",
+      "name": "Land Cruiser",
+      "slug": "land-cruiser",
+      "status": "active",
+      "sort_order": 16
+    },
+    {
+      "id": "8f071bf0-e8a7-4c22-90fa-95932cffa801",
+      "brand_id": "46c02c59-e660-4759-be18-308875e55cac",
+      "name": "Alphard",
+      "slug": "alphard",
+      "status": "active",
+      "sort_order": 17
+    },
+    {
+      "id": "7d273b00-d351-46f4-83a0-fbf3413d1df0",
+      "brand_id": "46c02c59-e660-4759-be18-308875e55cac",
+      "name": "Rush",
+      "slug": "rush",
+      "status": "active",
+      "sort_order": 18
+    },
+    {
+      "id": "6b77e50e-ae23-4eda-90b8-5e9a37857e80",
+      "brand_id": "fec74e1c-da5f-4fdb-a864-fcad87af3f32",
+      "name": "Elantra",
+      "slug": "elantra",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "17f3fbb1-83f3-41ce-88dc-0dcdba757ef0",
+      "brand_id": "fec74e1c-da5f-4fdb-a864-fcad87af3f32",
+      "name": "Sonata",
+      "slug": "sonata",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "b6ad406f-9d50-452c-8b89-d49ff0f00d0e",
+      "brand_id": "fec74e1c-da5f-4fdb-a864-fcad87af3f32",
+      "name": "Creta",
+      "slug": "creta",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "de637220-0bf2-4d1d-afd7-290d7ff9edc1",
+      "brand_id": "fec74e1c-da5f-4fdb-a864-fcad87af3f32",
+      "name": "Venue",
+      "slug": "venue",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "1ca292ea-2316-4719-8717-a4ae93589989",
+      "brand_id": "fec74e1c-da5f-4fdb-a864-fcad87af3f32",
+      "name": "Kona",
+      "slug": "kona",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "cfcf6b2f-623d-43b0-b204-1bc88728b249",
+      "brand_id": "fec74e1c-da5f-4fdb-a864-fcad87af3f32",
+      "name": "Tucson",
+      "slug": "tucson",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "6661ce1c-abbe-46f9-a157-364e451248f4",
+      "brand_id": "fec74e1c-da5f-4fdb-a864-fcad87af3f32",
+      "name": "Palisade",
+      "slug": "palisade",
+      "status": "active",
+      "sort_order": 7
+    },
+    {
+      "id": "422dbdf1-b187-41f7-85e6-17eacb7db84d",
+      "brand_id": "fec74e1c-da5f-4fdb-a864-fcad87af3f32",
+      "name": "Custin",
+      "slug": "custin",
+      "status": "active",
+      "sort_order": 8
+    },
+    {
+      "id": "f4ec00cf-a52d-4bfa-9225-7421cb1aca7f",
+      "brand_id": "fec74e1c-da5f-4fdb-a864-fcad87af3f32",
+      "name": "Ioniq 5",
+      "slug": "ioniq-5",
+      "status": "active",
+      "sort_order": 9
+    },
+    {
+      "id": "1d43a5e3-b4d9-492e-9d44-3d48525c312b",
+      "brand_id": "3bf2a667-09db-4f68-a89f-bd34cb0cbfd3",
+      "name": "Soluto",
+      "slug": "soluto",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "5d90b4e3-13ed-4939-b52f-9e0ba5978e01",
+      "brand_id": "3bf2a667-09db-4f68-a89f-bd34cb0cbfd3",
+      "name": "Cerato",
+      "slug": "cerato",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "25c415a5-f289-421e-bb15-d76789a3f6c4",
+      "brand_id": "3bf2a667-09db-4f68-a89f-bd34cb0cbfd3",
+      "name": "K5",
+      "slug": "k5",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "a06c6aab-ba6d-49cd-9127-624668320079",
+      "brand_id": "3bf2a667-09db-4f68-a89f-bd34cb0cbfd3",
+      "name": "Optima",
+      "slug": "optima",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "953559a4-c24f-4f41-a73f-50a1cceb08fc",
+      "brand_id": "3bf2a667-09db-4f68-a89f-bd34cb0cbfd3",
+      "name": "Sonet",
+      "slug": "sonet",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "6f75be44-e2fd-409d-bf32-cfb39723b7ef",
+      "brand_id": "3bf2a667-09db-4f68-a89f-bd34cb0cbfd3",
+      "name": "Seltos",
+      "slug": "seltos",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "770d3ef1-45c4-4194-b381-7394e62de747",
+      "brand_id": "3bf2a667-09db-4f68-a89f-bd34cb0cbfd3",
+      "name": "Carens",
+      "slug": "carens",
+      "status": "active",
+      "sort_order": 7
+    },
+    {
+      "id": "375626e8-b990-4a7f-907c-468b3eed4c34",
+      "brand_id": "3bf2a667-09db-4f68-a89f-bd34cb0cbfd3",
+      "name": "Sportage",
+      "slug": "sportage",
+      "status": "active",
+      "sort_order": 8
+    },
+    {
+      "id": "4891b404-4e07-4206-acf9-9eaf50dfdb52",
+      "brand_id": "3bf2a667-09db-4f68-a89f-bd34cb0cbfd3",
+      "name": "Sorento",
+      "slug": "sorento",
+      "status": "active",
+      "sort_order": 9
+    },
+    {
+      "id": "f96f846b-7e0a-4f0b-a886-1aa876656a38",
+      "brand_id": "3bf2a667-09db-4f68-a89f-bd34cb0cbfd3",
+      "name": "Carnival",
+      "slug": "carnival",
+      "status": "active",
+      "sort_order": 10
+    },
+    {
+      "id": "929c7d7c-f20a-434d-9593-f53a8783d0b0",
+      "brand_id": "3bf2a667-09db-4f68-a89f-bd34cb0cbfd3",
+      "name": "Rondo",
+      "slug": "rondo",
+      "status": "active",
+      "sort_order": 11
+    },
+    {
+      "id": "4c2d31f7-f041-4206-9e4e-937db8030aa4",
+      "brand_id": "3bf2a667-09db-4f68-a89f-bd34cb0cbfd3",
+      "name": "Sedona",
+      "slug": "sedona",
+      "status": "active",
+      "sort_order": 12
+    },
+    {
+      "id": "d4471767-fa95-4d96-9b2e-52c7d0575a68",
+      "brand_id": "3bf2a667-09db-4f68-a89f-bd34cb0cbfd3",
+      "name": "Rio",
+      "slug": "rio",
+      "status": "active",
+      "sort_order": 13
+    },
+    {
+      "id": "1ad97cce-709b-44b7-aef3-a92bb554789a",
+      "brand_id": "a97015b5-1613-44a0-b1df-e261fd57eab4",
+      "name": "Mazda2",
+      "slug": "mazda2",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "3e5e271b-45e9-42c5-9ee2-216815ef3a13",
+      "brand_id": "a97015b5-1613-44a0-b1df-e261fd57eab4",
+      "name": "Mazda6",
+      "slug": "mazda6",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "2345e1ac-9f86-42a4-871e-1c0e3eaffdb7",
+      "brand_id": "a97015b5-1613-44a0-b1df-e261fd57eab4",
+      "name": "CX-3",
+      "slug": "cx-3",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "566f497a-1c14-4aa4-ab99-7bc50f52b60c",
+      "brand_id": "a97015b5-1613-44a0-b1df-e261fd57eab4",
+      "name": "CX-30",
+      "slug": "cx-30",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "b710cb99-af2a-4e55-b7ac-e3ff11753653",
+      "brand_id": "a97015b5-1613-44a0-b1df-e261fd57eab4",
+      "name": "CX-5",
+      "slug": "cx-5",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "e585231b-583f-453f-9885-fe5e8f8183a6",
+      "brand_id": "a97015b5-1613-44a0-b1df-e261fd57eab4",
+      "name": "CX-9",
+      "slug": "cx-9",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "3c9cfbb2-889c-4177-af6c-2e122a90a9aa",
+      "brand_id": "a97015b5-1613-44a0-b1df-e261fd57eab4",
+      "name": "BT-50",
+      "slug": "bt-50",
+      "status": "active",
+      "sort_order": 7
+    },
+    {
+      "id": "20539b05-1bf5-45dd-b6a4-14c8efaa6567",
+      "brand_id": "272dd35c-bedf-447c-a470-66bd1f36436b",
+      "name": "Ranger",
+      "slug": "ranger",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "26505526-e925-4dd9-9932-f06773ed3733",
+      "brand_id": "272dd35c-bedf-447c-a470-66bd1f36436b",
+      "name": "Everest",
+      "slug": "everest",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "cf3989b2-b341-4430-9b24-714ec5e37123",
+      "brand_id": "272dd35c-bedf-447c-a470-66bd1f36436b",
+      "name": "Territory",
+      "slug": "territory",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "1f0dff6f-a970-4100-b6f2-9a410aa5c36f",
+      "brand_id": "272dd35c-bedf-447c-a470-66bd1f36436b",
+      "name": "EcoSport",
+      "slug": "ecosport",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "1aad1049-af5e-4eb2-bdbb-dee66fba54d5",
+      "brand_id": "272dd35c-bedf-447c-a470-66bd1f36436b",
+      "name": "Explorer",
+      "slug": "explorer",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "383349ba-ae3a-4542-99fb-57306ddf00b4",
+      "brand_id": "272dd35c-bedf-447c-a470-66bd1f36436b",
+      "name": "Focus",
+      "slug": "focus",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "1cc7922d-4201-4353-afdc-c281613681aa",
+      "brand_id": "272dd35c-bedf-447c-a470-66bd1f36436b",
+      "name": "Fiesta",
+      "slug": "fiesta",
+      "status": "active",
+      "sort_order": 7
+    },
+    {
+      "id": "6e6922e7-93af-4c3c-9aa2-5b89d456a9ff",
+      "brand_id": "272dd35c-bedf-447c-a470-66bd1f36436b",
+      "name": "Mustang",
+      "slug": "mustang",
+      "status": "active",
+      "sort_order": 8
+    },
+    {
+      "id": "a6b2c060-b5af-41e5-90b4-01e930a770d1",
+      "brand_id": "33d921c3-029c-4d94-9397-cf5c63025f94",
+      "name": "Xpander",
+      "slug": "xpander",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "9fae6a72-015f-4be6-914b-b6cbd966a05f",
+      "brand_id": "33d921c3-029c-4d94-9397-cf5c63025f94",
+      "name": "Xpander Cross",
+      "slug": "xpander-cross",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "4f013210-0355-434f-bb47-39aeed490298",
+      "brand_id": "33d921c3-029c-4d94-9397-cf5c63025f94",
+      "name": "Attrage",
+      "slug": "attrage",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "d5e08751-403f-416f-9118-c5c2b03882e8",
+      "brand_id": "33d921c3-029c-4d94-9397-cf5c63025f94",
+      "name": "Mirage",
+      "slug": "mirage",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "cc3ab7f0-001e-4006-90fb-7d32b10dbeb9",
+      "brand_id": "33d921c3-029c-4d94-9397-cf5c63025f94",
+      "name": "Triton",
+      "slug": "triton",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "c990cea0-1647-42fa-aa37-3897709bdaab",
+      "brand_id": "33d921c3-029c-4d94-9397-cf5c63025f94",
+      "name": "Pajero Sport",
+      "slug": "pajero-sport",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "f8f0c0f1-1472-4f71-b449-175d68463680",
+      "brand_id": "33d921c3-029c-4d94-9397-cf5c63025f94",
+      "name": "Destinator",
+      "slug": "destinator",
+      "status": "active",
+      "sort_order": 7
+    },
+    {
+      "id": "4d83c0d2-d0f9-4c36-aaa9-e37ac436cb80",
+      "brand_id": "33d921c3-029c-4d94-9397-cf5c63025f94",
+      "name": "Lancer",
+      "slug": "lancer",
+      "status": "active",
+      "sort_order": 8
+    },
+    {
+      "id": "e8d4b3ee-dfcd-4c7c-9d3e-6b0ba3f80e8f",
+      "brand_id": "1ee8ba0e-a9a5-4500-b718-9877137819e7",
+      "name": "Civic",
+      "slug": "civic",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "17a7c948-2ced-464e-9ad3-380850248182",
+      "brand_id": "1ee8ba0e-a9a5-4500-b718-9877137819e7",
+      "name": "Accord",
+      "slug": "accord",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "34029acf-7f7e-46f0-b4d0-6004fa359cc8",
+      "brand_id": "1ee8ba0e-a9a5-4500-b718-9877137819e7",
+      "name": "CR-V",
+      "slug": "cr-v",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "043f93b8-26c7-49ed-ab1d-f58d29d547d8",
+      "brand_id": "1ee8ba0e-a9a5-4500-b718-9877137819e7",
+      "name": "HR-V",
+      "slug": "hr-v",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "56c65b24-0df9-4638-bec6-b1e037f09344",
+      "brand_id": "1ee8ba0e-a9a5-4500-b718-9877137819e7",
+      "name": "BR-V",
+      "slug": "br-v",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "021b35d5-8cad-46c6-98ba-d0c1c261d408",
+      "brand_id": "1ee8ba0e-a9a5-4500-b718-9877137819e7",
+      "name": "Jazz",
+      "slug": "jazz",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "b464333d-58bd-456a-9f48-7aa061e2560f",
+      "brand_id": "1ee8ba0e-a9a5-4500-b718-9877137819e7",
+      "name": "Brio",
+      "slug": "brio",
+      "status": "active",
+      "sort_order": 7
+    },
+    {
+      "id": "3e93a187-7d0e-4a4e-b9df-e026f3fc69a7",
+      "brand_id": "1ee8ba0e-a9a5-4500-b718-9877137819e7",
+      "name": "Odyssey",
+      "slug": "odyssey",
+      "status": "active",
+      "sort_order": 8
+    },
+    {
+      "id": "2220dd21-c41b-499b-b6cc-ba522a1c7b2a",
+      "brand_id": "8fcb4332-cef0-4d05-80d1-c4c72c59e015",
+      "name": "Fadil",
+      "slug": "fadil",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "bbb353d7-bff6-495c-b406-7f5d34acf6fc",
+      "brand_id": "8fcb4332-cef0-4d05-80d1-c4c72c59e015",
+      "name": "Lux A2.0",
+      "slug": "lux-a2-0",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "7eaa4e28-2b15-4a8b-8ada-936991ba0f29",
+      "brand_id": "8fcb4332-cef0-4d05-80d1-c4c72c59e015",
+      "name": "Lux SA2.0",
+      "slug": "lux-sa2-0",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "290ae350-8feb-4147-8cde-31a9a1b8b4af",
+      "brand_id": "8fcb4332-cef0-4d05-80d1-c4c72c59e015",
+      "name": "President",
+      "slug": "president",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "639739f3-7387-44b3-9cf5-c7cfe2bc7302",
+      "brand_id": "8fcb4332-cef0-4d05-80d1-c4c72c59e015",
+      "name": "VF e34",
+      "slug": "vf-e34",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "2333d2c6-fae4-446d-be5f-eb4b7ead4f9f",
+      "brand_id": "8fcb4332-cef0-4d05-80d1-c4c72c59e015",
+      "name": "VF 3",
+      "slug": "vf-3",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "53e23abd-9c4b-4559-b0b5-7e01990dd560",
+      "brand_id": "8fcb4332-cef0-4d05-80d1-c4c72c59e015",
+      "name": "VF 5",
+      "slug": "vf-5",
+      "status": "active",
+      "sort_order": 7
+    },
+    {
+      "id": "16140c2c-aa3e-435d-a3b0-c19737c677b3",
+      "brand_id": "8fcb4332-cef0-4d05-80d1-c4c72c59e015",
+      "name": "VF 6",
+      "slug": "vf-6",
+      "status": "active",
+      "sort_order": 8
+    },
+    {
+      "id": "85e20bf5-6e17-41f9-87c4-93cf05d4f0ba",
+      "brand_id": "8fcb4332-cef0-4d05-80d1-c4c72c59e015",
+      "name": "VF 7",
+      "slug": "vf-7",
+      "status": "active",
+      "sort_order": 9
+    },
+    {
+      "id": "24982785-74b4-4ed5-b8a6-aec1b3aa6f8e",
+      "brand_id": "8fcb4332-cef0-4d05-80d1-c4c72c59e015",
+      "name": "VF 8",
+      "slug": "vf-8",
+      "status": "active",
+      "sort_order": 10
+    },
+    {
+      "id": "948a67d3-435b-4487-896f-d1e5532e6e92",
+      "brand_id": "8fcb4332-cef0-4d05-80d1-c4c72c59e015",
+      "name": "VF 9",
+      "slug": "vf-9",
+      "status": "active",
+      "sort_order": 11
+    },
+    {
+      "id": "1d8014c0-4c06-4d04-826d-d57e148c29c2",
+      "brand_id": "8fcb4332-cef0-4d05-80d1-c4c72c59e015",
+      "name": "Minio Green",
+      "slug": "minio-green",
+      "status": "active",
+      "sort_order": 12
+    },
+    {
+      "id": "d97e5299-b4be-48ff-9307-67126f4f1823",
+      "brand_id": "8fcb4332-cef0-4d05-80d1-c4c72c59e015",
+      "name": "Herio Green",
+      "slug": "herio-green",
+      "status": "active",
+      "sort_order": 13
+    },
+    {
+      "id": "3538f450-72b3-4d59-8b31-ce996e7b35cb",
+      "brand_id": "8fcb4332-cef0-4d05-80d1-c4c72c59e015",
+      "name": "Nerio Green",
+      "slug": "nerio-green",
+      "status": "active",
+      "sort_order": 14
+    },
+    {
+      "id": "ca30d286-9dea-400c-9e35-b0de49d6b46f",
+      "brand_id": "8fcb4332-cef0-4d05-80d1-c4c72c59e015",
+      "name": "Limo Green",
+      "slug": "limo-green",
+      "status": "active",
+      "sort_order": 15
+    },
+    {
+      "id": "df05c41b-88f3-4101-9fbe-f396204f9fcd",
+      "brand_id": "5efa3be7-5d7d-4ee9-9549-af6c29e75c32",
+      "name": "Swift",
+      "slug": "swift",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "dfaf92da-10ce-4cd0-91e2-507f8318187b",
+      "brand_id": "5efa3be7-5d7d-4ee9-9549-af6c29e75c32",
+      "name": "Celerio",
+      "slug": "celerio",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "446056bc-5bc4-43b6-8ee4-3e100dd29025",
+      "brand_id": "5efa3be7-5d7d-4ee9-9549-af6c29e75c32",
+      "name": "Ciaz",
+      "slug": "ciaz",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "64cdf7b5-c56d-4063-ade0-6ac98abb6ee2",
+      "brand_id": "5efa3be7-5d7d-4ee9-9549-af6c29e75c32",
+      "name": "Ertiga",
+      "slug": "ertiga",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "ebf1107d-fcd5-4b81-8c7a-91826466943d",
+      "brand_id": "5efa3be7-5d7d-4ee9-9549-af6c29e75c32",
+      "name": "XL7",
+      "slug": "xl7",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "6b94a0ec-ae84-448b-9c7d-17097b005366",
+      "brand_id": "5efa3be7-5d7d-4ee9-9549-af6c29e75c32",
+      "name": "Jimny",
+      "slug": "jimny",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "3719f70e-f4bb-4af0-a8a4-1ccdd20d9052",
+      "brand_id": "5efa3be7-5d7d-4ee9-9549-af6c29e75c32",
+      "name": "Vitara",
+      "slug": "vitara",
+      "status": "active",
+      "sort_order": 7
+    },
+    {
+      "id": "9598e4dd-decc-4c18-bb75-443916c25fee",
+      "brand_id": "954dffb3-18a9-48cd-8fe9-19b6f7310a2e",
+      "name": "Almera",
+      "slug": "almera",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "c419c401-4775-44e2-8467-5a3739d275e5",
+      "brand_id": "954dffb3-18a9-48cd-8fe9-19b6f7310a2e",
+      "name": "Sunny",
+      "slug": "sunny",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "304e7fba-b56f-4d09-811a-56c79621e642",
+      "brand_id": "954dffb3-18a9-48cd-8fe9-19b6f7310a2e",
+      "name": "Navara",
+      "slug": "navara",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "b02492d7-b814-49ef-9268-016e0c75f980",
+      "brand_id": "954dffb3-18a9-48cd-8fe9-19b6f7310a2e",
+      "name": "Kicks",
+      "slug": "kicks",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "9761cd06-22b5-4e91-a9d3-df686ae25284",
+      "brand_id": "954dffb3-18a9-48cd-8fe9-19b6f7310a2e",
+      "name": "Terra",
+      "slug": "terra",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "a999cef4-7cc0-406d-b6c4-0f131ebb87d9",
+      "brand_id": "954dffb3-18a9-48cd-8fe9-19b6f7310a2e",
+      "name": "X-Trail",
+      "slug": "x-trail",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "e19ca69e-e469-4a6d-9201-325f97d829db",
+      "brand_id": "954dffb3-18a9-48cd-8fe9-19b6f7310a2e",
+      "name": "Teana",
+      "slug": "teana",
+      "status": "active",
+      "sort_order": 7
+    },
+    {
+      "id": "6a718866-ab43-4612-bc89-1633fbb1cd77",
+      "brand_id": "99f20a39-b9c5-47c4-8021-7dc896d000ba",
+      "name": "mu-X",
+      "slug": "mu-x",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "79e4cab6-28ec-4bc4-b35f-0845c4588ed0",
+      "brand_id": "f66c5314-e4f0-410b-9652-85a9a9677897",
+      "name": "2008",
+      "slug": "2008",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "af13b643-7156-4c65-b41e-737af6acd67a",
+      "brand_id": "f66c5314-e4f0-410b-9652-85a9a9677897",
+      "name": "3008",
+      "slug": "3008",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "38ad6b45-043c-4f8f-90db-a660d77e5e07",
+      "brand_id": "f66c5314-e4f0-410b-9652-85a9a9677897",
+      "name": "5008",
+      "slug": "5008",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "18eb5b15-e247-4287-9b6c-209dfc3d62bd",
+      "brand_id": "f66c5314-e4f0-410b-9652-85a9a9677897",
+      "name": "408",
+      "slug": "408",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "91d86d8e-09ed-4a0f-8315-f6ab6d326aca",
+      "brand_id": "f66c5314-e4f0-410b-9652-85a9a9677897",
+      "name": "Traveller",
+      "slug": "traveller",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "5582e437-59e0-4dfb-9f9d-ae580b9b9a8d",
+      "brand_id": "f66c5314-e4f0-410b-9652-85a9a9677897",
+      "name": "508",
+      "slug": "508",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "b60e1d8f-9960-4fa2-98b6-5d5934e26317",
+      "brand_id": "3ed9e8ab-3a3f-4c23-bda3-a2e1233d5ce1",
+      "name": "Forester",
+      "slug": "forester",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "79315532-fb97-4078-9d68-470a80c8814b",
+      "brand_id": "3ed9e8ab-3a3f-4c23-bda3-a2e1233d5ce1",
+      "name": "Outback",
+      "slug": "outback",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "4b13855a-34b4-4c28-8ab5-970e47713601",
+      "brand_id": "3ed9e8ab-3a3f-4c23-bda3-a2e1233d5ce1",
+      "name": "Crosstrek",
+      "slug": "crosstrek",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "72586a1f-b0a8-4f78-a3fe-d93ad29aabc8",
+      "brand_id": "3ed9e8ab-3a3f-4c23-bda3-a2e1233d5ce1",
+      "name": "XV",
+      "slug": "xv",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "8290c653-199e-4f07-9055-2642948d95e3",
+      "brand_id": "3ed9e8ab-3a3f-4c23-bda3-a2e1233d5ce1",
+      "name": "WRX",
+      "slug": "wrx",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "2c1404e1-09c3-486c-b783-c48d868d7a6b",
+      "brand_id": "3ed9e8ab-3a3f-4c23-bda3-a2e1233d5ce1",
+      "name": "BRZ",
+      "slug": "brz",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "fa3b8d6a-94b1-483c-9e7c-e319a2011ba2",
+      "brand_id": "3ed9e8ab-3a3f-4c23-bda3-a2e1233d5ce1",
+      "name": "Levorg",
+      "slug": "levorg",
+      "status": "active",
+      "sort_order": 7
+    },
+    {
+      "id": "a04bc547-e52f-4d17-88af-5e8985e7a2cc",
+      "brand_id": "0a4b59e3-f4b2-48db-933e-c866512a07a4",
+      "name": "C-Class",
+      "slug": "c-class",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "c1043c6e-f1a0-48c7-a2da-bea29bfaec4e",
+      "brand_id": "0a4b59e3-f4b2-48db-933e-c866512a07a4",
+      "name": "E-Class",
+      "slug": "e-class",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "e10879ae-713f-404f-804c-9ce9ba176786",
+      "brand_id": "0a4b59e3-f4b2-48db-933e-c866512a07a4",
+      "name": "S-Class",
+      "slug": "s-class",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "30639fa5-7155-40d8-b257-35f2e492cd2f",
+      "brand_id": "0a4b59e3-f4b2-48db-933e-c866512a07a4",
+      "name": "GLA",
+      "slug": "gla",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "dac77903-71d8-4d6a-bb94-148ee1728c25",
+      "brand_id": "0a4b59e3-f4b2-48db-933e-c866512a07a4",
+      "name": "GLB",
+      "slug": "glb",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "33f9d688-cd0d-48d3-b877-eebf2592b167",
+      "brand_id": "0a4b59e3-f4b2-48db-933e-c866512a07a4",
+      "name": "GLC",
+      "slug": "glc",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "d92cfcaf-1b39-4d14-bb25-03e9f95a2d2a",
+      "brand_id": "0a4b59e3-f4b2-48db-933e-c866512a07a4",
+      "name": "GLE",
+      "slug": "gle",
+      "status": "active",
+      "sort_order": 7
+    },
+    {
+      "id": "8a60c5f5-03d2-4021-9f2b-01365be87b4d",
+      "brand_id": "0a4b59e3-f4b2-48db-933e-c866512a07a4",
+      "name": "GLS",
+      "slug": "gls",
+      "status": "active",
+      "sort_order": 8
+    },
+    {
+      "id": "28af3fb4-61c4-4018-937f-49911d90e6a6",
+      "brand_id": "0a4b59e3-f4b2-48db-933e-c866512a07a4",
+      "name": "A-Class",
+      "slug": "a-class",
+      "status": "active",
+      "sort_order": 9
+    },
+    {
+      "id": "9d21ae41-5416-4744-afed-ae69d955be35",
+      "brand_id": "0a4b59e3-f4b2-48db-933e-c866512a07a4",
+      "name": "CLA",
+      "slug": "cla",
+      "status": "active",
+      "sort_order": 10
+    },
+    {
+      "id": "d8cfe7a1-def6-426d-82eb-4c542386e293",
+      "brand_id": "0a4b59e3-f4b2-48db-933e-c866512a07a4",
+      "name": "V-Class",
+      "slug": "v-class",
+      "status": "active",
+      "sort_order": 11
+    },
+    {
+      "id": "0a5a3132-525a-43b8-94cd-a793bf070c60",
+      "brand_id": "0a4b59e3-f4b2-48db-933e-c866512a07a4",
+      "name": "EQB",
+      "slug": "eqb",
+      "status": "active",
+      "sort_order": 12
+    },
+    {
+      "id": "112953ac-7257-45d0-8fc7-ca44db3d6685",
+      "brand_id": "0a4b59e3-f4b2-48db-933e-c866512a07a4",
+      "name": "EQE",
+      "slug": "eqe",
+      "status": "active",
+      "sort_order": 13
+    },
+    {
+      "id": "b0030956-f9b0-4adc-a32a-d4cb17d303b8",
+      "brand_id": "0a4b59e3-f4b2-48db-933e-c866512a07a4",
+      "name": "EQS",
+      "slug": "eqs",
+      "status": "active",
+      "sort_order": 14
+    },
+    {
+      "id": "a77ca06b-2c1f-42bf-98cc-f8d737372a0c",
+      "brand_id": "0a4b59e3-f4b2-48db-933e-c866512a07a4",
+      "name": "G-Class",
+      "slug": "g-class",
+      "status": "active",
+      "sort_order": 15
+    },
+    {
+      "id": "63f7273d-75a0-4fde-906c-2f1c83bd79e8",
+      "brand_id": "2fe5c5df-92d2-4ff7-ab0e-bb968c172a09",
+      "name": "1 Series",
+      "slug": "1-series",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "49c55528-75a1-4087-9eb4-e89a0cdaf33e",
+      "brand_id": "2fe5c5df-92d2-4ff7-ab0e-bb968c172a09",
+      "name": "2 Series",
+      "slug": "2-series",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "e4ab2ce2-b524-429e-ae1b-ec55117e98cb",
+      "brand_id": "2fe5c5df-92d2-4ff7-ab0e-bb968c172a09",
+      "name": "3 Series",
+      "slug": "3-series",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "7de2a490-34f6-471d-8a34-fec19dfa3282",
+      "brand_id": "2fe5c5df-92d2-4ff7-ab0e-bb968c172a09",
+      "name": "4 Series",
+      "slug": "4-series",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "d5686257-8a6a-404c-892e-22a1c205d57e",
+      "brand_id": "2fe5c5df-92d2-4ff7-ab0e-bb968c172a09",
+      "name": "5 Series",
+      "slug": "5-series",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "f1bc435d-c9f4-48b5-86bc-e4f56c83271a",
+      "brand_id": "2fe5c5df-92d2-4ff7-ab0e-bb968c172a09",
+      "name": "7 Series",
+      "slug": "7-series",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "0d947168-0058-4481-a1d3-f339507dbd86",
+      "brand_id": "2fe5c5df-92d2-4ff7-ab0e-bb968c172a09",
+      "name": "X1",
+      "slug": "x1",
+      "status": "active",
+      "sort_order": 7
+    },
+    {
+      "id": "47225922-9ddc-4f94-82bb-91addf829787",
+      "brand_id": "2fe5c5df-92d2-4ff7-ab0e-bb968c172a09",
+      "name": "X2",
+      "slug": "x2",
+      "status": "active",
+      "sort_order": 8
+    },
+    {
+      "id": "e4282c02-1314-4413-b83c-8ec27dcfcc67",
+      "brand_id": "2fe5c5df-92d2-4ff7-ab0e-bb968c172a09",
+      "name": "X3",
+      "slug": "x3",
+      "status": "active",
+      "sort_order": 9
+    },
+    {
+      "id": "baadc93d-e56e-450f-b477-92cb955292cd",
+      "brand_id": "2fe5c5df-92d2-4ff7-ab0e-bb968c172a09",
+      "name": "X4",
+      "slug": "x4",
+      "status": "active",
+      "sort_order": 10
+    },
+    {
+      "id": "7dc58770-3bf1-4ae1-a67f-d9dce9967b24",
+      "brand_id": "2fe5c5df-92d2-4ff7-ab0e-bb968c172a09",
+      "name": "X5",
+      "slug": "x5",
+      "status": "active",
+      "sort_order": 11
+    },
+    {
+      "id": "61c3aa0c-9e2c-4327-a897-d128a2bd7f02",
+      "brand_id": "2fe5c5df-92d2-4ff7-ab0e-bb968c172a09",
+      "name": "X6",
+      "slug": "x6",
+      "status": "active",
+      "sort_order": 12
+    },
+    {
+      "id": "1fd700ae-86f0-46cc-b006-05c5fc388507",
+      "brand_id": "2fe5c5df-92d2-4ff7-ab0e-bb968c172a09",
+      "name": "X7",
+      "slug": "x7",
+      "status": "active",
+      "sort_order": 13
+    },
+    {
+      "id": "1a0f3e45-133d-4227-9be6-bac15b476f11",
+      "brand_id": "2fe5c5df-92d2-4ff7-ab0e-bb968c172a09",
+      "name": "i4",
+      "slug": "i4",
+      "status": "active",
+      "sort_order": 14
+    },
+    {
+      "id": "79ae65de-e863-4706-8951-78735a94d6c2",
+      "brand_id": "2fe5c5df-92d2-4ff7-ab0e-bb968c172a09",
+      "name": "iX3",
+      "slug": "ix3",
+      "status": "active",
+      "sort_order": 15
+    },
+    {
+      "id": "105af585-a2b6-4cef-9a83-9409e9a46c9f",
+      "brand_id": "2fe5c5df-92d2-4ff7-ab0e-bb968c172a09",
+      "name": "iX",
+      "slug": "ix",
+      "status": "active",
+      "sort_order": 16
+    },
+    {
+      "id": "3b0cf4bd-7730-4262-a7ee-e21bdd2e9dfb",
+      "brand_id": "e9642d42-4d52-4df0-936d-77039310541e",
+      "name": "ES",
+      "slug": "es",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "914d0858-6d88-45f5-b710-9b320d46d3ab",
+      "brand_id": "e9642d42-4d52-4df0-936d-77039310541e",
+      "name": "IS",
+      "slug": "is",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "7c0d4731-f8cf-4a48-a280-e7819d5b15c9",
+      "brand_id": "e9642d42-4d52-4df0-936d-77039310541e",
+      "name": "LS",
+      "slug": "ls",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "54ed7d1e-1c78-4c7f-8793-a5530f563e29",
+      "brand_id": "e9642d42-4d52-4df0-936d-77039310541e",
+      "name": "NX",
+      "slug": "nx",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "3aa535fc-84cd-4f35-b97f-d1a169545301",
+      "brand_id": "e9642d42-4d52-4df0-936d-77039310541e",
+      "name": "RX",
+      "slug": "rx",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "1ff8af99-d517-4314-a0ac-30b93cb1ecea",
+      "brand_id": "e9642d42-4d52-4df0-936d-77039310541e",
+      "name": "UX",
+      "slug": "ux",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "a26ef7bc-9847-42fc-8d80-9246e4c1115a",
+      "brand_id": "e9642d42-4d52-4df0-936d-77039310541e",
+      "name": "GX",
+      "slug": "gx",
+      "status": "active",
+      "sort_order": 7
+    },
+    {
+      "id": "26e6ec61-80cd-4a15-bb09-4f9e7bbdb7d5",
+      "brand_id": "e9642d42-4d52-4df0-936d-77039310541e",
+      "name": "LX",
+      "slug": "lx",
+      "status": "active",
+      "sort_order": 8
+    },
+    {
+      "id": "5b731e84-469a-4075-8e78-e29a87b10275",
+      "brand_id": "e9642d42-4d52-4df0-936d-77039310541e",
+      "name": "LM",
+      "slug": "lm",
+      "status": "active",
+      "sort_order": 9
+    },
+    {
+      "id": "ac527a82-4115-42e8-abe6-2f633b97484e",
+      "brand_id": "e9642d42-4d52-4df0-936d-77039310541e",
+      "name": "RC",
+      "slug": "rc",
+      "status": "active",
+      "sort_order": 10
+    }
+  ],
+  "newVersions": [
+    {
+      "id": "79431ff1-3b59-4705-a82a-24a8db4ea717",
+      "model_id": "91f8187c-8278-406f-8515-053315596718",
+      "name": "E MT",
+      "slug": "e-mt",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "3047158a-1db7-42a5-bf7b-1d34fb6c4e09",
+      "model_id": "91f8187c-8278-406f-8515-053315596718",
+      "name": "E CVT",
+      "slug": "e-cvt",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "034eff3d-da7b-4c29-addd-c77f5d891424",
+      "model_id": "91f8187c-8278-406f-8515-053315596718",
+      "name": "G CVT",
+      "slug": "g-cvt",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "ff6223d6-7398-4afb-8bf9-f2d8c13e4b86",
+      "model_id": "91f8187c-8278-406f-8515-053315596718",
+      "name": "1.5E",
+      "slug": "1-5e",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "fa014b34-603c-496c-8875-ed18f30122e6",
+      "model_id": "91f8187c-8278-406f-8515-053315596718",
+      "name": "1.5G",
+      "slug": "1-5g",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "0891b9c3-500a-446e-8fc6-084600eaae9b",
+      "model_id": "91f8187c-8278-406f-8515-053315596718",
+      "name": "TRD Sportivo",
+      "slug": "trd-sportivo",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "7289b38c-3eb7-42a2-ad12-336d7a59584a",
+      "model_id": "fcf29072-34a4-47b3-b927-baa9ebee4958",
+      "name": "E",
+      "slug": "e",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "8ee6725a-d54d-4989-a4a6-e30d46789d5d",
+      "model_id": "fcf29072-34a4-47b3-b927-baa9ebee4958",
+      "name": "G",
+      "slug": "g",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "0dc943bc-3ca5-462a-9e28-5b62ed8faef2",
+      "model_id": "fcf29072-34a4-47b3-b927-baa9ebee4958",
+      "name": "1.5G",
+      "slug": "1-5g",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "3bd9f133-28df-40d9-bec1-675c2209f472",
+      "model_id": "db2b349a-2b2d-4bd8-b990-cb6344e31c9d",
+      "name": "1.2 MT",
+      "slug": "1-2-mt",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "a2c5a05a-a6d1-435b-a9dd-c416036cf01e",
+      "model_id": "db2b349a-2b2d-4bd8-b990-cb6344e31c9d",
+      "name": "1.2 AT",
+      "slug": "1-2-at",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "3e9788c4-d25c-4de4-a6c1-3e0402678dca",
+      "model_id": "db2b349a-2b2d-4bd8-b990-cb6344e31c9d",
+      "name": "E",
+      "slug": "e",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "1bc6ec80-961e-4b65-b568-326297faa44c",
+      "model_id": "db2b349a-2b2d-4bd8-b990-cb6344e31c9d",
+      "name": "G",
+      "slug": "g",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "881bb732-558d-4f71-903d-8b6f5611ccf2",
+      "model_id": "8db73db6-2c11-426a-bc27-620e4b135a70",
+      "name": "1.8E",
+      "slug": "1-8e",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "16834bc1-cdd6-4c85-86e2-cbd3bbba051d",
+      "model_id": "8db73db6-2c11-426a-bc27-620e4b135a70",
+      "name": "1.8G",
+      "slug": "1-8g",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "416b355c-c82a-4cc7-a826-3d4406e21c73",
+      "model_id": "8db73db6-2c11-426a-bc27-620e4b135a70",
+      "name": "1.8V",
+      "slug": "1-8v",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "a4caa556-d6a7-4599-8990-b33bc871007d",
+      "model_id": "8db73db6-2c11-426a-bc27-620e4b135a70",
+      "name": "1.8HEV",
+      "slug": "1-8hev",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "90a7fe46-fde5-4cba-82ee-8317e644d317",
+      "model_id": "8db73db6-2c11-426a-bc27-620e4b135a70",
+      "name": "2.0V",
+      "slug": "2-0v",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "9159916f-f5fc-4b44-bad7-90fead0c78a8",
+      "model_id": "d727ac61-fb49-4a2d-983b-dff2487b4c2c",
+      "name": "2.0E",
+      "slug": "2-0e",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "a04a898a-b730-4ec6-b7b9-fc27f15eac56",
+      "model_id": "d727ac61-fb49-4a2d-983b-dff2487b4c2c",
+      "name": "2.0G",
+      "slug": "2-0g",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "5e928383-0074-4948-974e-6062b0bd1ad2",
+      "model_id": "d727ac61-fb49-4a2d-983b-dff2487b4c2c",
+      "name": "2.0Q",
+      "slug": "2-0q",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "0d470439-1727-4cc7-9a46-452b2fbc6cac",
+      "model_id": "d727ac61-fb49-4a2d-983b-dff2487b4c2c",
+      "name": "2.5HV",
+      "slug": "2-5hv",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "09f698e9-5259-417f-bbfc-9396aa588d91",
+      "model_id": "d727ac61-fb49-4a2d-983b-dff2487b4c2c",
+      "name": "HEV Mid",
+      "slug": "hev-mid",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "e2084739-43c1-4a93-91ba-2e6c70dd2ece",
+      "model_id": "d727ac61-fb49-4a2d-983b-dff2487b4c2c",
+      "name": "HEV Luxury",
+      "slug": "hev-luxury",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "280c8606-d1b9-4cd5-a2c5-478f9a6fb738",
+      "model_id": "d727ac61-fb49-4a2d-983b-dff2487b4c2c",
+      "name": "HEV Premium",
+      "slug": "hev-premium",
+      "status": "active",
+      "sort_order": 7
+    },
+    {
+      "id": "dee9827d-dd31-474f-a811-0a1723f81b96",
+      "model_id": "20402def-172c-4f67-99c4-69ed168adc02",
+      "name": "Xăng",
+      "slug": "xang",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "63cb6aa6-4c8f-4600-a535-2f4e6e4c9b03",
+      "model_id": "20402def-172c-4f67-99c4-69ed168adc02",
+      "name": "HEV",
+      "slug": "hev",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "f77f3156-54f5-45c7-bce6-2103098606c9",
+      "model_id": "3d552405-ec3f-48b3-92e3-9178e06f02c7",
+      "name": "1.8G",
+      "slug": "1-8g",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "280ff984-2082-4a87-9d43-2bb85da7d690",
+      "model_id": "3d552405-ec3f-48b3-92e3-9178e06f02c7",
+      "name": "1.8V",
+      "slug": "1-8v",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "506c899d-971e-4cc8-8817-cb62aa90703d",
+      "model_id": "3d552405-ec3f-48b3-92e3-9178e06f02c7",
+      "name": "1.8HV",
+      "slug": "1-8hv",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "4a250ff2-fcd5-40fc-b9f6-c498ce42ffde",
+      "model_id": "3d552405-ec3f-48b3-92e3-9178e06f02c7",
+      "name": "1.8HEV",
+      "slug": "1-8hev",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "6640d6fa-6b16-428e-bf86-2888b6f4bb32",
+      "model_id": "d4953a19-9e23-4423-892a-a811682e9511",
+      "name": "1.0 Turbo",
+      "slug": "1-0-turbo",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "1e3aa727-f837-4dd7-befa-e2c19e474301",
+      "model_id": "65bd7b31-96f7-4637-b03a-ebf191c42004",
+      "name": "1.3 MT",
+      "slug": "1-3-mt",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "008dc92d-1b81-47ad-8ad9-ae044188a8cc",
+      "model_id": "65bd7b31-96f7-4637-b03a-ebf191c42004",
+      "name": "1.5 AT",
+      "slug": "1-5-at",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "ea3b6351-b8ec-4742-a8d5-a7cd378117de",
+      "model_id": "63cb02cc-077a-4bcb-b217-998bad613468",
+      "name": "MT",
+      "slug": "mt",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "43dfc3f3-3e9f-4f6a-a7e6-ad3524a11cc7",
+      "model_id": "63cb02cc-077a-4bcb-b217-998bad613468",
+      "name": "CVT",
+      "slug": "cvt",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "ec01c475-2a29-496d-8279-19672c6629b1",
+      "model_id": "5ea6cb91-6e97-43a5-b81e-a05e3a7d7c1c",
+      "name": "CVT",
+      "slug": "cvt",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "49ee2b03-3d73-4062-bdea-aa1989f82678",
+      "model_id": "5ea6cb91-6e97-43a5-b81e-a05e3a7d7c1c",
+      "name": "CVT Top",
+      "slug": "cvt-top",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "befa57f8-d139-45a2-a2a6-cac0a2f0e8e5",
+      "model_id": "4e7e511a-11d5-44a4-9975-0fd81f95a6e3",
+      "name": "E",
+      "slug": "e",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "6653c333-9d7c-4deb-a712-9af677ca5da9",
+      "model_id": "4e7e511a-11d5-44a4-9975-0fd81f95a6e3",
+      "name": "G",
+      "slug": "g",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "4881fbea-51dc-4ed5-85a5-09432778c7ae",
+      "model_id": "4e7e511a-11d5-44a4-9975-0fd81f95a6e3",
+      "name": "V",
+      "slug": "v",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "8ff5e583-f3f8-4cbe-ab16-f715db1d53e8",
+      "model_id": "4e7e511a-11d5-44a4-9975-0fd81f95a6e3",
+      "name": "Venturer",
+      "slug": "venturer",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "b2d02fef-41cb-4c0f-bb03-89ac8f6b05e2",
+      "model_id": "4e7e511a-11d5-44a4-9975-0fd81f95a6e3",
+      "name": "2.0E",
+      "slug": "2-0e",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "10cdee1f-149f-41b6-8a99-7420a7254977",
+      "model_id": "4e7e511a-11d5-44a4-9975-0fd81f95a6e3",
+      "name": "2.0G",
+      "slug": "2-0g",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "f7fd6ee8-69bb-459c-b2d9-85cdf13aa456",
+      "model_id": "4e7e511a-11d5-44a4-9975-0fd81f95a6e3",
+      "name": "2.0V",
+      "slug": "2-0v",
+      "status": "active",
+      "sort_order": 7
+    },
+    {
+      "id": "03e5513a-d00c-4b15-9a61-1e08ca1ffdea",
+      "model_id": "23bb52f5-cd1d-4fa6-9ed7-8a0119184dde",
+      "name": "2.0V",
+      "slug": "2-0v",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "09ba4b0e-c011-41eb-80ff-7a38d47e3399",
+      "model_id": "23bb52f5-cd1d-4fa6-9ed7-8a0119184dde",
+      "name": "2.0HEV",
+      "slug": "2-0hev",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "630d4b83-1bcd-454a-b793-9c84de8de1c9",
+      "model_id": "b3ba1344-060b-43ad-90f4-6eb4f98a4326",
+      "name": "2.4 MT",
+      "slug": "2-4-mt",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "cbf1ab96-a270-40b2-b4e3-6d38282518f6",
+      "model_id": "b3ba1344-060b-43ad-90f4-6eb4f98a4326",
+      "name": "2.4 AT",
+      "slug": "2-4-at",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "0880bc6b-6234-4cd5-9c58-b49b53229c1c",
+      "model_id": "b3ba1344-060b-43ad-90f4-6eb4f98a4326",
+      "name": "2.7 AT",
+      "slug": "2-7-at",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "a25a809e-569b-45d7-9511-a3eecd5ba2be",
+      "model_id": "b3ba1344-060b-43ad-90f4-6eb4f98a4326",
+      "name": "2.8 AT",
+      "slug": "2-8-at",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "a78d3934-73aa-426a-ac1a-2ac8a05184aa",
+      "model_id": "b3ba1344-060b-43ad-90f4-6eb4f98a4326",
+      "name": "Legender 2.4 AT",
+      "slug": "legender-2-4-at",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "8663cd82-8dea-4823-b099-f189f32758be",
+      "model_id": "b3ba1344-060b-43ad-90f4-6eb4f98a4326",
+      "name": "Legender 2.8 AT",
+      "slug": "legender-2-8-at",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "b6a4facf-3fc7-4b15-b18b-b5353312f9ab",
+      "model_id": "b3ba1344-060b-43ad-90f4-6eb4f98a4326",
+      "name": "Legender 2.7 AT",
+      "slug": "legender-2-7-at",
+      "status": "active",
+      "sort_order": 7
+    },
+    {
+      "id": "b8a3935a-84b8-4bd6-aaad-faffb4e50da2",
+      "model_id": "2914d47e-7218-4ed7-97fb-97377e089c55",
+      "name": "2.4E MT",
+      "slug": "2-4e-mt",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "7d985a2b-0e86-4a6b-8386-7e12c4dad6c2",
+      "model_id": "2914d47e-7218-4ed7-97fb-97377e089c55",
+      "name": "2.4E AT",
+      "slug": "2-4e-at",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "9407f438-6984-47a4-8afb-fe5f38701a18",
+      "model_id": "2914d47e-7218-4ed7-97fb-97377e089c55",
+      "name": "2.4G",
+      "slug": "2-4g",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "fd4629db-40dc-4368-b057-83d31bca16ed",
+      "model_id": "2914d47e-7218-4ed7-97fb-97377e089c55",
+      "name": "2.8G",
+      "slug": "2-8g",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "3ea9a6eb-647f-4b5b-b199-9c8085eaf4c2",
+      "model_id": "2914d47e-7218-4ed7-97fb-97377e089c55",
+      "name": "Adventure",
+      "slug": "adventure",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "3e97b8ee-b1fe-44a1-bafc-cac2b0f6c863",
+      "model_id": "2914d47e-7218-4ed7-97fb-97377e089c55",
+      "name": "Standard",
+      "slug": "standard",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "ec520640-369d-479b-8944-47c39830ef8f",
+      "model_id": "2914d47e-7218-4ed7-97fb-97377e089c55",
+      "name": "Pro",
+      "slug": "pro",
+      "status": "active",
+      "sort_order": 7
+    },
+    {
+      "id": "c983f1ea-59a0-47f5-9e80-47b544965942",
+      "model_id": "6e880bd9-f72f-4a41-8e68-9103e879c368",
+      "name": "TX",
+      "slug": "tx",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "754a21fd-e386-48c1-9ec8-2ccd885e3921",
+      "model_id": "6e880bd9-f72f-4a41-8e68-9103e879c368",
+      "name": "TX-L",
+      "slug": "tx-l",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "5344ba69-429f-4a45-a1ae-105e866c7242",
+      "model_id": "6e880bd9-f72f-4a41-8e68-9103e879c368",
+      "name": "VX",
+      "slug": "vx",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "60fc11f3-ebe5-40bb-9e4a-5fc754b22066",
+      "model_id": "6e880bd9-f72f-4a41-8e68-9103e879c368",
+      "name": "2.4 Turbo",
+      "slug": "2-4-turbo",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "739fe288-062c-4bab-bf26-81e01aa0f976",
+      "model_id": "80fbbd27-363a-4731-8f63-f71ea28155ee",
+      "name": "VX",
+      "slug": "vx",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "4ba7284d-8736-457a-94f9-77197cfab228",
+      "model_id": "80fbbd27-363a-4731-8f63-f71ea28155ee",
+      "name": "ZX",
+      "slug": "zx",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "4cb8fd2f-2b2f-4a16-bea5-053a1484f6d1",
+      "model_id": "80fbbd27-363a-4731-8f63-f71ea28155ee",
+      "name": "LC300",
+      "slug": "lc300",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "d45d0345-82de-4488-9493-0a196164ee75",
+      "model_id": "8f071bf0-e8a7-4c22-90fa-95932cffa801",
+      "name": "Xăng",
+      "slug": "xang",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "31f8a99e-d644-4eb4-ad8c-4051ada16ed8",
+      "model_id": "8f071bf0-e8a7-4c22-90fa-95932cffa801",
+      "name": "HEV",
+      "slug": "hev",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "841a0e6b-2ff0-4bd0-8e69-327c5c8a9f99",
+      "model_id": "8f071bf0-e8a7-4c22-90fa-95932cffa801",
+      "name": "Executive Lounge",
+      "slug": "executive-lounge",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "f7e11588-382e-4ca1-826d-4fde7b7d2944",
+      "model_id": "7d273b00-d351-46f4-83a0-fbf3413d1df0",
+      "name": "1.5 AT",
+      "slug": "1-5-at",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "be4d1f7c-4313-4aeb-8a36-d58238fb837e",
+      "model_id": "7d273b00-d351-46f4-83a0-fbf3413d1df0",
+      "name": "S AT",
+      "slug": "s-at",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "844edb25-7872-47d8-a90c-d50a0e4cce5a",
+      "model_id": "bfa51d8b-96f5-4eee-bb29-76ba9bcef5ed",
+      "name": "1.0 MT",
+      "slug": "1-0-mt",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "56604454-d1ff-41ea-9924-349fc27e2f44",
+      "model_id": "bfa51d8b-96f5-4eee-bb29-76ba9bcef5ed",
+      "name": "1.0 AT",
+      "slug": "1-0-at",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "d885bcc8-2170-4aea-ae58-0b7b8fb0e779",
+      "model_id": "bfa51d8b-96f5-4eee-bb29-76ba9bcef5ed",
+      "name": "1.2 MT",
+      "slug": "1-2-mt",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "e1fb3c2a-bbc9-4ac1-bab8-d2d3224c041b",
+      "model_id": "bfa51d8b-96f5-4eee-bb29-76ba9bcef5ed",
+      "name": "Base",
+      "slug": "base",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "55217d7e-8234-415a-8947-5829a7a6fa6b",
+      "model_id": "bfa51d8b-96f5-4eee-bb29-76ba9bcef5ed",
+      "name": "Tiêu chuẩn",
+      "slug": "tieu-chuan",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "3fe33991-99a0-4b96-b488-b78063e12313",
+      "model_id": "bfa51d8b-96f5-4eee-bb29-76ba9bcef5ed",
+      "name": "Đặc biệt",
+      "slug": "dac-biet",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "c5cec038-eee5-4534-8852-9c8496952329",
+      "model_id": "e317caf5-9fec-4b78-8b1d-c673122cb61c",
+      "name": "1.4 MT",
+      "slug": "1-4-mt",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "cd363449-d458-40b8-b3c2-fda453859466",
+      "model_id": "e317caf5-9fec-4b78-8b1d-c673122cb61c",
+      "name": "1.4 AT",
+      "slug": "1-4-at",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "a2e3a2da-a89e-4559-a26e-ecd2b5d4fd04",
+      "model_id": "e317caf5-9fec-4b78-8b1d-c673122cb61c",
+      "name": "1.4 AT Đặc biệt",
+      "slug": "1-4-at-dac-biet",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "950cc31b-9d75-499f-8004-d9de685be1e4",
+      "model_id": "e317caf5-9fec-4b78-8b1d-c673122cb61c",
+      "name": "1.5 MT",
+      "slug": "1-5-mt",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "ff71cca0-3508-409b-8da9-81b8e995b32d",
+      "model_id": "e317caf5-9fec-4b78-8b1d-c673122cb61c",
+      "name": "1.5 AT Đặc biệt",
+      "slug": "1-5-at-dac-biet",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "5dda1fa8-f6db-481c-ad90-6957fcedbda3",
+      "model_id": "e317caf5-9fec-4b78-8b1d-c673122cb61c",
+      "name": "1.5 AT Cao cấp",
+      "slug": "1-5-at-cao-cap",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "81d163b1-0ae5-4dee-95f0-06a0f770ad53",
+      "model_id": "6b77e50e-ae23-4eda-90b8-5e9a37857e80",
+      "name": "1.6 MT",
+      "slug": "1-6-mt",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "e2f8d9d5-4b3b-4de4-8f28-f55b74e151d4",
+      "model_id": "6b77e50e-ae23-4eda-90b8-5e9a37857e80",
+      "name": "1.6 AT",
+      "slug": "1-6-at",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "291ed058-aab9-4840-8232-c5b06067d786",
+      "model_id": "6b77e50e-ae23-4eda-90b8-5e9a37857e80",
+      "name": "1.6 AT Đặc biệt",
+      "slug": "1-6-at-dac-biet",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "51c3f7e3-5125-44ef-80ad-9f3a4255b4a8",
+      "model_id": "6b77e50e-ae23-4eda-90b8-5e9a37857e80",
+      "name": "2.0 AT",
+      "slug": "2-0-at",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "303f2c76-92ff-4efc-9c3b-48535ca299f8",
+      "model_id": "6b77e50e-ae23-4eda-90b8-5e9a37857e80",
+      "name": "N-Line",
+      "slug": "n-line",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "8e258880-94c0-4176-b9cb-86d265fdd126",
+      "model_id": "6b77e50e-ae23-4eda-90b8-5e9a37857e80",
+      "name": "Sport",
+      "slug": "sport",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "5b71a432-8a76-4893-9cd2-f5f73b912361",
+      "model_id": "17f3fbb1-83f3-41ce-88dc-0dcdba757ef0",
+      "name": "2.0 AT",
+      "slug": "2-0-at",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "00b7a2f3-5f65-479d-9c1b-5080edfb71ff",
+      "model_id": "17f3fbb1-83f3-41ce-88dc-0dcdba757ef0",
+      "name": "2.4 AT",
+      "slug": "2-4-at",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "0dd7dcd3-0b53-48a5-8037-5ae461ed4b40",
+      "model_id": "b6ad406f-9d50-452c-8b89-d49ff0f00d0e",
+      "name": "Tiêu chuẩn",
+      "slug": "tieu-chuan",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "1fbf8cc5-b01e-4d5f-9b62-3e5e0965895a",
+      "model_id": "b6ad406f-9d50-452c-8b89-d49ff0f00d0e",
+      "name": "Đặc biệt",
+      "slug": "dac-biet",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "86394ce9-c2d4-4713-bce6-508434e7110a",
+      "model_id": "b6ad406f-9d50-452c-8b89-d49ff0f00d0e",
+      "name": "Cao cấp",
+      "slug": "cao-cap",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "29d6b6ee-400e-409f-9131-66ede3cf9d67",
+      "model_id": "b6ad406f-9d50-452c-8b89-d49ff0f00d0e",
+      "name": "N Line",
+      "slug": "n-line",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "1914bc78-2aca-495f-b837-7c84b59b41d7",
+      "model_id": "de637220-0bf2-4d1d-afd7-290d7ff9edc1",
+      "name": "Tiêu chuẩn",
+      "slug": "tieu-chuan",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "d067cc09-12d6-4af6-aa10-c48f5a385d9c",
+      "model_id": "de637220-0bf2-4d1d-afd7-290d7ff9edc1",
+      "name": "Đặc biệt",
+      "slug": "dac-biet",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "f5d144af-da30-4649-bc33-121ce397982c",
+      "model_id": "1ca292ea-2316-4719-8717-a4ae93589989",
+      "name": "2.0 AT",
+      "slug": "2-0-at",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "c3bcc842-d5a0-47a6-8bd8-5878c9bc9dff",
+      "model_id": "1ca292ea-2316-4719-8717-a4ae93589989",
+      "name": "2.0 AT Đặc biệt",
+      "slug": "2-0-at-dac-biet",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "c5a36214-15ec-4bf7-8b85-71f8808b6363",
+      "model_id": "1ca292ea-2316-4719-8717-a4ae93589989",
+      "name": "1.6 Turbo",
+      "slug": "1-6-turbo",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "f88a11d3-782a-42c6-976a-2d79b5d8eabf",
+      "model_id": "cfcf6b2f-623d-43b0-b204-1bc88728b249",
+      "name": "2.0 Xăng Tiêu chuẩn",
+      "slug": "2-0-xang-tieu-chuan",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "695a6588-b084-4db5-8ec8-5baa96a58e20",
+      "model_id": "cfcf6b2f-623d-43b0-b204-1bc88728b249",
+      "name": "2.0 Xăng Đặc biệt",
+      "slug": "2-0-xang-dac-biet",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "110280d6-b073-4fdb-a982-3d46cfecb1ae",
+      "model_id": "cfcf6b2f-623d-43b0-b204-1bc88728b249",
+      "name": "2.0 Diesel Đặc biệt",
+      "slug": "2-0-diesel-dac-biet",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "c5457e2b-b35c-4c20-8ccc-35c96c551839",
+      "model_id": "cfcf6b2f-623d-43b0-b204-1bc88728b249",
+      "name": "1.6 Turbo",
+      "slug": "1-6-turbo",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "99d1cf1a-bf5a-467f-a29b-881bd50a7b7d",
+      "model_id": "cfcf6b2f-623d-43b0-b204-1bc88728b249",
+      "name": "2.0 Xăng Cao cấp",
+      "slug": "2-0-xang-cao-cap",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "24db3d4f-103d-45b7-b4bf-cf2a5e317521",
+      "model_id": "c2c460e8-c489-464f-9644-af681b9e6192",
+      "name": "2.2 Diesel",
+      "slug": "2-2-diesel",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "fb202592-b3d8-4cb7-a5f0-a9b23dca6920",
+      "model_id": "c2c460e8-c489-464f-9644-af681b9e6192",
+      "name": "2.4 Xăng",
+      "slug": "2-4-xang",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "84e37ab1-f1f7-47d8-9ac2-63671e1ce00a",
+      "model_id": "c2c460e8-c489-464f-9644-af681b9e6192",
+      "name": "2.5 Xăng",
+      "slug": "2-5-xang",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "e25765e5-e99f-4f9e-aeb0-acd1c657f29d",
+      "model_id": "c2c460e8-c489-464f-9644-af681b9e6192",
+      "name": "2.5 Turbo",
+      "slug": "2-5-turbo",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "b9fccd0d-a02f-40e6-9bb1-13485c82f0ed",
+      "model_id": "c2c460e8-c489-464f-9644-af681b9e6192",
+      "name": "Prestige",
+      "slug": "prestige",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "2a2f03e9-63ce-46f1-8599-77580578f982",
+      "model_id": "c2c460e8-c489-464f-9644-af681b9e6192",
+      "name": "Exclusive",
+      "slug": "exclusive",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "5d60a795-0832-4515-a97f-5b9667611c9e",
+      "model_id": "c2c460e8-c489-464f-9644-af681b9e6192",
+      "name": "Calligraphy",
+      "slug": "calligraphy",
+      "status": "active",
+      "sort_order": 7
+    },
+    {
+      "id": "3badbab3-f143-4a98-826b-d43e520a9138",
+      "model_id": "c2c460e8-c489-464f-9644-af681b9e6192",
+      "name": "Calligraphy Turbo",
+      "slug": "calligraphy-turbo",
+      "status": "active",
+      "sort_order": 8
+    },
+    {
+      "id": "f8a33ed2-774a-477c-aca6-5a0568bb6099",
+      "model_id": "c2c460e8-c489-464f-9644-af681b9e6192",
+      "name": "Hybrid",
+      "slug": "hybrid",
+      "status": "active",
+      "sort_order": 9
+    },
+    {
+      "id": "ffc70cf7-23e4-40cf-b126-c54e08bb302c",
+      "model_id": "6661ce1c-abbe-46f9-a157-364e451248f4",
+      "name": "Exclusive",
+      "slug": "exclusive",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "02ac07ef-af41-4f33-b234-3789295bbae3",
+      "model_id": "6661ce1c-abbe-46f9-a157-364e451248f4",
+      "name": "Prestige",
+      "slug": "prestige",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "df7e3ab1-5a75-42b4-972d-402c06e77953",
+      "model_id": "398b2982-de64-47dc-ada1-f62fdcae2d8d",
+      "name": "Tiêu chuẩn",
+      "slug": "tieu-chuan",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "f3d9960f-feb4-443f-bf39-7895aecc199f",
+      "model_id": "398b2982-de64-47dc-ada1-f62fdcae2d8d",
+      "name": "Đặc biệt",
+      "slug": "dac-biet",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "a40cfcfb-df8d-4163-8f79-57ea97bb1a39",
+      "model_id": "398b2982-de64-47dc-ada1-f62fdcae2d8d",
+      "name": "Cao cấp",
+      "slug": "cao-cap",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "2762163f-7940-4cf1-b13f-6beafbf5eb15",
+      "model_id": "398b2982-de64-47dc-ada1-f62fdcae2d8d",
+      "name": "X",
+      "slug": "x",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "75c7c760-ca43-4e71-a1db-fe07e4af00ba",
+      "model_id": "398b2982-de64-47dc-ada1-f62fdcae2d8d",
+      "name": "X Tiêu chuẩn",
+      "slug": "x-tieu-chuan",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "48e7b84a-02b3-4e84-a733-4180211af299",
+      "model_id": "422dbdf1-b187-41f7-85e6-17eacb7db84d",
+      "name": "1.5T Tiêu chuẩn",
+      "slug": "1-5t-tieu-chuan",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "362309e0-f245-4e8e-9d7e-9e84b6d7aaeb",
+      "model_id": "422dbdf1-b187-41f7-85e6-17eacb7db84d",
+      "name": "1.5T Đặc biệt",
+      "slug": "1-5t-dac-biet",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "b051ee7f-77aa-4355-8865-fc4653d30e5e",
+      "model_id": "422dbdf1-b187-41f7-85e6-17eacb7db84d",
+      "name": "2.0T Cao cấp",
+      "slug": "2-0t-cao-cap",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "266eea4e-eb0d-4d71-9176-46bacbcb4a0c",
+      "model_id": "f4ec00cf-a52d-4bfa-9225-7421cb1aca7f",
+      "name": "Exclusive",
+      "slug": "exclusive",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "cc21c217-4164-4406-8dbd-649b1e1d64e4",
+      "model_id": "f4ec00cf-a52d-4bfa-9225-7421cb1aca7f",
+      "name": "Prestige",
+      "slug": "prestige",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "7fead823-8dbb-41af-bd8e-7ebfb95e8e1d",
+      "model_id": "00aa0ef7-5be1-41a0-b1eb-bccdc6abd5ca",
+      "name": "MT",
+      "slug": "mt",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "eb85ddcc-cb02-4b29-8d48-e449dc0beabc",
+      "model_id": "00aa0ef7-5be1-41a0-b1eb-bccdc6abd5ca",
+      "name": "AT",
+      "slug": "at",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "f072bb93-7ba4-43dc-bfa5-3c8f8d32f399",
+      "model_id": "00aa0ef7-5be1-41a0-b1eb-bccdc6abd5ca",
+      "name": "Deluxe",
+      "slug": "deluxe",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "99024f32-ae4a-4a98-bf5a-9caa76acf5d6",
+      "model_id": "00aa0ef7-5be1-41a0-b1eb-bccdc6abd5ca",
+      "name": "Luxury",
+      "slug": "luxury",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "18dc5bc0-bcd9-47e2-af69-82a9f787af7f",
+      "model_id": "00aa0ef7-5be1-41a0-b1eb-bccdc6abd5ca",
+      "name": "Premium",
+      "slug": "premium",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "d9d67c82-9083-4562-8cfc-9e3de94b15ed",
+      "model_id": "00aa0ef7-5be1-41a0-b1eb-bccdc6abd5ca",
+      "name": "GT-Line",
+      "slug": "gt-line",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "0d080df2-a873-441c-aa84-30d2c4479669",
+      "model_id": "00aa0ef7-5be1-41a0-b1eb-bccdc6abd5ca",
+      "name": "X-Line",
+      "slug": "x-line",
+      "status": "active",
+      "sort_order": 7
+    },
+    {
+      "id": "ab7db2b7-f07d-4478-b1be-37c4c57cbf1d",
+      "model_id": "1d43a5e3-b4d9-492e-9d44-3d48525c312b",
+      "name": "MT",
+      "slug": "mt",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "b782ca54-5df6-42ff-ba31-1216b38cbfef",
+      "model_id": "1d43a5e3-b4d9-492e-9d44-3d48525c312b",
+      "name": "MT Deluxe",
+      "slug": "mt-deluxe",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "3e43edd5-433a-4beb-8bf7-4513ca30733b",
+      "model_id": "1d43a5e3-b4d9-492e-9d44-3d48525c312b",
+      "name": "AT Deluxe",
+      "slug": "at-deluxe",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "9c6882f0-2c30-4db0-8e68-f784bbf6b9f0",
+      "model_id": "1d43a5e3-b4d9-492e-9d44-3d48525c312b",
+      "name": "AT Luxury",
+      "slug": "at-luxury",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "cbc65092-48a2-48f9-be1e-6fecbba73055",
+      "model_id": "cd098acb-18eb-41c6-8c72-5608b913e01c",
+      "name": "1.6 MT",
+      "slug": "1-6-mt",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "d5b86984-b846-4bc9-9e96-4f93f382b4c4",
+      "model_id": "cd098acb-18eb-41c6-8c72-5608b913e01c",
+      "name": "1.6 Luxury",
+      "slug": "1-6-luxury",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "5e3d272c-092b-43a9-8e5b-c202895d45ee",
+      "model_id": "cd098acb-18eb-41c6-8c72-5608b913e01c",
+      "name": "1.6 Premium",
+      "slug": "1-6-premium",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "a74e92f7-4ac7-4575-beba-4de5b26d1978",
+      "model_id": "cd098acb-18eb-41c6-8c72-5608b913e01c",
+      "name": "2.0 Premium",
+      "slug": "2-0-premium",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "a16df0ec-a310-4be1-b74e-ef57b5abdbca",
+      "model_id": "cd098acb-18eb-41c6-8c72-5608b913e01c",
+      "name": "1.6 Turbo GT",
+      "slug": "1-6-turbo-gt",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "d5d95f92-45b3-4305-84f2-8e72d973bab0",
+      "model_id": "5d90b4e3-13ed-4939-b52f-9e0ba5978e01",
+      "name": "1.6 MT",
+      "slug": "1-6-mt",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "13129a31-238b-43e3-8023-797cfb60e3f2",
+      "model_id": "5d90b4e3-13ed-4939-b52f-9e0ba5978e01",
+      "name": "1.6 AT",
+      "slug": "1-6-at",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "73ab1e43-4204-436e-86f8-792b1840496a",
+      "model_id": "5d90b4e3-13ed-4939-b52f-9e0ba5978e01",
+      "name": "1.6 Deluxe",
+      "slug": "1-6-deluxe",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "8609729e-0386-431b-a789-a2d3fb39ce2a",
+      "model_id": "5d90b4e3-13ed-4939-b52f-9e0ba5978e01",
+      "name": "1.6 Luxury",
+      "slug": "1-6-luxury",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "7701a527-1102-42bf-86cc-1a1c6c9a5946",
+      "model_id": "5d90b4e3-13ed-4939-b52f-9e0ba5978e01",
+      "name": "1.6 Premium",
+      "slug": "1-6-premium",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "530a8ea1-85a7-4a0c-8d57-e4465a2c9636",
+      "model_id": "5d90b4e3-13ed-4939-b52f-9e0ba5978e01",
+      "name": "2.0 Premium",
+      "slug": "2-0-premium",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "062afba1-4c53-4bb3-ac48-ca9996f162d5",
+      "model_id": "25c415a5-f289-421e-bb15-d76789a3f6c4",
+      "name": "2.0 Luxury",
+      "slug": "2-0-luxury",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "f72178ce-d8a2-4f8a-81e2-41dd9b10227c",
+      "model_id": "25c415a5-f289-421e-bb15-d76789a3f6c4",
+      "name": "2.0 Premium",
+      "slug": "2-0-premium",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "9ce70d94-714f-4d12-826d-64bc7deb534e",
+      "model_id": "25c415a5-f289-421e-bb15-d76789a3f6c4",
+      "name": "2.5 GT-Line",
+      "slug": "2-5-gt-line",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "4a606cb3-2eac-4f86-b818-f219dd3fef42",
+      "model_id": "a06c6aab-ba6d-49cd-9127-624668320079",
+      "name": "2.0 AT",
+      "slug": "2-0-at",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "44262258-0fec-415d-ad0e-448a559a316a",
+      "model_id": "a06c6aab-ba6d-49cd-9127-624668320079",
+      "name": "2.0 GAT",
+      "slug": "2-0-gat",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "6f0f0c30-496d-4d15-9728-eee855f5d263",
+      "model_id": "a06c6aab-ba6d-49cd-9127-624668320079",
+      "name": "2.4 GT-Line",
+      "slug": "2-4-gt-line",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "3714e8fc-97d0-45aa-ac4e-d1fb2fe2b1b2",
+      "model_id": "953559a4-c24f-4f41-a73f-50a1cceb08fc",
+      "name": "Deluxe",
+      "slug": "deluxe",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "b0154bd8-6482-413f-a94f-aa139a0ae736",
+      "model_id": "953559a4-c24f-4f41-a73f-50a1cceb08fc",
+      "name": "Luxury",
+      "slug": "luxury",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "5f29f06a-ad35-4d5a-9dce-c0c5b91b0f56",
+      "model_id": "953559a4-c24f-4f41-a73f-50a1cceb08fc",
+      "name": "Premium",
+      "slug": "premium",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "77505d2e-fb92-41a2-975f-4fe8bfb4035e",
+      "model_id": "953559a4-c24f-4f41-a73f-50a1cceb08fc",
+      "name": "1.5 AT",
+      "slug": "1-5-at",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "e3c8851f-cf0c-4fb7-aba7-899336bc2968",
+      "model_id": "953559a4-c24f-4f41-a73f-50a1cceb08fc",
+      "name": "1.5 Luxury",
+      "slug": "1-5-luxury",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "ca3bfe58-0bbf-4ca2-b3a6-5bfca71f3f22",
+      "model_id": "953559a4-c24f-4f41-a73f-50a1cceb08fc",
+      "name": "1.5 Premium",
+      "slug": "1-5-premium",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "105eace8-2f41-4f8a-bcee-04a661dd547d",
+      "model_id": "6f75be44-e2fd-409d-bf32-cfb39723b7ef",
+      "name": "1.4 Deluxe",
+      "slug": "1-4-deluxe",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "e4e36cb4-9b9a-4849-a7e8-ef0e1935fb89",
+      "model_id": "6f75be44-e2fd-409d-bf32-cfb39723b7ef",
+      "name": "1.4 Luxury",
+      "slug": "1-4-luxury",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "7434115b-9c6d-4fc4-88f4-a41287798cd4",
+      "model_id": "6f75be44-e2fd-409d-bf32-cfb39723b7ef",
+      "name": "1.4 Premium",
+      "slug": "1-4-premium",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "92fac9cc-55e2-4126-b370-e67baaa72760",
+      "model_id": "6f75be44-e2fd-409d-bf32-cfb39723b7ef",
+      "name": "1.6 AT",
+      "slug": "1-6-at",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "1a5be1b2-8878-4e17-8115-6fd9e43e80ce",
+      "model_id": "6f75be44-e2fd-409d-bf32-cfb39723b7ef",
+      "name": "1.5 AT",
+      "slug": "1-5-at",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "35d88291-4302-402a-9878-903de064969c",
+      "model_id": "6f75be44-e2fd-409d-bf32-cfb39723b7ef",
+      "name": "1.5 Luxury",
+      "slug": "1-5-luxury",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "738c471f-72e1-464e-a969-9ed70cce03ec",
+      "model_id": "6f75be44-e2fd-409d-bf32-cfb39723b7ef",
+      "name": "1.5 Premium",
+      "slug": "1-5-premium",
+      "status": "active",
+      "sort_order": 7
+    },
+    {
+      "id": "eb2559a5-d0af-414f-9d14-fc6bd39a4c37",
+      "model_id": "6f75be44-e2fd-409d-bf32-cfb39723b7ef",
+      "name": "1.5 Turbo GT-Line",
+      "slug": "1-5-turbo-gt-line",
+      "status": "active",
+      "sort_order": 8
+    },
+    {
+      "id": "e101b915-973d-466d-b738-8f487270275b",
+      "model_id": "6f75be44-e2fd-409d-bf32-cfb39723b7ef",
+      "name": "1.5 Turbo Luxury",
+      "slug": "1-5-turbo-luxury",
+      "status": "active",
+      "sort_order": 9
+    },
+    {
+      "id": "2c6427b0-7b6c-4139-b8f0-03661ef63fb4",
+      "model_id": "770d3ef1-45c4-4194-b381-7394e62de747",
+      "name": "1.5G MT",
+      "slug": "1-5g-mt",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "bfbd15a2-efa8-4c03-9ed3-f93a8d14352d",
+      "model_id": "770d3ef1-45c4-4194-b381-7394e62de747",
+      "name": "1.5G IVT",
+      "slug": "1-5g-ivt",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "9d448861-2853-4851-bbb4-8362a2ea612b",
+      "model_id": "770d3ef1-45c4-4194-b381-7394e62de747",
+      "name": "1.4T DCT",
+      "slug": "1-4t-dct",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "cd0d2d2d-aa93-4241-8197-f5f6337974cb",
+      "model_id": "770d3ef1-45c4-4194-b381-7394e62de747",
+      "name": "1.5D AT",
+      "slug": "1-5d-at",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "11d7006b-4a48-43eb-9665-8f81fb83ec5d",
+      "model_id": "770d3ef1-45c4-4194-b381-7394e62de747",
+      "name": "Luxury",
+      "slug": "luxury",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "279706a7-54c1-4ddf-8e76-877ddca09217",
+      "model_id": "770d3ef1-45c4-4194-b381-7394e62de747",
+      "name": "Premium",
+      "slug": "premium",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "314f10a0-b544-4993-a063-8cf7a4f7b015",
+      "model_id": "770d3ef1-45c4-4194-b381-7394e62de747",
+      "name": "Signature",
+      "slug": "signature",
+      "status": "active",
+      "sort_order": 7
+    },
+    {
+      "id": "3fabd531-d86c-440d-9b71-7f7442a0aec7",
+      "model_id": "375626e8-b990-4a7f-907c-468b3eed4c34",
+      "name": "2.0G Luxury",
+      "slug": "2-0g-luxury",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "e2d087ba-84de-46fb-a3ac-ea7c0eca1cee",
+      "model_id": "375626e8-b990-4a7f-907c-468b3eed4c34",
+      "name": "2.0G Premium",
+      "slug": "2-0g-premium",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "1204648c-6b4c-4e5c-a53c-fdcf54ab6b78",
+      "model_id": "375626e8-b990-4a7f-907c-468b3eed4c34",
+      "name": "2.0D Signature",
+      "slug": "2-0d-signature",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "97e523c7-8770-4505-a3a9-971989c7c11e",
+      "model_id": "375626e8-b990-4a7f-907c-468b3eed4c34",
+      "name": "1.6T Signature",
+      "slug": "1-6t-signature",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "9c276a8a-521b-4ccb-9b69-e580169402cc",
+      "model_id": "375626e8-b990-4a7f-907c-468b3eed4c34",
+      "name": "1.6 Turbo",
+      "slug": "1-6-turbo",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "409d00f9-7575-4294-a112-4b0038aa82d3",
+      "model_id": "375626e8-b990-4a7f-907c-468b3eed4c34",
+      "name": "Hybrid",
+      "slug": "hybrid",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "d032eb55-52ec-469b-9505-8ed97aeb8505",
+      "model_id": "4891b404-4e07-4206-acf9-9eaf50dfdb52",
+      "name": "2.2D Luxury",
+      "slug": "2-2d-luxury",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "ac446078-2f8f-4ddd-9599-0f0060cc2b0c",
+      "model_id": "4891b404-4e07-4206-acf9-9eaf50dfdb52",
+      "name": "2.2D Premium",
+      "slug": "2-2d-premium",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "5bb092b4-6553-460a-9bc3-23ed926f581c",
+      "model_id": "4891b404-4e07-4206-acf9-9eaf50dfdb52",
+      "name": "2.2D Signature",
+      "slug": "2-2d-signature",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "3683ab5e-a84d-445d-9f71-7e9d37a2d959",
+      "model_id": "4891b404-4e07-4206-acf9-9eaf50dfdb52",
+      "name": "2.5G Luxury",
+      "slug": "2-5g-luxury",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "2e714c79-11ba-4a33-b680-486cda853a4e",
+      "model_id": "4891b404-4e07-4206-acf9-9eaf50dfdb52",
+      "name": "2.5G Premium",
+      "slug": "2-5g-premium",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "ed6e5a20-0e1a-41cc-b67a-a5ba07a9d4f6",
+      "model_id": "4891b404-4e07-4206-acf9-9eaf50dfdb52",
+      "name": "2.5G Signature",
+      "slug": "2-5g-signature",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "6b8ce470-2751-411e-aeb2-5992f7ffdb27",
+      "model_id": "4891b404-4e07-4206-acf9-9eaf50dfdb52",
+      "name": "Hybrid",
+      "slug": "hybrid",
+      "status": "active",
+      "sort_order": 7
+    },
+    {
+      "id": "0e2fa8b7-7ed7-4e8e-abfa-f4032b0430e1",
+      "model_id": "4891b404-4e07-4206-acf9-9eaf50dfdb52",
+      "name": "Plug-in Hybrid",
+      "slug": "plug-in-hybrid",
+      "status": "active",
+      "sort_order": 8
+    },
+    {
+      "id": "506a3ee2-ad8c-4739-9d25-b46e684097d8",
+      "model_id": "f96f846b-7e0a-4f0b-a886-1aa876656a38",
+      "name": "2.2D Luxury",
+      "slug": "2-2d-luxury",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "89bf4e0c-0ef3-432d-a040-6f46935c1880",
+      "model_id": "f96f846b-7e0a-4f0b-a886-1aa876656a38",
+      "name": "2.2D Premium",
+      "slug": "2-2d-premium",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "e24c29bd-0c80-46d5-b98b-43d8cfef3cc3",
+      "model_id": "f96f846b-7e0a-4f0b-a886-1aa876656a38",
+      "name": "2.2D Signature",
+      "slug": "2-2d-signature",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "d24967f4-4f1a-4b0f-9df5-100af9e532d9",
+      "model_id": "f96f846b-7e0a-4f0b-a886-1aa876656a38",
+      "name": "3.5G Signature",
+      "slug": "3-5g-signature",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "f2ab0437-0457-4350-b429-fdb7ddffea49",
+      "model_id": "f96f846b-7e0a-4f0b-a886-1aa876656a38",
+      "name": "Hybrid",
+      "slug": "hybrid",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "51434417-e9e7-4d46-8ba9-7ffd0043057e",
+      "model_id": "929c7d7c-f20a-434d-9593-f53a8783d0b0",
+      "name": "GMT",
+      "slug": "gmt",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "826ef650-f453-45b0-bb2a-323ce01cc79f",
+      "model_id": "929c7d7c-f20a-434d-9593-f53a8783d0b0",
+      "name": "GAT",
+      "slug": "gat",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "a2abffdf-e72a-485a-97f1-4cc8689e9230",
+      "model_id": "929c7d7c-f20a-434d-9593-f53a8783d0b0",
+      "name": "GAT Deluxe",
+      "slug": "gat-deluxe",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "b492e723-726c-439a-bc37-562cf50cd5c3",
+      "model_id": "929c7d7c-f20a-434d-9593-f53a8783d0b0",
+      "name": "GAT Premium",
+      "slug": "gat-premium",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "c620acd2-4a71-473b-8d27-973352a61998",
+      "model_id": "4c2d31f7-f041-4206-9e4e-937db8030aa4",
+      "name": "2.2D",
+      "slug": "2-2d",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "e712d8d0-284f-4b06-ba75-ed323c79fa2d",
+      "model_id": "4c2d31f7-f041-4206-9e4e-937db8030aa4",
+      "name": "3.3G",
+      "slug": "3-3g",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "2ed09c94-aeeb-48e1-9461-1d431cee7651",
+      "model_id": "4c2d31f7-f041-4206-9e4e-937db8030aa4",
+      "name": "Platinum",
+      "slug": "platinum",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "ba139cae-e3a0-481c-9c5d-d2a9ce40395c",
+      "model_id": "4c2d31f7-f041-4206-9e4e-937db8030aa4",
+      "name": "Luxury",
+      "slug": "luxury",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "3a50f7a5-d87d-4628-b4c7-e6cbb304774a",
+      "model_id": "d4471767-fa95-4d96-9b2e-52c7d0575a68",
+      "name": "1.4 MT",
+      "slug": "1-4-mt",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "20e661a7-5c32-4806-83ca-f36eb6c4d03d",
+      "model_id": "d4471767-fa95-4d96-9b2e-52c7d0575a68",
+      "name": "1.4 AT",
+      "slug": "1-4-at",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "6a2bae25-b1ea-430b-8504-e05a39e611c5",
+      "model_id": "d4471767-fa95-4d96-9b2e-52c7d0575a68",
+      "name": "Sedan",
+      "slug": "sedan",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "921dadfb-19f5-48ed-a247-9820bdec6134",
+      "model_id": "d4471767-fa95-4d96-9b2e-52c7d0575a68",
+      "name": "Hatchback",
+      "slug": "hatchback",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "936ae5c6-73f6-4cd4-bb9e-282265507487",
+      "model_id": "1ad97cce-709b-44b7-aef3-a92bb554789a",
+      "name": "1.5 AT",
+      "slug": "1-5-at",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "3f8a34b8-0ef8-4b76-a475-9f7194390f62",
+      "model_id": "1ad97cce-709b-44b7-aef3-a92bb554789a",
+      "name": "Deluxe",
+      "slug": "deluxe",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "c22dd20f-42cf-4bc3-9c92-093e12c8bcf8",
+      "model_id": "1ad97cce-709b-44b7-aef3-a92bb554789a",
+      "name": "Luxury",
+      "slug": "luxury",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "cd781ce1-58b8-4512-9f9e-aa6ab0a054cf",
+      "model_id": "1ad97cce-709b-44b7-aef3-a92bb554789a",
+      "name": "Premium",
+      "slug": "premium",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "a35bcb96-8655-47f4-8ad8-b990a76372b8",
+      "model_id": "1ad97cce-709b-44b7-aef3-a92bb554789a",
+      "name": "Sport Luxury",
+      "slug": "sport-luxury",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "2888d21a-064e-4557-b80d-a412ed5e5ae4",
+      "model_id": "1ad97cce-709b-44b7-aef3-a92bb554789a",
+      "name": "Sport Premium",
+      "slug": "sport-premium",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "f7b95070-28ec-49e4-ba96-4958cea17926",
+      "model_id": "54daea75-0512-4ef6-9884-bdcfdf793962",
+      "name": "1.5 Deluxe",
+      "slug": "1-5-deluxe",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "aedc982c-54c1-46e2-8196-de50461ebf3b",
+      "model_id": "54daea75-0512-4ef6-9884-bdcfdf793962",
+      "name": "1.5 Luxury",
+      "slug": "1-5-luxury",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "608fd4ac-2716-4e46-b5b9-59335314d299",
+      "model_id": "54daea75-0512-4ef6-9884-bdcfdf793962",
+      "name": "1.5 Premium",
+      "slug": "1-5-premium",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "ba4d4e54-4339-4770-93cd-a98cff7b0260",
+      "model_id": "54daea75-0512-4ef6-9884-bdcfdf793962",
+      "name": "1.5 Sport Luxury",
+      "slug": "1-5-sport-luxury",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "0d2c2768-665b-44a8-8cb1-3c7172dd4ed8",
+      "model_id": "54daea75-0512-4ef6-9884-bdcfdf793962",
+      "name": "1.5 Sport Premium",
+      "slug": "1-5-sport-premium",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "1120da99-2476-48cd-947f-6f0023597db3",
+      "model_id": "54daea75-0512-4ef6-9884-bdcfdf793962",
+      "name": "2.0 Signature",
+      "slug": "2-0-signature",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "231dc957-fc85-4535-aa78-1686b2c0bcc6",
+      "model_id": "3e5e271b-45e9-42c5-9ee2-216815ef3a13",
+      "name": "2.0 Luxury",
+      "slug": "2-0-luxury",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "5c06ad2a-62a4-4b53-9a68-ec88199c0dd1",
+      "model_id": "3e5e271b-45e9-42c5-9ee2-216815ef3a13",
+      "name": "2.0 Premium",
+      "slug": "2-0-premium",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "78af1c7e-bb45-4f0f-a7bd-206e33788a84",
+      "model_id": "3e5e271b-45e9-42c5-9ee2-216815ef3a13",
+      "name": "2.5 Signature",
+      "slug": "2-5-signature",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "b28d8fcd-49e8-43ca-a16e-e2686111fcb8",
+      "model_id": "3e5e271b-45e9-42c5-9ee2-216815ef3a13",
+      "name": "2.5 Premium",
+      "slug": "2-5-premium",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "c48ddfc0-2075-4e33-ac59-ec343371a018",
+      "model_id": "2345e1ac-9f86-42a4-871e-1c0e3eaffdb7",
+      "name": "1.5 Deluxe",
+      "slug": "1-5-deluxe",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "9e5d7933-5d72-41b0-b686-06ef2d60483b",
+      "model_id": "2345e1ac-9f86-42a4-871e-1c0e3eaffdb7",
+      "name": "1.5 Luxury",
+      "slug": "1-5-luxury",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "2c39cbe7-bd0d-48d7-810f-ea4c36494994",
+      "model_id": "2345e1ac-9f86-42a4-871e-1c0e3eaffdb7",
+      "name": "1.5 Premium",
+      "slug": "1-5-premium",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "722a9ceb-7e27-44db-8497-3115f7f646e5",
+      "model_id": "566f497a-1c14-4aa4-ab99-7bc50f52b60c",
+      "name": "2.0 Luxury",
+      "slug": "2-0-luxury",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "1ae0974d-df7e-40d3-ad0a-d565f2186303",
+      "model_id": "566f497a-1c14-4aa4-ab99-7bc50f52b60c",
+      "name": "2.0 Premium",
+      "slug": "2-0-premium",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "62cd8af5-ac52-4ce6-94f4-9b7747c127a6",
+      "model_id": "b710cb99-af2a-4e55-b7ac-e3ff11753653",
+      "name": "2.0 Deluxe",
+      "slug": "2-0-deluxe",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "8242eb87-1efd-489a-bf68-6e82cf856331",
+      "model_id": "b710cb99-af2a-4e55-b7ac-e3ff11753653",
+      "name": "2.0 Luxury",
+      "slug": "2-0-luxury",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "dab1433b-35dd-4ad0-b845-21d9684f55cc",
+      "model_id": "b710cb99-af2a-4e55-b7ac-e3ff11753653",
+      "name": "2.0 Premium",
+      "slug": "2-0-premium",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "5027898e-44cf-45a6-8bbf-60745fa65efb",
+      "model_id": "b710cb99-af2a-4e55-b7ac-e3ff11753653",
+      "name": "2.0 Premium Sport",
+      "slug": "2-0-premium-sport",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "e8444931-6359-4e65-a211-52898cfe1048",
+      "model_id": "b710cb99-af2a-4e55-b7ac-e3ff11753653",
+      "name": "2.0 Premium Exclusive",
+      "slug": "2-0-premium-exclusive",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "16f3073f-ba2d-45ca-b5db-0a67bf37aaad",
+      "model_id": "b710cb99-af2a-4e55-b7ac-e3ff11753653",
+      "name": "2.5 Signature",
+      "slug": "2-5-signature",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "906aa7bb-0f2a-4b23-b922-9c8a17e9eda1",
+      "model_id": "b710cb99-af2a-4e55-b7ac-e3ff11753653",
+      "name": "2.5 Signature Premium",
+      "slug": "2-5-signature-premium",
+      "status": "active",
+      "sort_order": 7
+    },
+    {
+      "id": "8f6638e7-8ce3-4e8a-8c64-0c723a31871b",
+      "model_id": "9f590739-27df-40d8-a4e4-848faa45f6b9",
+      "name": "2.5 Deluxe",
+      "slug": "2-5-deluxe",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "db58eeb6-6881-4f66-8cf1-b0bee9a1c200",
+      "model_id": "9f590739-27df-40d8-a4e4-848faa45f6b9",
+      "name": "2.5 Luxury",
+      "slug": "2-5-luxury",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "8f99cedd-af41-4602-be5f-fc512e9ddb14",
+      "model_id": "9f590739-27df-40d8-a4e4-848faa45f6b9",
+      "name": "2.5 Premium",
+      "slug": "2-5-premium",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "d345a666-7876-4f6e-bf91-5cb27256df29",
+      "model_id": "9f590739-27df-40d8-a4e4-848faa45f6b9",
+      "name": "2.5 Signature",
+      "slug": "2-5-signature",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "82d7b4f7-dbd8-4538-b4af-2a363b22f7b1",
+      "model_id": "e585231b-583f-453f-9885-fe5e8f8183a6",
+      "name": "2.5",
+      "slug": "2-5",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "df09f920-fdf1-463a-99c6-10af9fdd6b43",
+      "model_id": "e585231b-583f-453f-9885-fe5e8f8183a6",
+      "name": "3.7",
+      "slug": "3-7",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "46132fe9-a8ae-4088-b1e0-f8b3be571bec",
+      "model_id": "3c9cfbb2-889c-4177-af6c-2e122a90a9aa",
+      "name": "1.9 MT",
+      "slug": "1-9-mt",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "793cf80c-8eef-4784-ab79-cb574342f0a0",
+      "model_id": "3c9cfbb2-889c-4177-af6c-2e122a90a9aa",
+      "name": "1.9 AT",
+      "slug": "1-9-at",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "87025c5e-3a06-4295-8a9b-9c92828ca632",
+      "model_id": "3c9cfbb2-889c-4177-af6c-2e122a90a9aa",
+      "name": "1.9 Premium",
+      "slug": "1-9-premium",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "7aaf6ab4-1a3f-4eb4-bf44-fff5cef630ca",
+      "model_id": "3c9cfbb2-889c-4177-af6c-2e122a90a9aa",
+      "name": "1.9 Luxury",
+      "slug": "1-9-luxury",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "d2b2fb37-598d-44d9-afab-5533f6596028",
+      "model_id": "3c9cfbb2-889c-4177-af6c-2e122a90a9aa",
+      "name": "1.9 Deluxe",
+      "slug": "1-9-deluxe",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "610856b8-838f-4970-a5ea-aec3dbf821f0",
+      "model_id": "3c9cfbb2-889c-4177-af6c-2e122a90a9aa",
+      "name": "3.2 AT",
+      "slug": "3-2-at",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "f1c4d210-0293-476e-a526-4a1b46535ae0",
+      "model_id": "20539b05-1bf5-45dd-b6a4-14c8efaa6567",
+      "name": "XL",
+      "slug": "xl",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "e738653a-f3a8-4e24-adc6-c554be1ed300",
+      "model_id": "20539b05-1bf5-45dd-b6a4-14c8efaa6567",
+      "name": "XLS MT",
+      "slug": "xls-mt",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "caa95848-4a93-47ae-9470-3cc7904e41f0",
+      "model_id": "20539b05-1bf5-45dd-b6a4-14c8efaa6567",
+      "name": "XLS AT",
+      "slug": "xls-at",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "1e9f3a4d-b723-4cc2-8d11-829e0160b545",
+      "model_id": "20539b05-1bf5-45dd-b6a4-14c8efaa6567",
+      "name": "XLT",
+      "slug": "xlt",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "287f312c-a6a5-48b7-b048-da4eaeac7481",
+      "model_id": "20539b05-1bf5-45dd-b6a4-14c8efaa6567",
+      "name": "Wildtrak",
+      "slug": "wildtrak",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "50689149-5fd4-4555-97c6-86ec69fe733c",
+      "model_id": "20539b05-1bf5-45dd-b6a4-14c8efaa6567",
+      "name": "Stormtrak",
+      "slug": "stormtrak",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "4c6e592d-e231-40bb-9c6b-1f8c096cd396",
+      "model_id": "20539b05-1bf5-45dd-b6a4-14c8efaa6567",
+      "name": "Raptor",
+      "slug": "raptor",
+      "status": "active",
+      "sort_order": 7
+    },
+    {
+      "id": "df09b066-f2e9-4e19-ac3c-1ca157b090db",
+      "model_id": "20539b05-1bf5-45dd-b6a4-14c8efaa6567",
+      "name": "Limited",
+      "slug": "limited",
+      "status": "active",
+      "sort_order": 8
+    },
+    {
+      "id": "b17c030d-686e-47c8-a9b2-a0c69df0f3a4",
+      "model_id": "26505526-e925-4dd9-9932-f06773ed3733",
+      "name": "Ambiente",
+      "slug": "ambiente",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "7a0bbad2-7ed7-4578-9255-20c6cf75f672",
+      "model_id": "26505526-e925-4dd9-9932-f06773ed3733",
+      "name": "Trend",
+      "slug": "trend",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "bbabf33d-9196-4943-aa22-80da6483e0cf",
+      "model_id": "26505526-e925-4dd9-9932-f06773ed3733",
+      "name": "Titanium",
+      "slug": "titanium",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "c0ef72c6-a93e-4fb4-93db-f3c5e95c4911",
+      "model_id": "26505526-e925-4dd9-9932-f06773ed3733",
+      "name": "Sport",
+      "slug": "sport",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "cb9ab9d5-e358-4e6f-a851-d24c15a318a7",
+      "model_id": "26505526-e925-4dd9-9932-f06773ed3733",
+      "name": "Platinum",
+      "slug": "platinum",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "4b52e71c-2154-4cf6-bc24-a7e6201b1776",
+      "model_id": "26505526-e925-4dd9-9932-f06773ed3733",
+      "name": "Wildtrak",
+      "slug": "wildtrak",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "29c4a3b7-8cac-4ff8-a695-cc10e11b80bc",
+      "model_id": "cf3989b2-b341-4430-9b24-714ec5e37123",
+      "name": "Trend",
+      "slug": "trend",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "a47cb989-c19d-4392-a39e-6d6c6154d6a7",
+      "model_id": "cf3989b2-b341-4430-9b24-714ec5e37123",
+      "name": "Titanium",
+      "slug": "titanium",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "e0c585bc-1278-4cf9-b015-80789bbc0fbb",
+      "model_id": "cf3989b2-b341-4430-9b24-714ec5e37123",
+      "name": "Titanium X",
+      "slug": "titanium-x",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "0488d75e-af7e-402b-ac0d-4dcf03560b71",
+      "model_id": "1f0dff6f-a970-4100-b6f2-9a410aa5c36f",
+      "name": "Ambiente",
+      "slug": "ambiente",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "59414ed9-57cc-4ac7-a582-d975a5af3b38",
+      "model_id": "1f0dff6f-a970-4100-b6f2-9a410aa5c36f",
+      "name": "Trend",
+      "slug": "trend",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "7400ec63-3ccc-49a5-be0f-3fe0345a7b9a",
+      "model_id": "1f0dff6f-a970-4100-b6f2-9a410aa5c36f",
+      "name": "Titanium",
+      "slug": "titanium",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "6a601c5f-5dd9-47e5-a78c-b3b65a6c5938",
+      "model_id": "1f0dff6f-a970-4100-b6f2-9a410aa5c36f",
+      "name": "1.0 EcoBoost",
+      "slug": "1-0-ecoboost",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "0420d942-5df5-4ec4-81f8-02cc2cdd2023",
+      "model_id": "1aad1049-af5e-4eb2-bdbb-dee66fba54d5",
+      "name": "Limited",
+      "slug": "limited",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "2b68986d-10f2-45ed-b005-cb9e9f10c4f8",
+      "model_id": "1aad1049-af5e-4eb2-bdbb-dee66fba54d5",
+      "name": "Platinum",
+      "slug": "platinum",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "bcc85bcb-0ce5-455f-b2a4-c7f19b1771af",
+      "model_id": "1aad1049-af5e-4eb2-bdbb-dee66fba54d5",
+      "name": "2.3 EcoBoost",
+      "slug": "2-3-ecoboost",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "b7361cb9-c724-4d63-b021-67a317755adf",
+      "model_id": "383349ba-ae3a-4542-99fb-57306ddf00b4",
+      "name": "1.5 EcoBoost",
+      "slug": "1-5-ecoboost",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "4db2d592-adfe-4c4f-9735-4bcc41cf9539",
+      "model_id": "383349ba-ae3a-4542-99fb-57306ddf00b4",
+      "name": "1.6 Trend",
+      "slug": "1-6-trend",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "735886d5-a6f1-4360-b883-d9f4de976ecd",
+      "model_id": "383349ba-ae3a-4542-99fb-57306ddf00b4",
+      "name": "2.0 Titanium",
+      "slug": "2-0-titanium",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "907c2a17-ca31-4b89-89fa-b1bada86c101",
+      "model_id": "383349ba-ae3a-4542-99fb-57306ddf00b4",
+      "name": "Sport",
+      "slug": "sport",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "c12ee26d-5ece-4c72-9028-ff75677fbbbb",
+      "model_id": "1cc7922d-4201-4353-afdc-c281613681aa",
+      "name": "1.5 Trend",
+      "slug": "1-5-trend",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "4d06fc41-4997-47b8-9403-41ef9eb3e30d",
+      "model_id": "1cc7922d-4201-4353-afdc-c281613681aa",
+      "name": "1.5 Titanium",
+      "slug": "1-5-titanium",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "4afc519f-53a9-47a5-bf09-713b5d3b5812",
+      "model_id": "1cc7922d-4201-4353-afdc-c281613681aa",
+      "name": "1.0 EcoBoost",
+      "slug": "1-0-ecoboost",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "e6697788-ffbf-4a90-a518-1f12f0a8762c",
+      "model_id": "6e6922e7-93af-4c3c-9aa2-5b89d456a9ff",
+      "name": "EcoBoost",
+      "slug": "ecoboost",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "65e14069-4b77-4aea-85d2-33302e393f8a",
+      "model_id": "6e6922e7-93af-4c3c-9aa2-5b89d456a9ff",
+      "name": "GT",
+      "slug": "gt",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "d95d70e0-d7bc-46a9-82e6-22d940c6970e",
+      "model_id": "6e6922e7-93af-4c3c-9aa2-5b89d456a9ff",
+      "name": "Dark Horse",
+      "slug": "dark-horse",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "0c71f6e9-fbd0-4106-b051-4f72e4581d86",
+      "model_id": "a6b2c060-b5af-41e5-90b4-01e930a770d1",
+      "name": "MT",
+      "slug": "mt",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "3f2ce8ce-bfed-4295-b3a7-cfef3f3c90ce",
+      "model_id": "a6b2c060-b5af-41e5-90b4-01e930a770d1",
+      "name": "AT",
+      "slug": "at",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "ab2cef07-f072-4272-baf5-7d9aa4f841ea",
+      "model_id": "a6b2c060-b5af-41e5-90b4-01e930a770d1",
+      "name": "AT Premium",
+      "slug": "at-premium",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "7db8ef1e-e078-4578-901a-6d55bb820732",
+      "model_id": "a6b2c060-b5af-41e5-90b4-01e930a770d1",
+      "name": "Cross",
+      "slug": "cross",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "f2e876e0-e1bb-4ca8-90a5-7e0a620c03dd",
+      "model_id": "a6b2c060-b5af-41e5-90b4-01e930a770d1",
+      "name": "Ultimate",
+      "slug": "ultimate",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "fb1b0743-dd69-4504-8d94-6f4f7b123692",
+      "model_id": "9fae6a72-015f-4be6-914b-b6cbd966a05f",
+      "name": "AT",
+      "slug": "at",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "7b5a1cee-a195-4925-b7e5-50c4b5fe5670",
+      "model_id": "9fae6a72-015f-4be6-914b-b6cbd966a05f",
+      "name": "Premium",
+      "slug": "premium",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "c926bce0-3b94-4aef-8b18-1ea6349b21eb",
+      "model_id": "4f013210-0355-434f-bb47-39aeed490298",
+      "name": "MT",
+      "slug": "mt",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "0a8dff86-4d6d-4691-a114-cbf3f157da6c",
+      "model_id": "4f013210-0355-434f-bb47-39aeed490298",
+      "name": "CVT",
+      "slug": "cvt",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "3857550e-fe7f-42b2-87aa-845a891af32d",
+      "model_id": "4f013210-0355-434f-bb47-39aeed490298",
+      "name": "CVT Premium",
+      "slug": "cvt-premium",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "1f7f4e2e-750a-492f-a5a5-0feb9ed06953",
+      "model_id": "d5e08751-403f-416f-9118-c5c2b03882e8",
+      "name": "MT",
+      "slug": "mt",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "4cdc4617-d2b2-49fa-b103-e97390302762",
+      "model_id": "d5e08751-403f-416f-9118-c5c2b03882e8",
+      "name": "CVT",
+      "slug": "cvt",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "6fefe621-9ed2-4f13-8bac-b491a981f72c",
+      "model_id": "d5e08751-403f-416f-9118-c5c2b03882e8",
+      "name": "Ecocar",
+      "slug": "ecocar",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "5bb54cbb-cb2e-48b8-9320-f5e8d47790c5",
+      "model_id": "6615e111-3784-4944-ae1f-b34365f2f296",
+      "name": "2.0 CVT",
+      "slug": "2-0-cvt",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "dd4b314d-535f-4b18-bf86-2c59e894a411",
+      "model_id": "6615e111-3784-4944-ae1f-b34365f2f296",
+      "name": "2.0 CVT Premium",
+      "slug": "2-0-cvt-premium",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "df2e8475-b081-442f-80a3-e74fb629cb47",
+      "model_id": "6615e111-3784-4944-ae1f-b34365f2f296",
+      "name": "2.4 CVT",
+      "slug": "2-4-cvt",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "ff6c3bb8-2792-4319-94c2-364af808217b",
+      "model_id": "cc3ab7f0-001e-4006-90fb-7d32b10dbeb9",
+      "name": "MT",
+      "slug": "mt",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "c2374049-87d3-44de-9036-c92c7b6e17bf",
+      "model_id": "cc3ab7f0-001e-4006-90fb-7d32b10dbeb9",
+      "name": "AT",
+      "slug": "at",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "62915ebd-4cd2-4e54-937b-081245f6f140",
+      "model_id": "cc3ab7f0-001e-4006-90fb-7d32b10dbeb9",
+      "name": "GLS",
+      "slug": "gls",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "646e16e6-aaa4-437a-a647-f6a781330f28",
+      "model_id": "cc3ab7f0-001e-4006-90fb-7d32b10dbeb9",
+      "name": "GLX",
+      "slug": "glx",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "13cda34d-56cb-4eac-9c64-56ea00db08c4",
+      "model_id": "cc3ab7f0-001e-4006-90fb-7d32b10dbeb9",
+      "name": "Athlete",
+      "slug": "athlete",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "d809561e-a43f-4168-8f79-e45100b8813b",
+      "model_id": "cc3ab7f0-001e-4006-90fb-7d32b10dbeb9",
+      "name": "Premium",
+      "slug": "premium",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "1ece5107-d009-4937-83cf-73261f1ec3cd",
+      "model_id": "c990cea0-1647-42fa-aa37-3897709bdaab",
+      "name": "Diesel AT",
+      "slug": "diesel-at",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "08a463ac-5c49-4c07-a32e-c7c92ba08d91",
+      "model_id": "c990cea0-1647-42fa-aa37-3897709bdaab",
+      "name": "Gasoline AT",
+      "slug": "gasoline-at",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "ae958731-0c0b-4c29-9f0d-76530e7be3cf",
+      "model_id": "c990cea0-1647-42fa-aa37-3897709bdaab",
+      "name": "Premium",
+      "slug": "premium",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "d4dc56f0-bcf1-417e-8d48-07e6d852fe7b",
+      "model_id": "1ee17706-d24a-423a-96b1-1d84ae195d15",
+      "name": "Exceed",
+      "slug": "exceed",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "b10495ed-6269-4fb8-8c51-1dc5339392d1",
+      "model_id": "1ee17706-d24a-423a-96b1-1d84ae195d15",
+      "name": "Premium",
+      "slug": "premium",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "7f8f1ecd-e77b-4ed4-87bc-9d6720e799f6",
+      "model_id": "1ee17706-d24a-423a-96b1-1d84ae195d15",
+      "name": "Ultimate",
+      "slug": "ultimate",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "262507fa-a90a-4b6a-8bc5-05808f304b91",
+      "model_id": "f8f0c0f1-1472-4f71-b449-175d68463680",
+      "name": "Premium",
+      "slug": "premium",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "cf697dee-f36a-4673-ac28-a30be555bc87",
+      "model_id": "f8f0c0f1-1472-4f71-b449-175d68463680",
+      "name": "Ultimate",
+      "slug": "ultimate",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "a1da41c5-cc0c-41d2-a848-6d152c920971",
+      "model_id": "4d83c0d2-d0f9-4c36-aaa9-e37ac436cb80",
+      "name": "GLX",
+      "slug": "glx",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "7d8fb94c-8b9f-4147-b51a-5d42abd46618",
+      "model_id": "4d83c0d2-d0f9-4c36-aaa9-e37ac436cb80",
+      "name": "Gala",
+      "slug": "gala",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "ddde75e7-5f14-43b1-b349-9400f27301fb",
+      "model_id": "4d83c0d2-d0f9-4c36-aaa9-e37ac436cb80",
+      "name": "Fortis",
+      "slug": "fortis",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "3885acd2-8c93-4248-a6c1-4ef8eccc3ab4",
+      "model_id": "976b7a61-f259-4fe8-9015-165d3ad832b6",
+      "name": "E",
+      "slug": "e",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "769eca7b-21d1-45c8-8347-b9a271b2a642",
+      "model_id": "976b7a61-f259-4fe8-9015-165d3ad832b6",
+      "name": "L",
+      "slug": "l",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "ed94c561-a162-4fa6-9318-48f148f8b437",
+      "model_id": "976b7a61-f259-4fe8-9015-165d3ad832b6",
+      "name": "RS",
+      "slug": "rs",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "f93eaa15-4616-4467-9960-bde9bace7dfb",
+      "model_id": "976b7a61-f259-4fe8-9015-165d3ad832b6",
+      "name": "TOP",
+      "slug": "top",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "edc7730e-3035-4bb8-844e-459139ea0b72",
+      "model_id": "e8d4b3ee-dfcd-4c7c-9d3e-6b0ba3f80e8f",
+      "name": "E",
+      "slug": "e",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "e391f0af-7665-4607-8f20-3ee9857562a1",
+      "model_id": "e8d4b3ee-dfcd-4c7c-9d3e-6b0ba3f80e8f",
+      "name": "G",
+      "slug": "g",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "a17e5d8f-0816-4d90-86ba-5d600600a4d8",
+      "model_id": "e8d4b3ee-dfcd-4c7c-9d3e-6b0ba3f80e8f",
+      "name": "RS",
+      "slug": "rs",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "33e115eb-ba3c-4a26-bc49-2c8cdaff92df",
+      "model_id": "e8d4b3ee-dfcd-4c7c-9d3e-6b0ba3f80e8f",
+      "name": "RS Turbo",
+      "slug": "rs-turbo",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "894b68a6-5ffe-4d13-9932-21c03dc4c0c7",
+      "model_id": "e8d4b3ee-dfcd-4c7c-9d3e-6b0ba3f80e8f",
+      "name": "e:HEV RS",
+      "slug": "e-hev-rs",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "c83a2f94-0e4f-4c0e-b1b9-180d66b4bc76",
+      "model_id": "e8d4b3ee-dfcd-4c7c-9d3e-6b0ba3f80e8f",
+      "name": "Type R",
+      "slug": "type-r",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "75a15c0d-b878-4765-b847-e59edbbbc802",
+      "model_id": "17a7c948-2ced-464e-9ad3-380850248182",
+      "name": "2.0",
+      "slug": "2-0",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "607009d5-addd-414d-a825-11163f41c804",
+      "model_id": "17a7c948-2ced-464e-9ad3-380850248182",
+      "name": "2.4",
+      "slug": "2-4",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "ed798787-6c67-4f98-a977-84e666cf8bca",
+      "model_id": "17a7c948-2ced-464e-9ad3-380850248182",
+      "name": "1.5 Turbo",
+      "slug": "1-5-turbo",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "e16e9d8b-3beb-4694-b138-4dc7de091f22",
+      "model_id": "17a7c948-2ced-464e-9ad3-380850248182",
+      "name": "Hybrid",
+      "slug": "hybrid",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "a3612f81-4f69-4364-816e-57d94c544fe2",
+      "model_id": "34029acf-7f7e-46f0-b4d0-6004fa359cc8",
+      "name": "E",
+      "slug": "e",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "c8d5d3ec-66b8-4086-90d8-3c49656c4af2",
+      "model_id": "34029acf-7f7e-46f0-b4d0-6004fa359cc8",
+      "name": "G",
+      "slug": "g",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "7430d61a-542e-4135-a465-07c8b530a422",
+      "model_id": "34029acf-7f7e-46f0-b4d0-6004fa359cc8",
+      "name": "L",
+      "slug": "l",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "78394893-df93-4a05-a120-692236fa3096",
+      "model_id": "34029acf-7f7e-46f0-b4d0-6004fa359cc8",
+      "name": "LSE",
+      "slug": "lse",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "0526dcad-b274-49ff-82a2-d04ed79401e5",
+      "model_id": "34029acf-7f7e-46f0-b4d0-6004fa359cc8",
+      "name": "Hybrid RS",
+      "slug": "hybrid-rs",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "48675840-259d-4c1b-8fb4-3c2f6096ae4a",
+      "model_id": "34029acf-7f7e-46f0-b4d0-6004fa359cc8",
+      "name": "e:HEV RS",
+      "slug": "e-hev-rs",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "7bf288f7-854a-44a4-85c2-371a12066568",
+      "model_id": "34029acf-7f7e-46f0-b4d0-6004fa359cc8",
+      "name": "e:HEV L",
+      "slug": "e-hev-l",
+      "status": "active",
+      "sort_order": 7
+    },
+    {
+      "id": "dd62efe0-f062-4380-ac31-69a50e9ec846",
+      "model_id": "043f93b8-26c7-49ed-ab1d-f58d29d547d8",
+      "name": "G",
+      "slug": "g",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "215ba383-fd6b-40ae-93f9-e5bc9612ff89",
+      "model_id": "043f93b8-26c7-49ed-ab1d-f58d29d547d8",
+      "name": "L",
+      "slug": "l",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "796bbfcf-eae7-4f60-b544-76af05fe428e",
+      "model_id": "043f93b8-26c7-49ed-ab1d-f58d29d547d8",
+      "name": "RS",
+      "slug": "rs",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "44f3eed6-f17b-4e28-b610-276665acc9b0",
+      "model_id": "043f93b8-26c7-49ed-ab1d-f58d29d547d8",
+      "name": "e:HEV RS",
+      "slug": "e-hev-rs",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "a0f827cc-bbc7-4a38-90b9-4c3a2891df15",
+      "model_id": "56c65b24-0df9-4638-bec6-b1e037f09344",
+      "name": "G",
+      "slug": "g",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "1a409116-cc51-4fe4-b20f-7431a44d604c",
+      "model_id": "56c65b24-0df9-4638-bec6-b1e037f09344",
+      "name": "L",
+      "slug": "l",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "ec11bfd8-a166-473f-bb53-1a0fc9f36a44",
+      "model_id": "021b35d5-8cad-46c6-98ba-d0c1c261d408",
+      "name": "V",
+      "slug": "v",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "cb4487d4-27fc-42ec-a73c-11b3e51f0c19",
+      "model_id": "021b35d5-8cad-46c6-98ba-d0c1c261d408",
+      "name": "VX",
+      "slug": "vx",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "b0ba53e5-67d1-4fff-bb1a-6e21179e97cb",
+      "model_id": "021b35d5-8cad-46c6-98ba-d0c1c261d408",
+      "name": "RS",
+      "slug": "rs",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "264c574c-f0c4-42a6-896c-6e1f27a57bbe",
+      "model_id": "b464333d-58bd-456a-9f48-7aa061e2560f",
+      "name": "G",
+      "slug": "g",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "31c10f7f-9521-4907-8f52-a84951a8ddc9",
+      "model_id": "b464333d-58bd-456a-9f48-7aa061e2560f",
+      "name": "RS",
+      "slug": "rs",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "5303ccba-ff66-4a73-8195-f4f15f2f8e3a",
+      "model_id": "b464333d-58bd-456a-9f48-7aa061e2560f",
+      "name": "RS 2 màu",
+      "slug": "rs-2-mau",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "0230c96b-8ff8-4306-aa54-aab6cd7e837b",
+      "model_id": "3e93a187-7d0e-4a4e-b9df-e026f3fc69a7",
+      "name": "2.4",
+      "slug": "2-4",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "c090a42d-ab72-4d1c-a7d0-878933a896b5",
+      "model_id": "3e93a187-7d0e-4a4e-b9df-e026f3fc69a7",
+      "name": "2.4L",
+      "slug": "2-4l",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "4166151f-786b-490c-a403-6b8893858c4d",
+      "model_id": "2220dd21-c41b-499b-b6cc-ba522a1c7b2a",
+      "name": "Tiêu chuẩn",
+      "slug": "tieu-chuan",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "c2ef3b03-6ee2-4b9d-b3a6-77e94645c5c7",
+      "model_id": "2220dd21-c41b-499b-b6cc-ba522a1c7b2a",
+      "name": "Nâng cao",
+      "slug": "nang-cao",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "15e40025-2724-417d-b6b2-cc1c27966ae1",
+      "model_id": "2220dd21-c41b-499b-b6cc-ba522a1c7b2a",
+      "name": "Cao cấp",
+      "slug": "cao-cap",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "cc40872c-72fb-4020-990e-7f432e1b40f8",
+      "model_id": "bbb353d7-bff6-495c-b406-7f5d34acf6fc",
+      "name": "Tiêu chuẩn",
+      "slug": "tieu-chuan",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "9d1e4ed3-2b85-4726-a98c-fa7459216697",
+      "model_id": "bbb353d7-bff6-495c-b406-7f5d34acf6fc",
+      "name": "Nâng cao",
+      "slug": "nang-cao",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "6e36b542-e410-4467-a14a-97c2012b5095",
+      "model_id": "bbb353d7-bff6-495c-b406-7f5d34acf6fc",
+      "name": "Cao cấp",
+      "slug": "cao-cap",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "f8f97f8b-0854-4a5e-bba0-f01f77862769",
+      "model_id": "7eaa4e28-2b15-4a8b-8ada-936991ba0f29",
+      "name": "Tiêu chuẩn",
+      "slug": "tieu-chuan",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "c1ed2658-307c-4fa8-a0cb-ea17aa90af66",
+      "model_id": "7eaa4e28-2b15-4a8b-8ada-936991ba0f29",
+      "name": "Nâng cao",
+      "slug": "nang-cao",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "ece694ec-bcbe-494d-9f9e-8da4c3b3f26e",
+      "model_id": "7eaa4e28-2b15-4a8b-8ada-936991ba0f29",
+      "name": "Cao cấp",
+      "slug": "cao-cap",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "9cfdfce6-d4bf-47dd-9bfd-549a2a2f889c",
+      "model_id": "290ae350-8feb-4147-8cde-31a9a1b8b4af",
+      "name": "V8",
+      "slug": "v8",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "b6a56bf5-e2a6-4e27-9f1a-92508459bcc9",
+      "model_id": "639739f3-7387-44b3-9cf5-c7cfe2bc7302",
+      "name": "Tiêu chuẩn",
+      "slug": "tieu-chuan",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "1169d882-81cc-4333-91e0-939dc886e2ec",
+      "model_id": "2333d2c6-fae4-446d-be5f-eb4b7ead4f9f",
+      "name": "Tiêu chuẩn",
+      "slug": "tieu-chuan",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "b1ee5702-38ee-4637-898b-c57c983edc4d",
+      "model_id": "53e23abd-9c4b-4559-b0b5-7e01990dd560",
+      "name": "Plus",
+      "slug": "plus",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "d4f92d15-429f-45e8-9d4b-3914e820fe35",
+      "model_id": "16140c2c-aa3e-435d-a3b0-c19737c677b3",
+      "name": "Eco",
+      "slug": "eco",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "f366a67e-3505-42f4-9a92-c705f95c8d94",
+      "model_id": "16140c2c-aa3e-435d-a3b0-c19737c677b3",
+      "name": "Plus",
+      "slug": "plus",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "958fbb02-b9cc-423a-8ea3-8dbb222254fe",
+      "model_id": "85e20bf5-6e17-41f9-87c4-93cf05d4f0ba",
+      "name": "Eco",
+      "slug": "eco",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "2d1f8863-b0ae-46a0-ac8f-6f5fa8ef8246",
+      "model_id": "85e20bf5-6e17-41f9-87c4-93cf05d4f0ba",
+      "name": "Plus",
+      "slug": "plus",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "8a5fc6f0-79e3-4974-8b9b-09443916a9a6",
+      "model_id": "24982785-74b4-4ed5-b8a6-aec1b3aa6f8e",
+      "name": "Eco",
+      "slug": "eco",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "45d7e1f2-0c76-473c-bb4f-6e57eb4bb1e0",
+      "model_id": "24982785-74b4-4ed5-b8a6-aec1b3aa6f8e",
+      "name": "Plus",
+      "slug": "plus",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "cedd5e63-2449-4e73-b2db-6f95e8db6bf2",
+      "model_id": "948a67d3-435b-4487-896f-d1e5532e6e92",
+      "name": "Eco",
+      "slug": "eco",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "d10a86af-ec59-45c9-ae7b-f2b5c353b0c0",
+      "model_id": "948a67d3-435b-4487-896f-d1e5532e6e92",
+      "name": "Plus",
+      "slug": "plus",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "d9459018-e4ad-40e4-ab2d-487106254116",
+      "model_id": "1d8014c0-4c06-4d04-826d-d57e148c29c2",
+      "name": "Tiêu chuẩn",
+      "slug": "tieu-chuan",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "295ba803-456b-480c-870c-902a3ee05b40",
+      "model_id": "d97e5299-b4be-48ff-9307-67126f4f1823",
+      "name": "Tiêu chuẩn",
+      "slug": "tieu-chuan",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "807cf9ab-f542-4044-b46b-4c2163c1bd30",
+      "model_id": "3538f450-72b3-4d59-8b31-ce996e7b35cb",
+      "name": "Tiêu chuẩn",
+      "slug": "tieu-chuan",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "3c415076-82ca-468f-9dd2-cd8c74fc3315",
+      "model_id": "ca30d286-9dea-400c-9e35-b0de49d6b46f",
+      "name": "Tiêu chuẩn",
+      "slug": "tieu-chuan",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "0800c228-1a78-4d7e-ab0a-aff7ca1f2680",
+      "model_id": "df05c41b-88f3-4101-9fbe-f396204f9fcd",
+      "name": "GL",
+      "slug": "gl",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "b1bcadaf-b56a-4dc9-b3e3-8ab53dbc4126",
+      "model_id": "df05c41b-88f3-4101-9fbe-f396204f9fcd",
+      "name": "GLX",
+      "slug": "glx",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "a4d08777-8261-4183-a3a7-8629e7421fb1",
+      "model_id": "df05c41b-88f3-4101-9fbe-f396204f9fcd",
+      "name": "CVT",
+      "slug": "cvt",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "ccd39fc0-9d5c-458d-bffb-77ab81a234de",
+      "model_id": "df05c41b-88f3-4101-9fbe-f396204f9fcd",
+      "name": "Hybrid",
+      "slug": "hybrid",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "56a0663a-1956-4199-be68-53ad6b98bdfd",
+      "model_id": "dfaf92da-10ce-4cd0-91e2-507f8318187b",
+      "name": "MT",
+      "slug": "mt",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "bbb2a7d5-96b5-417b-a9da-a7ab27691b53",
+      "model_id": "dfaf92da-10ce-4cd0-91e2-507f8318187b",
+      "name": "CVT",
+      "slug": "cvt",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "df0583f1-1395-4d77-a40a-46542c1e4830",
+      "model_id": "446056bc-5bc4-43b6-8ee4-3e100dd29025",
+      "name": "AT",
+      "slug": "at",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "769c3db3-e1db-41c7-a030-64a8d851eeb7",
+      "model_id": "446056bc-5bc4-43b6-8ee4-3e100dd29025",
+      "name": "CVT",
+      "slug": "cvt",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "06b37944-b499-4138-a1e0-deba3cc09861",
+      "model_id": "64cdf7b5-c56d-4063-ade0-6ac98abb6ee2",
+      "name": "MT",
+      "slug": "mt",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "a774080f-f9d7-48af-9c86-dbcbf10d1e3e",
+      "model_id": "64cdf7b5-c56d-4063-ade0-6ac98abb6ee2",
+      "name": "AT",
+      "slug": "at",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "3f11b9d7-e226-4d81-b7f4-8debb1a7f021",
+      "model_id": "64cdf7b5-c56d-4063-ade0-6ac98abb6ee2",
+      "name": "Hybrid MT",
+      "slug": "hybrid-mt",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "890e92b1-63fd-449c-9a6c-90083f5e5861",
+      "model_id": "64cdf7b5-c56d-4063-ade0-6ac98abb6ee2",
+      "name": "Hybrid AT",
+      "slug": "hybrid-at",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "0e0be47f-335e-415f-b5f0-0dc1efcd3065",
+      "model_id": "ebf1107d-fcd5-4b81-8c7a-91826466943d",
+      "name": "GLX",
+      "slug": "glx",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "fd45fa98-4a01-4598-a3ad-c40f9769617c",
+      "model_id": "ebf1107d-fcd5-4b81-8c7a-91826466943d",
+      "name": "Hybrid",
+      "slug": "hybrid",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "4ffd4de9-098e-48b4-9f90-e1791845a254",
+      "model_id": "6b94a0ec-ae84-448b-9c7d-17097b005366",
+      "name": "GLX",
+      "slug": "glx",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "fe3675d5-20ad-4122-8e88-4c697a3b70d7",
+      "model_id": "6b94a0ec-ae84-448b-9c7d-17097b005366",
+      "name": "2 tông màu",
+      "slug": "2-tong-mau",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "d0202727-5afa-47e7-9695-8ee8e5439330",
+      "model_id": "3719f70e-f4bb-4af0-a8a4-1ccdd20d9052",
+      "name": "GLX",
+      "slug": "glx",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "8b97e910-b5fd-45dd-a1cd-6f4b0e5ac0dc",
+      "model_id": "3719f70e-f4bb-4af0-a8a4-1ccdd20d9052",
+      "name": "AT",
+      "slug": "at",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "556851bf-6026-42b8-8a0c-ba9d0b5a5bd3",
+      "model_id": "9598e4dd-decc-4c18-bb75-443916c25fee",
+      "name": "E",
+      "slug": "e",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "e7920ff7-2a3d-4da0-a90f-882ce9e6b492",
+      "model_id": "9598e4dd-decc-4c18-bb75-443916c25fee",
+      "name": "EL",
+      "slug": "el",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "f975bcd4-66a4-4fdb-8bcb-2481ca1b7688",
+      "model_id": "9598e4dd-decc-4c18-bb75-443916c25fee",
+      "name": "V",
+      "slug": "v",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "b9cb3b1e-00fd-4e88-9bb2-e9239b08f744",
+      "model_id": "9598e4dd-decc-4c18-bb75-443916c25fee",
+      "name": "VL",
+      "slug": "vl",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "f3486568-7241-4ff8-ba0f-56fd9b3de015",
+      "model_id": "9598e4dd-decc-4c18-bb75-443916c25fee",
+      "name": "CVT",
+      "slug": "cvt",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "1c7a83ae-74ce-48e8-988b-c337577ea6d7",
+      "model_id": "c419c401-4775-44e2-8467-5a3739d275e5",
+      "name": "XL",
+      "slug": "xl",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "6fc665ba-052e-45fb-9200-6980629f6871",
+      "model_id": "c419c401-4775-44e2-8467-5a3739d275e5",
+      "name": "XV",
+      "slug": "xv",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "626f99a9-28b3-4582-8c87-a8a1dcf7fd63",
+      "model_id": "c419c401-4775-44e2-8467-5a3739d275e5",
+      "name": "XV Premium",
+      "slug": "xv-premium",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "e7ecfc26-4b4e-4a10-a678-36dbdec45f1a",
+      "model_id": "304e7fba-b56f-4d09-811a-56c79621e642",
+      "name": "EL",
+      "slug": "el",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "398f040f-1fff-4e68-af54-5a63e4fed024",
+      "model_id": "304e7fba-b56f-4d09-811a-56c79621e642",
+      "name": "VL",
+      "slug": "vl",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "a57c662d-779c-4b91-a0a3-f5bf14dcc706",
+      "model_id": "304e7fba-b56f-4d09-811a-56c79621e642",
+      "name": "PRO4X",
+      "slug": "pro4x",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "db66a466-890f-4976-992c-1b4372ba6b13",
+      "model_id": "304e7fba-b56f-4d09-811a-56c79621e642",
+      "name": "SL",
+      "slug": "sl",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "0fa77307-6d7c-4709-9d0d-5da371d099da",
+      "model_id": "304e7fba-b56f-4d09-811a-56c79621e642",
+      "name": "VE",
+      "slug": "ve",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "be6084c3-0252-4ba3-897e-7e170b1d1fe0",
+      "model_id": "b02492d7-b814-49ef-9268-016e0c75f980",
+      "name": "E",
+      "slug": "e",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "6c477324-4a09-498f-bc02-1991c20a43f3",
+      "model_id": "b02492d7-b814-49ef-9268-016e0c75f980",
+      "name": "V",
+      "slug": "v",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "127d7c81-19ce-4afd-a26a-a38eef381134",
+      "model_id": "b02492d7-b814-49ef-9268-016e0c75f980",
+      "name": "Hybrid",
+      "slug": "hybrid",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "4260e573-623e-49b1-a551-3bcebf553923",
+      "model_id": "9761cd06-22b5-4e91-a9d3-df686ae25284",
+      "name": "E",
+      "slug": "e",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "d8588fcb-b65c-46b5-867d-e9c61a5ded84",
+      "model_id": "9761cd06-22b5-4e91-a9d3-df686ae25284",
+      "name": "V",
+      "slug": "v",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "91983b74-9678-4e50-8338-b852a8e8c9df",
+      "model_id": "9761cd06-22b5-4e91-a9d3-df686ae25284",
+      "name": "S",
+      "slug": "s",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "3394faf4-6797-4ad3-8fcc-5c92088cbb83",
+      "model_id": "a999cef4-7cc0-406d-b6c4-0f131ebb87d9",
+      "name": "2.0",
+      "slug": "2-0",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "a0e2fa33-3ab9-49af-b781-f7bbd5c7d22f",
+      "model_id": "a999cef4-7cc0-406d-b6c4-0f131ebb87d9",
+      "name": "2.5",
+      "slug": "2-5",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "53541a03-c83c-40c0-a160-a487013ccaf9",
+      "model_id": "a999cef4-7cc0-406d-b6c4-0f131ebb87d9",
+      "name": "SL",
+      "slug": "sl",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "4c57539b-0feb-4874-95a7-02cee04728a8",
+      "model_id": "a999cef4-7cc0-406d-b6c4-0f131ebb87d9",
+      "name": "SV",
+      "slug": "sv",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "17e5f495-a4d0-40a9-8135-a87d204a3d30",
+      "model_id": "e19ca69e-e469-4a6d-9201-325f97d829db",
+      "name": "2.0",
+      "slug": "2-0",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "5a2139d4-e0be-4795-a384-78aa9c8bb6f0",
+      "model_id": "e19ca69e-e469-4a6d-9201-325f97d829db",
+      "name": "2.5",
+      "slug": "2-5",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "2e0ecc68-e32a-4d23-8876-ca7c6dc94ea4",
+      "model_id": "c79b4e9b-1398-496a-9be6-fefffa0776b5",
+      "name": "Prestige",
+      "slug": "prestige",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "aafb4fad-1568-4df0-baf4-83a0a7a6565c",
+      "model_id": "c79b4e9b-1398-496a-9be6-fefffa0776b5",
+      "name": "Hi-Lander",
+      "slug": "hi-lander",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "c8b9f9db-ee89-469f-a280-09ae764acef2",
+      "model_id": "c79b4e9b-1398-496a-9be6-fefffa0776b5",
+      "name": "Type Z",
+      "slug": "type-z",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "048381d9-9a30-40c4-a174-b54cdd8c2da5",
+      "model_id": "c79b4e9b-1398-496a-9be6-fefffa0776b5",
+      "name": "LS",
+      "slug": "ls",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "1b6dcec2-56a7-47df-92bc-bb28f8091317",
+      "model_id": "c79b4e9b-1398-496a-9be6-fefffa0776b5",
+      "name": "LS-M",
+      "slug": "ls-m",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "9e1f6bb4-383e-4145-a56a-32436b72b857",
+      "model_id": "c79b4e9b-1398-496a-9be6-fefffa0776b5",
+      "name": "LS-A",
+      "slug": "ls-a",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "86c12e25-57b7-453b-bc2c-2f2bd0646245",
+      "model_id": "6a718866-ab43-4612-bc89-1633fbb1cd77",
+      "name": "B7",
+      "slug": "b7",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "fd8b6f69-e198-481a-8db2-76478f3d4d93",
+      "model_id": "6a718866-ab43-4612-bc89-1633fbb1cd77",
+      "name": "B7 Plus",
+      "slug": "b7-plus",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "d3ba46e9-0b85-4d05-87cf-bd73191a322a",
+      "model_id": "6a718866-ab43-4612-bc89-1633fbb1cd77",
+      "name": "Prestige",
+      "slug": "prestige",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "43642991-9da0-453d-9530-6f48ace2f66f",
+      "model_id": "6a718866-ab43-4612-bc89-1633fbb1cd77",
+      "name": "Premium",
+      "slug": "premium",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "4c003884-578f-4f88-aeb2-fde043cf2aac",
+      "model_id": "6a718866-ab43-4612-bc89-1633fbb1cd77",
+      "name": "Limited",
+      "slug": "limited",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "05ff44dc-47e8-4da5-a58f-7c3a312900df",
+      "model_id": "79e4cab6-28ec-4bc4-b35f-0845c4588ed0",
+      "name": "Active",
+      "slug": "active",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "3e52927e-3fa1-4f02-ad87-bd92038207e1",
+      "model_id": "79e4cab6-28ec-4bc4-b35f-0845c4588ed0",
+      "name": "GT",
+      "slug": "gt",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "776de532-28e7-4d13-856d-faa52343075b",
+      "model_id": "79e4cab6-28ec-4bc4-b35f-0845c4588ed0",
+      "name": "GT Line",
+      "slug": "gt-line",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "e99c68dd-eaf2-4e62-ab7a-eb09953e65a2",
+      "model_id": "79e4cab6-28ec-4bc4-b35f-0845c4588ed0",
+      "name": "Premium",
+      "slug": "premium",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "92cde04e-cac2-40a6-aae2-76ca54989d20",
+      "model_id": "af13b643-7156-4c65-b41e-737af6acd67a",
+      "name": "Active",
+      "slug": "active",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "0bed9ede-92c1-477e-9cdc-68bdc786884c",
+      "model_id": "af13b643-7156-4c65-b41e-737af6acd67a",
+      "name": "Allure",
+      "slug": "allure",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "3261cf1a-6934-412a-b044-c867cb70ddad",
+      "model_id": "af13b643-7156-4c65-b41e-737af6acd67a",
+      "name": "GT",
+      "slug": "gt",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "4184653e-7b8f-4d1c-8af1-b141432466ef",
+      "model_id": "af13b643-7156-4c65-b41e-737af6acd67a",
+      "name": "GT Line",
+      "slug": "gt-line",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "d8e75398-b980-4443-a2e8-a0c3ef78c7a9",
+      "model_id": "af13b643-7156-4c65-b41e-737af6acd67a",
+      "name": "Premium",
+      "slug": "premium",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "1b4f6638-c0e7-4cef-95ab-08b0e7fa72fa",
+      "model_id": "38ad6b45-043c-4f8f-90db-a660d77e5e07",
+      "name": "Allure",
+      "slug": "allure",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "896b9d76-28f1-49bd-a2be-2028a7aeeed9",
+      "model_id": "38ad6b45-043c-4f8f-90db-a660d77e5e07",
+      "name": "GT",
+      "slug": "gt",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "7ece4814-8801-441b-8ca1-ad8fe25e04e8",
+      "model_id": "38ad6b45-043c-4f8f-90db-a660d77e5e07",
+      "name": "GT Line",
+      "slug": "gt-line",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "96a1787e-9c59-4f42-b358-e34893293a4e",
+      "model_id": "38ad6b45-043c-4f8f-90db-a660d77e5e07",
+      "name": "Premium",
+      "slug": "premium",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "c1c315fb-4cc6-475a-aec6-0c0f9fc014ea",
+      "model_id": "18eb5b15-e247-4287-9b6c-209dfc3d62bd",
+      "name": "Allure",
+      "slug": "allure",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "fabdc70b-c8e4-4b34-b2fb-de87d80df76a",
+      "model_id": "18eb5b15-e247-4287-9b6c-209dfc3d62bd",
+      "name": "Premium",
+      "slug": "premium",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "4cfdc1ba-f4a2-4bdd-95e0-60bffe668093",
+      "model_id": "18eb5b15-e247-4287-9b6c-209dfc3d62bd",
+      "name": "GT",
+      "slug": "gt",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "f37f9caf-0c94-4e4a-a98f-a7dc7363c1a0",
+      "model_id": "91d86d8e-09ed-4a0f-8315-f6ab6d326aca",
+      "name": "Luxury",
+      "slug": "luxury",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "8fbf12ba-34c5-475a-b74b-d8f756251eaf",
+      "model_id": "91d86d8e-09ed-4a0f-8315-f6ab6d326aca",
+      "name": "Premium",
+      "slug": "premium",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "7da43199-a684-4b8a-b81b-bd306b1b0657",
+      "model_id": "5582e437-59e0-4dfb-9f9d-ae580b9b9a8d",
+      "name": "2.0",
+      "slug": "2-0",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "121c5987-4553-4132-8d53-15a75e53b339",
+      "model_id": "5582e437-59e0-4dfb-9f9d-ae580b9b9a8d",
+      "name": "GT",
+      "slug": "gt",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "d5badb1a-56bc-451b-a0c5-32ea715d1141",
+      "model_id": "b60e1d8f-9960-4fa2-98b6-5d5934e26317",
+      "name": "2.0i-L",
+      "slug": "2-0i-l",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "bc01702f-3149-4cbc-b1ea-891dae2e9914",
+      "model_id": "b60e1d8f-9960-4fa2-98b6-5d5934e26317",
+      "name": "2.0i-S EyeSight",
+      "slug": "2-0i-s-eyesight",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "f67a5793-a938-4f3b-8e8a-28c09de6c78b",
+      "model_id": "b60e1d8f-9960-4fa2-98b6-5d5934e26317",
+      "name": "2.0i-L EyeSight",
+      "slug": "2-0i-l-eyesight",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "37ac0a2a-9819-4a5e-9d70-8c5befa1fe63",
+      "model_id": "b60e1d8f-9960-4fa2-98b6-5d5934e26317",
+      "name": "Hybrid",
+      "slug": "hybrid",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "28c1470c-bab5-470d-99fb-999363162cd7",
+      "model_id": "79315532-fb97-4078-9d68-470a80c8814b",
+      "name": "2.5i-T EyeSight",
+      "slug": "2-5i-t-eyesight",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "98c255d7-4ee1-4394-967a-9531af7405a3",
+      "model_id": "79315532-fb97-4078-9d68-470a80c8814b",
+      "name": "2.5i-S EyeSight",
+      "slug": "2-5i-s-eyesight",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "4acfb658-39c5-4769-a555-39716bac4d10",
+      "model_id": "4b13855a-34b4-4c28-8ab5-970e47713601",
+      "name": "2.0i-S EyeSight",
+      "slug": "2-0i-s-eyesight",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "87c158b4-6b13-4781-97ae-e6ca9fafa8a7",
+      "model_id": "4b13855a-34b4-4c28-8ab5-970e47713601",
+      "name": "2.0i-S Hybrid EyeSight",
+      "slug": "2-0i-s-hybrid-eyesight",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "71e9d4a7-2341-447e-b6fe-374bf07a1182",
+      "model_id": "72586a1f-b0a8-4f78-a3fe-d93ad29aabc8",
+      "name": "2.0i",
+      "slug": "2-0i",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "d3756a5a-8352-474f-b553-8692ce3f3aa5",
+      "model_id": "72586a1f-b0a8-4f78-a3fe-d93ad29aabc8",
+      "name": "2.0i-S EyeSight",
+      "slug": "2-0i-s-eyesight",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "820e803f-cb20-4ebf-9ce6-32c389f3abef",
+      "model_id": "8290c653-199e-4f07-9055-2642948d95e3",
+      "name": "2.4 MT",
+      "slug": "2-4-mt",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "7fe6a690-0dc5-4757-b8f1-f3e9760830ae",
+      "model_id": "8290c653-199e-4f07-9055-2642948d95e3",
+      "name": "2.4 CVT",
+      "slug": "2-4-cvt",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "3ac44a03-1f41-416e-b7c7-5b94a5557e4a",
+      "model_id": "8290c653-199e-4f07-9055-2642948d95e3",
+      "name": "tS",
+      "slug": "ts",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "ade4030a-dcd0-43b5-991f-82117e9a507e",
+      "model_id": "2c1404e1-09c3-486c-b783-c48d868d7a6b",
+      "name": "2.4 MT",
+      "slug": "2-4-mt",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "fe56afe6-4972-4cd5-b109-70b6236a9024",
+      "model_id": "2c1404e1-09c3-486c-b783-c48d868d7a6b",
+      "name": "2.4 AT",
+      "slug": "2-4-at",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "b5974022-2169-4183-b15b-51a33b62ad6d",
+      "model_id": "fa3b8d6a-94b1-483c-9e7c-e319a2011ba2",
+      "name": "1.6 GT-S",
+      "slug": "1-6-gt-s",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "d78bb00d-5372-4aee-9d81-a899b0893942",
+      "model_id": "fa3b8d6a-94b1-483c-9e7c-e319a2011ba2",
+      "name": "2.0 GT-S",
+      "slug": "2-0-gt-s",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "4577e61d-0cba-40fc-ac53-0d50a956db7d",
+      "model_id": "a04bc547-e52f-4d17-88af-5e8985e7a2cc",
+      "name": "C180",
+      "slug": "c180",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "c5848ac3-2f71-4efb-80a0-47bd132acba6",
+      "model_id": "a04bc547-e52f-4d17-88af-5e8985e7a2cc",
+      "name": "C200",
+      "slug": "c200",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "738f3eb1-b5a1-46b1-aa23-e023a093bd5c",
+      "model_id": "a04bc547-e52f-4d17-88af-5e8985e7a2cc",
+      "name": "C200 Avantgarde",
+      "slug": "c200-avantgarde",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "3555e9b9-72ec-4768-968f-329ae35ccb9f",
+      "model_id": "a04bc547-e52f-4d17-88af-5e8985e7a2cc",
+      "name": "C200 Exclusive",
+      "slug": "c200-exclusive",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "bdb95efa-5684-47ad-9eff-ad885742cd38",
+      "model_id": "a04bc547-e52f-4d17-88af-5e8985e7a2cc",
+      "name": "C300 AMG",
+      "slug": "c300-amg",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "dd65ad51-126b-4460-a9e9-888f7847fa4c",
+      "model_id": "a04bc547-e52f-4d17-88af-5e8985e7a2cc",
+      "name": "C300 AMG Line",
+      "slug": "c300-amg-line",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "f4b1b5b9-eb3e-47c2-8b44-3995da540d6d",
+      "model_id": "a04bc547-e52f-4d17-88af-5e8985e7a2cc",
+      "name": "C43 AMG",
+      "slug": "c43-amg",
+      "status": "active",
+      "sort_order": 7
+    },
+    {
+      "id": "ea2630ef-492c-4f82-90b7-6d6446acc64e",
+      "model_id": "c1043c6e-f1a0-48c7-a2da-bea29bfaec4e",
+      "name": "E180",
+      "slug": "e180",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "022ea29a-7f20-4106-915d-4f8c1b8f97a3",
+      "model_id": "c1043c6e-f1a0-48c7-a2da-bea29bfaec4e",
+      "name": "E200",
+      "slug": "e200",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "8a05f1d0-e9de-41b0-a590-e44ef3a9b8b3",
+      "model_id": "c1043c6e-f1a0-48c7-a2da-bea29bfaec4e",
+      "name": "E200 Exclusive",
+      "slug": "e200-exclusive",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "7991d392-2f40-458a-8142-fce6878384c9",
+      "model_id": "c1043c6e-f1a0-48c7-a2da-bea29bfaec4e",
+      "name": "E300 AMG",
+      "slug": "e300-amg",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "7d5151b6-42a8-4595-9071-818dace8512c",
+      "model_id": "c1043c6e-f1a0-48c7-a2da-bea29bfaec4e",
+      "name": "E300 AMG Line",
+      "slug": "e300-amg-line",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "dee9224f-3c7c-4293-969a-2b8943d93f25",
+      "model_id": "c1043c6e-f1a0-48c7-a2da-bea29bfaec4e",
+      "name": "E53 AMG",
+      "slug": "e53-amg",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "61191f02-7421-4665-84d0-a9d84fa08c91",
+      "model_id": "e10879ae-713f-404f-804c-9ce9ba176786",
+      "name": "S400",
+      "slug": "s400",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "a4800068-4bbd-4ec7-878b-3abc283dd233",
+      "model_id": "e10879ae-713f-404f-804c-9ce9ba176786",
+      "name": "S450",
+      "slug": "s450",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "93e1e4a5-ef5a-4820-9e53-94622825e09d",
+      "model_id": "e10879ae-713f-404f-804c-9ce9ba176786",
+      "name": "S450 Luxury",
+      "slug": "s450-luxury",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "1fa62196-8bff-4cd9-a1b9-809c1b2bbfa2",
+      "model_id": "e10879ae-713f-404f-804c-9ce9ba176786",
+      "name": "S500",
+      "slug": "s500",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "3142caa5-544f-403a-b25d-aedd7b440a6f",
+      "model_id": "e10879ae-713f-404f-804c-9ce9ba176786",
+      "name": "S580",
+      "slug": "s580",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "8c198456-ad21-4d70-9f00-c5bd14905cf6",
+      "model_id": "e10879ae-713f-404f-804c-9ce9ba176786",
+      "name": "Maybach S450",
+      "slug": "maybach-s450",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "1adda169-0d1f-43ca-852e-9e9f5668ca59",
+      "model_id": "e10879ae-713f-404f-804c-9ce9ba176786",
+      "name": "Maybach S580",
+      "slug": "maybach-s580",
+      "status": "active",
+      "sort_order": 7
+    },
+    {
+      "id": "5444ed24-b54d-4090-934b-fe6eacc75fb6",
+      "model_id": "30639fa5-7155-40d8-b257-35f2e492cd2f",
+      "name": "GLA 200",
+      "slug": "gla-200",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "b7e7fcf0-7477-442a-b517-3cbb9d655f68",
+      "model_id": "30639fa5-7155-40d8-b257-35f2e492cd2f",
+      "name": "GLA 250",
+      "slug": "gla-250",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "67981e93-3c3e-4129-a9e4-551e70897eb1",
+      "model_id": "30639fa5-7155-40d8-b257-35f2e492cd2f",
+      "name": "GLA 35 AMG",
+      "slug": "gla-35-amg",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "0146f510-d024-44f2-8f24-53abb2df6416",
+      "model_id": "dac77903-71d8-4d6a-bb94-148ee1728c25",
+      "name": "GLB 200",
+      "slug": "glb-200",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "a5215679-63b1-436c-b0b4-294636fb8393",
+      "model_id": "dac77903-71d8-4d6a-bb94-148ee1728c25",
+      "name": "GLB 35 AMG",
+      "slug": "glb-35-amg",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "ea3cf70f-dfbc-49f9-bcae-8814731c45dd",
+      "model_id": "33f9d688-cd0d-48d3-b877-eebf2592b167",
+      "name": "GLC 200",
+      "slug": "glc-200",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "29b166b2-f00d-4c42-b8b0-9831da02ba42",
+      "model_id": "33f9d688-cd0d-48d3-b877-eebf2592b167",
+      "name": "GLC 300",
+      "slug": "glc-300",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "ba65ea7e-f937-4cd4-b094-d0092640ff0f",
+      "model_id": "33f9d688-cd0d-48d3-b877-eebf2592b167",
+      "name": "GLC 300 Coupe",
+      "slug": "glc-300-coupe",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "7aeb74b1-5252-48f3-b09d-a1d65c5c8b5b",
+      "model_id": "33f9d688-cd0d-48d3-b877-eebf2592b167",
+      "name": "GLC 43 AMG",
+      "slug": "glc-43-amg",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "eef4411f-fc94-4dab-9a61-83ee37dc0a5d",
+      "model_id": "d92cfcaf-1b39-4d14-bb25-03e9f95a2d2a",
+      "name": "GLE 400",
+      "slug": "gle-400",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "3b045ca5-f451-4c16-87a1-5e9e1c9db56e",
+      "model_id": "d92cfcaf-1b39-4d14-bb25-03e9f95a2d2a",
+      "name": "GLE 450",
+      "slug": "gle-450",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "5fe93efa-1a19-4318-abf8-bd18a61fb27a",
+      "model_id": "d92cfcaf-1b39-4d14-bb25-03e9f95a2d2a",
+      "name": "GLE 450 Coupe",
+      "slug": "gle-450-coupe",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "af4d0ed3-9cf4-44e0-aa97-e81d3d67b01d",
+      "model_id": "d92cfcaf-1b39-4d14-bb25-03e9f95a2d2a",
+      "name": "GLE 53 AMG",
+      "slug": "gle-53-amg",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "bf1a92a6-47da-4a95-beb4-f2db7a1079e2",
+      "model_id": "d92cfcaf-1b39-4d14-bb25-03e9f95a2d2a",
+      "name": "GLE 63 AMG",
+      "slug": "gle-63-amg",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "277207da-7a6c-4db6-9079-0eff5697494e",
+      "model_id": "8a60c5f5-03d2-4021-9f2b-01365be87b4d",
+      "name": "GLS 400",
+      "slug": "gls-400",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "f56bd33f-89fd-470e-8d9b-2055014b8148",
+      "model_id": "8a60c5f5-03d2-4021-9f2b-01365be87b4d",
+      "name": "GLS 450",
+      "slug": "gls-450",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "e08b9489-be23-455d-a7fc-c0ef92d9e267",
+      "model_id": "8a60c5f5-03d2-4021-9f2b-01365be87b4d",
+      "name": "GLS 600 Maybach",
+      "slug": "gls-600-maybach",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "61c8f710-8215-4588-b10f-ad75ca24a107",
+      "model_id": "8a60c5f5-03d2-4021-9f2b-01365be87b4d",
+      "name": "GLS 63 AMG",
+      "slug": "gls-63-amg",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "60488779-a88d-40d9-b3f5-be2a94e10609",
+      "model_id": "28af3fb4-61c4-4018-937f-49911d90e6a6",
+      "name": "A200",
+      "slug": "a200",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "dab8ea3a-9903-4b46-8854-78dab8f97a29",
+      "model_id": "28af3fb4-61c4-4018-937f-49911d90e6a6",
+      "name": "A250",
+      "slug": "a250",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "adfdd758-1fca-470b-b69e-a24a27bf6f20",
+      "model_id": "28af3fb4-61c4-4018-937f-49911d90e6a6",
+      "name": "A35 AMG",
+      "slug": "a35-amg",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "42625654-8986-4a7b-a6f6-45203c010359",
+      "model_id": "28af3fb4-61c4-4018-937f-49911d90e6a6",
+      "name": "A45 S AMG",
+      "slug": "a45-s-amg",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "241ceb4d-fc80-48be-97bf-302adf4b21a5",
+      "model_id": "9d21ae41-5416-4744-afed-ae69d955be35",
+      "name": "CLA 200",
+      "slug": "cla-200",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "f71e0884-9f67-447b-a295-e23d0ab85c8b",
+      "model_id": "9d21ae41-5416-4744-afed-ae69d955be35",
+      "name": "CLA 250",
+      "slug": "cla-250",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "aeaff2a9-183e-4431-b82a-38db72a8fb15",
+      "model_id": "9d21ae41-5416-4744-afed-ae69d955be35",
+      "name": "CLA 35 AMG",
+      "slug": "cla-35-amg",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "c580510a-4680-4d66-9000-9296453e956c",
+      "model_id": "9d21ae41-5416-4744-afed-ae69d955be35",
+      "name": "CLA 45 AMG",
+      "slug": "cla-45-amg",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "567d93d7-d63e-499a-981b-407a25645adf",
+      "model_id": "d8cfe7a1-def6-426d-82eb-4c542386e293",
+      "name": "V220d",
+      "slug": "v220d",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "1ffbce4c-fe74-4273-b858-596fab8a5270",
+      "model_id": "d8cfe7a1-def6-426d-82eb-4c542386e293",
+      "name": "V250",
+      "slug": "v250",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "6b20653a-d9b0-4310-962f-a558850ff693",
+      "model_id": "d8cfe7a1-def6-426d-82eb-4c542386e293",
+      "name": "V250 Luxury",
+      "slug": "v250-luxury",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "af145588-6a2c-4722-91e3-d0398496a9df",
+      "model_id": "d8cfe7a1-def6-426d-82eb-4c542386e293",
+      "name": "V300 AMG",
+      "slug": "v300-amg",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "b06ba43b-ed90-4ef7-94a9-8eccef593343",
+      "model_id": "0a5a3132-525a-43b8-94cd-a793bf070c60",
+      "name": "EQB 250",
+      "slug": "eqb-250",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "b3d0a50d-4b67-4135-8229-d29905385c4b",
+      "model_id": "0a5a3132-525a-43b8-94cd-a793bf070c60",
+      "name": "EQB 350",
+      "slug": "eqb-350",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "06d56e63-50f0-48bc-ab70-2377624c381f",
+      "model_id": "112953ac-7257-45d0-8fc7-ca44db3d6685",
+      "name": "EQE 350",
+      "slug": "eqe-350",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "d9109c7e-a5b8-4eac-ae91-85026f423698",
+      "model_id": "112953ac-7257-45d0-8fc7-ca44db3d6685",
+      "name": "EQE 500",
+      "slug": "eqe-500",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "34ce1bff-a5c3-414c-a3df-b939b5e23d37",
+      "model_id": "112953ac-7257-45d0-8fc7-ca44db3d6685",
+      "name": "EQE 43 AMG",
+      "slug": "eqe-43-amg",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "a02bd2f7-9d87-45e9-be26-faea8ca8edcf",
+      "model_id": "b0030956-f9b0-4adc-a32a-d4cb17d303b8",
+      "name": "EQS 450",
+      "slug": "eqs-450",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "46464951-0e09-47c1-909d-75485f2e8818",
+      "model_id": "b0030956-f9b0-4adc-a32a-d4cb17d303b8",
+      "name": "EQS 580",
+      "slug": "eqs-580",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "b0a39d7d-7118-4e87-90e5-352631d19f92",
+      "model_id": "b0030956-f9b0-4adc-a32a-d4cb17d303b8",
+      "name": "EQS SUV 450",
+      "slug": "eqs-suv-450",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "cafb440d-e469-4655-8d7c-3868eee623de",
+      "model_id": "b0030956-f9b0-4adc-a32a-d4cb17d303b8",
+      "name": "EQS SUV 580",
+      "slug": "eqs-suv-580",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "80b18b6c-4327-4e21-a9ac-d43589e80474",
+      "model_id": "a77ca06b-2c1f-42bf-98cc-f8d737372a0c",
+      "name": "G350d",
+      "slug": "g350d",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "f9a759ac-9b18-4726-aec5-eda760523239",
+      "model_id": "a77ca06b-2c1f-42bf-98cc-f8d737372a0c",
+      "name": "G400d",
+      "slug": "g400d",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "c28bf69b-2a17-4db2-b533-ef38f8d9dae0",
+      "model_id": "a77ca06b-2c1f-42bf-98cc-f8d737372a0c",
+      "name": "G500",
+      "slug": "g500",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "3709371a-9482-49cc-a80b-0279619726ad",
+      "model_id": "a77ca06b-2c1f-42bf-98cc-f8d737372a0c",
+      "name": "G63 AMG",
+      "slug": "g63-amg",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "2822e765-761b-4ed4-8462-d5d77088f70a",
+      "model_id": "63f7273d-75a0-4fde-906c-2f1c83bd79e8",
+      "name": "118i",
+      "slug": "118i",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "14ded38b-86df-4c69-a512-c2e2ef101088",
+      "model_id": "63f7273d-75a0-4fde-906c-2f1c83bd79e8",
+      "name": "120i",
+      "slug": "120i",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "1c0bf188-8894-4b1a-bfde-b0c4be1843c9",
+      "model_id": "63f7273d-75a0-4fde-906c-2f1c83bd79e8",
+      "name": "M135i",
+      "slug": "m135i",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "92713246-f814-411f-b6a2-5362cd8a71a6",
+      "model_id": "49c55528-75a1-4087-9eb4-e89a0cdaf33e",
+      "name": "218i",
+      "slug": "218i",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "4f27a887-2ff8-400b-8947-a53484eee716",
+      "model_id": "49c55528-75a1-4087-9eb4-e89a0cdaf33e",
+      "name": "220i",
+      "slug": "220i",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "bfac6677-4fd0-402e-939e-c33e7c425050",
+      "model_id": "49c55528-75a1-4087-9eb4-e89a0cdaf33e",
+      "name": "230i",
+      "slug": "230i",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "3e13d044-9b39-40b6-a406-72234eee84fc",
+      "model_id": "49c55528-75a1-4087-9eb4-e89a0cdaf33e",
+      "name": "M240i",
+      "slug": "m240i",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "eeef5a85-821c-4001-8710-77bc26e94142",
+      "model_id": "49c55528-75a1-4087-9eb4-e89a0cdaf33e",
+      "name": "Gran Coupe",
+      "slug": "gran-coupe",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "0f9a7892-0405-4c7b-bed1-4245aadd8dc5",
+      "model_id": "e4ab2ce2-b524-429e-ae1b-ec55117e98cb",
+      "name": "318i",
+      "slug": "318i",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "b2742f9f-5501-4325-944d-6cca6e16763f",
+      "model_id": "e4ab2ce2-b524-429e-ae1b-ec55117e98cb",
+      "name": "320i",
+      "slug": "320i",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "232d081c-c269-4462-8645-cfeb46947a7d",
+      "model_id": "e4ab2ce2-b524-429e-ae1b-ec55117e98cb",
+      "name": "320i Sport Line",
+      "slug": "320i-sport-line",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "554b4878-1541-4bc6-b11a-bedd702b9feb",
+      "model_id": "e4ab2ce2-b524-429e-ae1b-ec55117e98cb",
+      "name": "330i",
+      "slug": "330i",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "27d99728-9039-4e47-80fe-718d90a6c4b4",
+      "model_id": "e4ab2ce2-b524-429e-ae1b-ec55117e98cb",
+      "name": "330i M Sport",
+      "slug": "330i-m-sport",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "6121d88f-2ca1-44e8-a37c-01592b65909b",
+      "model_id": "e4ab2ce2-b524-429e-ae1b-ec55117e98cb",
+      "name": "330e",
+      "slug": "330e",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "ec3ea600-9f68-4a94-92a7-ab510e0e30b2",
+      "model_id": "e4ab2ce2-b524-429e-ae1b-ec55117e98cb",
+      "name": "M340i",
+      "slug": "m340i",
+      "status": "active",
+      "sort_order": 7
+    },
+    {
+      "id": "ebba887b-5b44-4286-a72e-3d8089f9b2b2",
+      "model_id": "e4ab2ce2-b524-429e-ae1b-ec55117e98cb",
+      "name": "M3",
+      "slug": "m3",
+      "status": "active",
+      "sort_order": 8
+    },
+    {
+      "id": "2314c436-4900-49f4-bdc1-8ca69c312f44",
+      "model_id": "7de2a490-34f6-471d-8a34-fec19dfa3282",
+      "name": "420i",
+      "slug": "420i",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "9c6c9ab8-fef8-43d1-b647-4228bb00f59a",
+      "model_id": "7de2a490-34f6-471d-8a34-fec19dfa3282",
+      "name": "430i",
+      "slug": "430i",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "8660b58e-aa7b-430f-83bf-921b3bd0550e",
+      "model_id": "7de2a490-34f6-471d-8a34-fec19dfa3282",
+      "name": "430i Gran Coupe",
+      "slug": "430i-gran-coupe",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "1fe6538b-eafc-453a-a33f-0dee94494585",
+      "model_id": "7de2a490-34f6-471d-8a34-fec19dfa3282",
+      "name": "M440i",
+      "slug": "m440i",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "714c68a0-7ef8-4f76-bc0d-2268337d9091",
+      "model_id": "7de2a490-34f6-471d-8a34-fec19dfa3282",
+      "name": "M4",
+      "slug": "m4",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "b94a2b35-5c63-40b4-b50c-93fc8b57d1e8",
+      "model_id": "d5686257-8a6a-404c-892e-22a1c205d57e",
+      "name": "520i",
+      "slug": "520i",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "c6fd6f62-aad7-45e6-9ea7-ae7bd6de1d4b",
+      "model_id": "d5686257-8a6a-404c-892e-22a1c205d57e",
+      "name": "520i Luxury",
+      "slug": "520i-luxury",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "e6892907-5f44-4628-a7f6-f17f20aa0622",
+      "model_id": "d5686257-8a6a-404c-892e-22a1c205d57e",
+      "name": "520i M Sport",
+      "slug": "520i-m-sport",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "ac4b354c-c9df-4ea2-98a2-a653a7b7a097",
+      "model_id": "d5686257-8a6a-404c-892e-22a1c205d57e",
+      "name": "530i",
+      "slug": "530i",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "78365365-c10b-4108-9dfb-9473b6dd4bac",
+      "model_id": "d5686257-8a6a-404c-892e-22a1c205d57e",
+      "name": "530i M Sport",
+      "slug": "530i-m-sport",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "ea076a45-7ad7-41a2-be7b-85e7c1563113",
+      "model_id": "d5686257-8a6a-404c-892e-22a1c205d57e",
+      "name": "530e",
+      "slug": "530e",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "2ac92a06-3a5d-4158-8266-0ab1169a0fbb",
+      "model_id": "d5686257-8a6a-404c-892e-22a1c205d57e",
+      "name": "540i",
+      "slug": "540i",
+      "status": "active",
+      "sort_order": 7
+    },
+    {
+      "id": "b6e08a78-c888-4565-a5c8-b3295d74a654",
+      "model_id": "d5686257-8a6a-404c-892e-22a1c205d57e",
+      "name": "M5",
+      "slug": "m5",
+      "status": "active",
+      "sort_order": 8
+    },
+    {
+      "id": "77dcb540-266b-42c4-a036-8ef2fe0ad0b1",
+      "model_id": "f1bc435d-c9f4-48b5-86bc-e4f56c83271a",
+      "name": "730Li",
+      "slug": "730li",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "190eeaf5-babc-4853-831d-e18082d4330f",
+      "model_id": "f1bc435d-c9f4-48b5-86bc-e4f56c83271a",
+      "name": "740Li",
+      "slug": "740li",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "18b371ad-0f5c-42a6-b26a-6fb9d53c0cb0",
+      "model_id": "f1bc435d-c9f4-48b5-86bc-e4f56c83271a",
+      "name": "740i",
+      "slug": "740i",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "dbfc5c49-8fd4-4808-88af-c851b4b9d003",
+      "model_id": "f1bc435d-c9f4-48b5-86bc-e4f56c83271a",
+      "name": "750Li",
+      "slug": "750li",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "6ee2e05f-a960-41bf-9b3b-0eb65a0ee5bd",
+      "model_id": "f1bc435d-c9f4-48b5-86bc-e4f56c83271a",
+      "name": "760i",
+      "slug": "760i",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "38449407-422f-436c-beec-5232490fdc3e",
+      "model_id": "f1bc435d-c9f4-48b5-86bc-e4f56c83271a",
+      "name": "i7",
+      "slug": "i7",
+      "status": "active",
+      "sort_order": 6
+    },
+    {
+      "id": "76c49070-8c0f-4b53-8938-8fd68f983343",
+      "model_id": "0d947168-0058-4481-a1d3-f339507dbd86",
+      "name": "sDrive18i",
+      "slug": "sdrive18i",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "750ba552-59c1-4022-8596-99414f077dd1",
+      "model_id": "0d947168-0058-4481-a1d3-f339507dbd86",
+      "name": "sDrive20i",
+      "slug": "sdrive20i",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "e017701f-30ca-4ad9-811b-a8393e821e20",
+      "model_id": "0d947168-0058-4481-a1d3-f339507dbd86",
+      "name": "xDrive20i",
+      "slug": "xdrive20i",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "598650da-c90c-4d61-b93c-ffe4a100cec0",
+      "model_id": "47225922-9ddc-4f94-82bb-91addf829787",
+      "name": "sDrive18i",
+      "slug": "sdrive18i",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "3ddb3648-f635-41f9-960b-9d0b293bb0f0",
+      "model_id": "47225922-9ddc-4f94-82bb-91addf829787",
+      "name": "sDrive20i",
+      "slug": "sdrive20i",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "6390f571-7f4e-4d28-a30e-9330705935bb",
+      "model_id": "47225922-9ddc-4f94-82bb-91addf829787",
+      "name": "M35i",
+      "slug": "m35i",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "9372e57a-19dd-475c-bd86-fdf7cd63c6f5",
+      "model_id": "e4282c02-1314-4413-b83c-8ec27dcfcc67",
+      "name": "xDrive20i",
+      "slug": "xdrive20i",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "81613194-58b2-41d3-9150-f42b497201b1",
+      "model_id": "e4282c02-1314-4413-b83c-8ec27dcfcc67",
+      "name": "xDrive30i",
+      "slug": "xdrive30i",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "56b79665-0ec9-42eb-a891-dd787446743a",
+      "model_id": "e4282c02-1314-4413-b83c-8ec27dcfcc67",
+      "name": "sDrive20i",
+      "slug": "sdrive20i",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "7505cdde-b2e6-4ba4-9c0d-304eaf8c3525",
+      "model_id": "e4282c02-1314-4413-b83c-8ec27dcfcc67",
+      "name": "M40i",
+      "slug": "m40i",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "67d5e469-ff02-4671-a287-d8329e79c52b",
+      "model_id": "e4282c02-1314-4413-b83c-8ec27dcfcc67",
+      "name": "X3 M",
+      "slug": "x3-m",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "59bcb5ae-41d7-4856-9fa9-ca7f5992eaff",
+      "model_id": "baadc93d-e56e-450f-b477-92cb955292cd",
+      "name": "xDrive20i",
+      "slug": "xdrive20i",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "593010b0-d4cf-4fd1-ae74-129dbec89afb",
+      "model_id": "baadc93d-e56e-450f-b477-92cb955292cd",
+      "name": "xDrive30i",
+      "slug": "xdrive30i",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "79cbfacb-cd01-4905-818e-2d0a1be15118",
+      "model_id": "baadc93d-e56e-450f-b477-92cb955292cd",
+      "name": "M40i",
+      "slug": "m40i",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "3250b1df-ccde-410f-a3cf-2d54aaad99e9",
+      "model_id": "baadc93d-e56e-450f-b477-92cb955292cd",
+      "name": "X4 M",
+      "slug": "x4-m",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "7451df3b-4c22-4e7f-9a7e-0f80b626e532",
+      "model_id": "7dc58770-3bf1-4ae1-a67f-d9dce9967b24",
+      "name": "xDrive30d",
+      "slug": "xdrive30d",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "c5ae983e-8060-4dd7-8d7a-aa37d8269248",
+      "model_id": "7dc58770-3bf1-4ae1-a67f-d9dce9967b24",
+      "name": "xDrive40i",
+      "slug": "xdrive40i",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "6463c26c-68ad-4bd6-91d6-69d9810e7060",
+      "model_id": "7dc58770-3bf1-4ae1-a67f-d9dce9967b24",
+      "name": "xDrive45e",
+      "slug": "xdrive45e",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "8de588ab-db2f-4dd4-9052-108db52aefaf",
+      "model_id": "7dc58770-3bf1-4ae1-a67f-d9dce9967b24",
+      "name": "xDrive50e",
+      "slug": "xdrive50e",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "5ed74b77-8bcf-4eda-9511-165cc19e4f8f",
+      "model_id": "7dc58770-3bf1-4ae1-a67f-d9dce9967b24",
+      "name": "X5 M",
+      "slug": "x5-m",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "01c29b29-7d9c-49c3-b4fe-836711687344",
+      "model_id": "61c3aa0c-9e2c-4327-a897-d128a2bd7f02",
+      "name": "xDrive35i",
+      "slug": "xdrive35i",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "0513b06a-4ab6-4475-9ec2-62e0e3516e0d",
+      "model_id": "61c3aa0c-9e2c-4327-a897-d128a2bd7f02",
+      "name": "xDrive40i",
+      "slug": "xdrive40i",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "a5be8718-c7bb-40a8-9da5-5ea98506e283",
+      "model_id": "61c3aa0c-9e2c-4327-a897-d128a2bd7f02",
+      "name": "M50i",
+      "slug": "m50i",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "374f600f-8a54-48f2-8d7a-0c9dbb0bd668",
+      "model_id": "61c3aa0c-9e2c-4327-a897-d128a2bd7f02",
+      "name": "X6 M",
+      "slug": "x6-m",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "f679d2e9-02f0-426c-a8fc-4c46cd685f8e",
+      "model_id": "1fd700ae-86f0-46cc-b006-05c5fc388507",
+      "name": "xDrive40i",
+      "slug": "xdrive40i",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "ea89fe68-0796-409a-abc5-7ed5df1ebc84",
+      "model_id": "1fd700ae-86f0-46cc-b006-05c5fc388507",
+      "name": "xDrive30d",
+      "slug": "xdrive30d",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "ce135a60-69c5-4a44-8c08-8e1da81db396",
+      "model_id": "1fd700ae-86f0-46cc-b006-05c5fc388507",
+      "name": "M60i",
+      "slug": "m60i",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "99f6c691-820d-4214-bd3f-a5d398c6730b",
+      "model_id": "1a0f3e45-133d-4227-9be6-bac15b476f11",
+      "name": "eDrive35",
+      "slug": "edrive35",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "9fe99562-3a31-4951-b814-847cf1593458",
+      "model_id": "1a0f3e45-133d-4227-9be6-bac15b476f11",
+      "name": "eDrive40",
+      "slug": "edrive40",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "03d94b1d-6b98-48a9-8f22-d74a4d4607b0",
+      "model_id": "1a0f3e45-133d-4227-9be6-bac15b476f11",
+      "name": "M50",
+      "slug": "m50",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "4c547312-b134-4c17-8fa5-051e6d97e044",
+      "model_id": "79ae65de-e863-4706-8951-78735a94d6c2",
+      "name": "Inspiring",
+      "slug": "inspiring",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "4fce4782-0462-43e1-9890-a3612258cf50",
+      "model_id": "79ae65de-e863-4706-8951-78735a94d6c2",
+      "name": "Impressive",
+      "slug": "impressive",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "87455629-b830-4ec4-81d2-d31c90eefda5",
+      "model_id": "105af585-a2b6-4cef-9a83-9409e9a46c9f",
+      "name": "xDrive40",
+      "slug": "xdrive40",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "b38bb51f-f7cb-4071-a085-9403780db58e",
+      "model_id": "105af585-a2b6-4cef-9a83-9409e9a46c9f",
+      "name": "xDrive50",
+      "slug": "xdrive50",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "3ce741f4-ce1f-47ce-9555-5a42a208c5e1",
+      "model_id": "105af585-a2b6-4cef-9a83-9409e9a46c9f",
+      "name": "M60",
+      "slug": "m60",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "13bcd6e9-3280-446b-8216-92975dd15ff2",
+      "model_id": "3b0cf4bd-7730-4262-a7ee-e21bdd2e9dfb",
+      "name": "ES 250",
+      "slug": "es-250",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "6ddd656a-57a0-4ec1-8c42-9eca22eea648",
+      "model_id": "3b0cf4bd-7730-4262-a7ee-e21bdd2e9dfb",
+      "name": "ES 300h",
+      "slug": "es-300h",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "db5f7932-181b-4084-a7f6-ca480a31699d",
+      "model_id": "3b0cf4bd-7730-4262-a7ee-e21bdd2e9dfb",
+      "name": "ES 350",
+      "slug": "es-350",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "9d5ae53a-95f1-4c92-873e-c85977389c68",
+      "model_id": "914d0858-6d88-45f5-b710-9b320d46d3ab",
+      "name": "IS 250",
+      "slug": "is-250",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "e01823a2-f2ee-4e5b-9b4a-a27666e6c4fc",
+      "model_id": "914d0858-6d88-45f5-b710-9b320d46d3ab",
+      "name": "IS 300",
+      "slug": "is-300",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "07ec4274-3267-4ada-bbb1-3d08f3f02df0",
+      "model_id": "914d0858-6d88-45f5-b710-9b320d46d3ab",
+      "name": "IS 300h",
+      "slug": "is-300h",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "113c8d99-0628-47bf-959b-221e75d203e3",
+      "model_id": "914d0858-6d88-45f5-b710-9b320d46d3ab",
+      "name": "IS 350",
+      "slug": "is-350",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "a524f12a-4cf9-4a8b-9875-9e5c1df1483c",
+      "model_id": "7c0d4731-f8cf-4a48-a280-e7819d5b15c9",
+      "name": "LS 460",
+      "slug": "ls-460",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "07846b71-d981-4f5c-ab6e-e89d0c43cb5f",
+      "model_id": "7c0d4731-f8cf-4a48-a280-e7819d5b15c9",
+      "name": "LS 500",
+      "slug": "ls-500",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "1c4c5fa1-c430-4884-b2af-e8713543afd6",
+      "model_id": "7c0d4731-f8cf-4a48-a280-e7819d5b15c9",
+      "name": "LS 500h",
+      "slug": "ls-500h",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "a0843c27-5878-4409-a024-2a00ccb81dad",
+      "model_id": "54ed7d1e-1c78-4c7f-8793-a5530f563e29",
+      "name": "NX 200t",
+      "slug": "nx-200t",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "3f4674e7-d52b-4f7e-8745-561d946f4bab",
+      "model_id": "54ed7d1e-1c78-4c7f-8793-a5530f563e29",
+      "name": "NX 300",
+      "slug": "nx-300",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "ae2a2a0e-af8b-4af3-a656-48ad0c821d27",
+      "model_id": "54ed7d1e-1c78-4c7f-8793-a5530f563e29",
+      "name": "NX 350h",
+      "slug": "nx-350h",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "6e06696c-d3dd-4486-9f11-e51fc7a135c9",
+      "model_id": "54ed7d1e-1c78-4c7f-8793-a5530f563e29",
+      "name": "NX 350 F Sport",
+      "slug": "nx-350-f-sport",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "b6dbe08b-097f-4fcb-8f60-79b698453a1f",
+      "model_id": "54ed7d1e-1c78-4c7f-8793-a5530f563e29",
+      "name": "NX 450h",
+      "slug": "nx-450h",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "38558151-a524-430d-98c2-67e7d4eb63b4",
+      "model_id": "3aa535fc-84cd-4f35-b97f-d1a169545301",
+      "name": "RX 270",
+      "slug": "rx-270",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "5a02393c-2831-41c8-b595-41ca78359a77",
+      "model_id": "3aa535fc-84cd-4f35-b97f-d1a169545301",
+      "name": "RX 350",
+      "slug": "rx-350",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "b39633e2-ac3c-4577-8669-f96b50d44b22",
+      "model_id": "3aa535fc-84cd-4f35-b97f-d1a169545301",
+      "name": "RX 350h",
+      "slug": "rx-350h",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "e77517f7-7a35-4c6f-8718-219662f42dd9",
+      "model_id": "3aa535fc-84cd-4f35-b97f-d1a169545301",
+      "name": "RX 500h",
+      "slug": "rx-500h",
+      "status": "active",
+      "sort_order": 4
+    },
+    {
+      "id": "6e7624a4-ca3c-4762-844c-a2f411f2d0aa",
+      "model_id": "3aa535fc-84cd-4f35-b97f-d1a169545301",
+      "name": "RX 450h",
+      "slug": "rx-450h",
+      "status": "active",
+      "sort_order": 5
+    },
+    {
+      "id": "f15d30e9-e242-4081-abc7-2752aaa8366d",
+      "model_id": "1ff8af99-d517-4314-a0ac-30b93cb1ecea",
+      "name": "UX 200",
+      "slug": "ux-200",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "9e6a9616-367e-4b30-a854-67525718e2bf",
+      "model_id": "1ff8af99-d517-4314-a0ac-30b93cb1ecea",
+      "name": "UX 250h",
+      "slug": "ux-250h",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "630ddc52-b0b5-490f-95c6-b15ec09b79a1",
+      "model_id": "1ff8af99-d517-4314-a0ac-30b93cb1ecea",
+      "name": "UX 300h",
+      "slug": "ux-300h",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "6a91f1b8-db97-402b-9d37-5bc7fb5f7de1",
+      "model_id": "a26ef7bc-9847-42fc-8d80-9246e4c1115a",
+      "name": "GX 460",
+      "slug": "gx-460",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "9c6b875c-a7eb-4f0b-af5a-1da91ddeed3d",
+      "model_id": "a26ef7bc-9847-42fc-8d80-9246e4c1115a",
+      "name": "GX 550",
+      "slug": "gx-550",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "1ab02a0a-1471-4e82-aecb-60085305901e",
+      "model_id": "26e6ec61-80cd-4a15-bb09-4f9e7bbdb7d5",
+      "name": "LX 570",
+      "slug": "lx-570",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "70582e84-4cd0-4987-8caf-8f7ca07c0077",
+      "model_id": "26e6ec61-80cd-4a15-bb09-4f9e7bbdb7d5",
+      "name": "LX 600",
+      "slug": "lx-600",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "04aa96b9-70b4-4444-baa3-e8ff2084863c",
+      "model_id": "26e6ec61-80cd-4a15-bb09-4f9e7bbdb7d5",
+      "name": "LX 700h",
+      "slug": "lx-700h",
+      "status": "active",
+      "sort_order": 3
+    },
+    {
+      "id": "561bdbc5-c004-4398-9051-0b6c96e2fd69",
+      "model_id": "5b731e84-469a-4075-8e78-e29a87b10275",
+      "name": "LM 350",
+      "slug": "lm-350",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "52ab977c-b0eb-470a-8672-2e3aabeed2ca",
+      "model_id": "5b731e84-469a-4075-8e78-e29a87b10275",
+      "name": "LM 350h",
+      "slug": "lm-350h",
+      "status": "active",
+      "sort_order": 2
+    },
+    {
+      "id": "425e583b-928a-4b30-b4c8-7521737ba81b",
+      "model_id": "ac527a82-4115-42e8-abe6-2f633b97484e",
+      "name": "RC 350",
+      "slug": "rc-350",
+      "status": "active",
+      "sort_order": 1
+    },
+    {
+      "id": "b26a4f0b-b4d6-4afd-9809-75af490929cc",
+      "model_id": "ac527a82-4115-42e8-abe6-2f633b97484e",
+      "name": "RC F",
+      "slug": "rc-f",
+      "status": "active",
+      "sort_order": 2
+    }
+  ],
+  "policy": "Only active existing brands; insert missing models/versions; preserve all existing rows; no model-year, price or vehicle inventory changes."
+}

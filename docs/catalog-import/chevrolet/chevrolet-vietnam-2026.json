@@ -1,0 +1,23 @@
+{
+  "schema_version": "2.0.0",
+  "dataset": "vn_official_passenger_car_catalog",
+  "market": "VN",
+  "cutoff_year": 2026,
+  "scope": "Danh mục Chevrolet tại Việt Nam, chỉ xe tối đa 8 chỗ.",
+  "notes": "Dữ liệu danh mục tham khảo từ tập seed; khoảng năm và phiên bản chưa được đối chiếu chính thức theo từng năm. Không tự gán toàn bộ phiên bản cho mọi năm trong khoảng.",
+  "brands": [
+    {
+      "name": "Chevrolet",
+      "models": [
+        {"name": "Spark", "model_years": {"from": 2008, "to": 2018}, "versions": ["LS", "LT"]},
+        {"name": "Aveo", "model_years": {"from": 2007, "to": 2018}, "versions": ["LT", "LTZ"]},
+        {"name": "Cruze", "model_years": {"from": 2010, "to": 2018}, "versions": ["LT", "LTZ"]},
+        {"name": "Captiva", "model_years": {"from": 2007, "to": 2018}, "versions": ["LT", "LTZ", "MAXX"]},
+        {"name": "Colorado", "model_years": {"from": 2013, "to": 2018}, "versions": ["LT", "LTZ", "High Country"]},
+        {"name": "Trailblazer", "model_years": {"from": 2018, "to": 2019}, "versions": ["LT", "LTZ"]},
+        {"name": "Orlando", "model_years": {"from": 2011, "to": 2018}, "versions": ["LT", "LTZ"]},
+        {"name": "Trax", "model_years": {"from": 2017, "to": 2018}, "versions": ["LTZ"]}
+      ]
+    }
+  ]
+}
