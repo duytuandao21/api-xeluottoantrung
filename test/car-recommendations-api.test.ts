@@ -34,7 +34,7 @@ test('car recommendations API, real migrations and isolated PostgreSQL', async t
     const [model] = await db.insert(schema.carModels).values({ brandId: brand.id, name: 'Vios', slug: 'vios' }).returning();
     const baseCar = { brandId: brand.id, modelId: model.id, year: 2023, price: 300000000, seatCount: 5, mileage: 40000, fuel: 'Xăng', publishedAt: new Date(), status: 'active' as const };
     const inserted = await db.insert(schema.cars).values([
-      { ...baseCar, name: 'Xe A', slug: 'xe-a' }, { ...baseCar, name: 'Xe B', slug: 'xe-b', price: 400000000 },
+      { ...baseCar, name: 'Xe A', slug: 'xe-a', originalPrice: 330000000 }, { ...baseCar, name: 'Xe B', slug: 'xe-b', price: 400000000 },
       { ...baseCar, name: 'Đã bán', slug: 'sold', status: 'sold' }, { ...baseCar, name: 'Đã cọc', slug: 'deposit', status: 'deposit' },
       { ...baseCar, name: 'Chưa công khai', slug: 'unpublished', publishedAt: null }, { ...baseCar, name: 'Giá chưa rõ', slug: 'unpriced', price: 0 },
       { ...baseCar, name: 'Thiếu số ghế', slug: 'missing-seats', seatCount: null }, { ...baseCar, name: 'Vượt ngân sách', slug: 'over-budget', price: 800000000 },
@@ -80,6 +80,8 @@ test('car recommendations API, real migrations and isolated PostgreSQL', async t
       const responses = await Promise.all([send('POST', 'car-recommendations/sessions', input), send('POST', 'car-recommendations/sessions', input)]);
       assert.ok(responses.every(r => r.statusCode === 200), responses.map(r => r.body).join('\n')); result = responses[0].json();
       assert.equal(result!.sessionId, responses[1].json().sessionId); assert.deepEqual(result!.results.map(r => r.car.slug), ['xe-a', 'xe-b']);
+      assert.equal(responses[0].json().results[0].car.originalPrice, 330000000, 'Recommendation cards receive the admin old price');
+      assert.equal(responses[0].json().results[1].car.originalPrice, null);
       assert.equal((await db.select().from(schema.recommendationSessions)).length, 1);
       const stored = (await db.select().from(schema.recommendationSessions))[0]; assert.deepEqual(stored.answers, input.answers); assert.equal(stored.snapshot.questions.length, 7);
       assert.notEqual(stored.capabilityHash, input.capability); assert.equal(JSON.stringify(stored).includes(input.capability), false);

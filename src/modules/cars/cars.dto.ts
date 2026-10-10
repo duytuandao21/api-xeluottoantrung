@@ -94,7 +94,7 @@ export class CreateCarDto {
   @IsOptional() @IsBoolean() featured?: boolean;
   @ApiPropertyOptional({ type: Boolean, default: false })
   @IsOptional() @IsBoolean() installment?: boolean;
-  @ApiPropertyOptional({ type: Boolean, default: false })
+  @ApiPropertyOptional({ type: Boolean, default: true, description: 'Always enabled on creation; can be toggled only within seven days of createdAt' })
   @IsOptional() @IsBoolean() newArrival?: boolean;
 }
 

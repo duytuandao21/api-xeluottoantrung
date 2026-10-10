@@ -6,13 +6,14 @@ import type { AuditContext } from '../../common/audit.js';
 import { DatabaseService } from '../../database/database.service.js';
 import { auditLogs, bodyStyles, branches, brands, carColors, carMedia, carModels, carSpecifications, cars, carVersions, transmissions } from '../../database/schema/index.js';
 import { CreateCarDto, ListCarsQuery, UpdateCarDto } from './cars.dto.js';
+import { canEditNewArrival } from './new-arrival.js';
 
 const publicStatuses = ['active', 'deposit', 'sold'] as const;
 type CarRow = typeof cars.$inferSelect;
 
 function auditSnapshot(car: CarRow) {
   return { id: car.id, slug: car.slug, name: car.name, brandId: car.brandId, modelId: car.modelId,
-    year: car.year, price: car.price, status: car.status, publishedAt: car.publishedAt, deletedAt: car.deletedAt };
+    year: car.year, price: car.price, status: car.status, newArrival: car.newArrival, publishedAt: car.publishedAt, deletedAt: car.deletedAt };
 }
 
 function validateRanges(query: ListCarsQuery): void {
@@ -38,7 +39,7 @@ function orderFor(sort: ListCarsQuery['sort']) {
     case 'price_desc': return [desc(cars.price), desc(cars.createdAt), asc(cars.id)];
     case 'year_desc': return [desc(cars.year), desc(cars.createdAt), asc(cars.id)];
     case 'mileage_asc': return [asc(cars.mileage), desc(cars.createdAt), asc(cars.id)];
-    default: return [desc(cars.updatedAt), desc(cars.createdAt), asc(cars.id)];
+    default: return [desc(cars.createdAt), asc(cars.id)];
   }
 }
 
@@ -119,8 +120,8 @@ export class CarsService {
     return { data: rows.map((row) => admin ? row : ({
       slug: row.slug, name: row.name, year: row.year, price: row.price,
       originalPrice: row.originalPrice, mileage: row.mileage, seatCount: row.seatCount,
-      status: row.status,
-      featured: row.featured, installment: row.installment, newArrival: row.newArrival,
+      status: row.status, createdAt: row.createdAt,
+      featured: row.featured, installment: row.installment, newArrival: row.newArrival && canEditNewArrival(row.createdAt),
       brand: row.brand, model: row.model, bodyType: row.bodyType, transmission: row.transmission,
       color: row.color, colorSlug: row.colorSlug,
       fuel: row.fuel, cover: row.cover, branch: row.branch,
@@ -147,8 +148,8 @@ export class CarsService {
     const car = row.car;
     return { slug: car.slug, name: car.name, year: car.year, price: car.price, originalPrice: car.originalPrice,
       mileage: car.mileage, fuel: car.fuel, condition: car.condition, seatCount: car.seatCount,
-      description: car.description, status: car.status, featured: car.featured, installment: car.installment,
-      newArrival: car.newArrival, brand: row.brand, model: row.model, version: row.version,
+      description: car.description, status: car.status, createdAt: car.createdAt, featured: car.featured, installment: car.installment,
+      newArrival: car.newArrival && canEditNewArrival(car.createdAt), brand: row.brand, model: row.model, version: row.version,
       bodyType: row.bodyType, transmission: row.transmission, color: row.color, branch: row.branch?.id ? row.branch : null,
       media, specifications };
   }
@@ -210,7 +211,7 @@ export class CarsService {
       return await this.database.db.transaction(async (tx) => {
         const refs = await this.validateReferences(dto, tx);
         const [created] = await tx.insert(cars).values({ ...dto, name, slug: dto.slug ?? toSlug(name),
-          bodyStyleId: refs.bodyStyleId, publishedAt: null }).returning();
+          bodyStyleId: refs.bodyStyleId, publishedAt: null, newArrival: true }).returning();
         await tx.insert(auditLogs).values({ ...audit, action: 'car.create', entityType: 'car', entityId: created.id, newData: auditSnapshot(created) });
         return created;
       });
@@ -223,6 +224,12 @@ export class CarsService {
       return await this.database.db.transaction(async (tx) => {
         const [old] = await tx.select().from(cars).where(and(eq(cars.id, id), isNull(cars.deletedAt))).for('update');
         if (!old) throw new NotFoundException('Car not found');
+        if (dto.newArrival !== undefined) {
+          if (typeof dto.newArrival !== 'boolean') throw new BadRequestException('Trạng thái xe mới về phải là bật hoặc tắt.');
+          if (dto.newArrival !== old.newArrival && !canEditNewArrival(old.createdAt)) {
+            throw new BadRequestException('Chỉ được bật/tắt nhãn Xe mới về trong 7 ngày kể từ ngày nhập xe.');
+          }
+        }
         const brandId = dto.brandId ?? old.brandId;
         const modelId = dto.modelId ?? old.modelId;
         const refs = await this.validateReferences({ brandId, modelId,

@@ -3,6 +3,7 @@ import { and, asc, count, desc, eq, gt, inArray, isNotNull, isNull } from 'drizz
 import { DatabaseService } from '../../database/database.service.js';
 import { bodyStyles, brands, carMedia, carModels, cars, transmissions, branches, carRecommendationProfiles, recommendationSettings, recommendationSessions, recommendationEvents } from '../../database/schema/index.js';
 import type { Candidate } from './domain.js';
+import { canEditNewArrival } from '../cars/new-arrival.js';
 export type RecommendationDb = DatabaseService['db'];
 export type RecommendationTx = Parameters<Parameters<RecommendationDb['transaction']>[0]>[0];
 export type SavedSession = typeof recommendationSessions.$inferSelect;
@@ -16,10 +17,10 @@ export class RecommendationRepository {
   }
   async inventory(tx: RecommendationDb | RecommendationTx = this.database.db, ids?: string[]): Promise<Candidate[]> {
     if (ids && !ids.length) return [];
-    const rows = await tx.select({ id: cars.id, slug: cars.slug, name: cars.name, price: cars.price, year: cars.year, mileage: cars.mileage, seatCount: cars.seatCount,
+    const rows = await tx.select({ id: cars.id, slug: cars.slug, name: cars.name, price: cars.price, originalPrice: cars.originalPrice, year: cars.year, mileage: cars.mileage, seatCount: cars.seatCount,
       brand: { name: brands.name, slug: brands.slug }, model: { name: carModels.name, slug: carModels.slug },
       bodyStyle: { name: bodyStyles.name, slug: bodyStyles.slug }, transmission: { name: transmissions.name, slug: transmissions.slug },
-      fuel: cars.fuel, cover: carMedia.publicUrl, branch: branches.name, assessments: carRecommendationProfiles.assessments,
+      fuel: cars.fuel, cover: carMedia.publicUrl, branch: branches.name, createdAt: cars.createdAt, newArrival: cars.newArrival, assessments: carRecommendationProfiles.assessments,
     }).from(cars).innerJoin(brands, eq(brands.id, cars.brandId)).innerJoin(carModels, and(eq(carModels.id, cars.modelId), eq(carModels.brandId, cars.brandId)))
       .leftJoin(bodyStyles, and(eq(bodyStyles.id, cars.bodyStyleId), eq(bodyStyles.status, 'active')))
       .leftJoin(transmissions, and(eq(transmissions.id, cars.transmissionId), eq(transmissions.status, 'active')))
@@ -29,7 +30,7 @@ export class RecommendationRepository {
       .where(and(eq(cars.status, 'active'), isNotNull(cars.publishedAt), isNull(cars.deletedAt), gt(cars.price, 0), eq(brands.status, 'active'), eq(carModels.status, 'active'), ids ? inArray(cars.id, ids) : undefined))
       .orderBy(asc(cars.id)).limit(5001);
     if (rows.length > 5000) throw new ServiceUnavailableException('Kho xe đang cập nhật. Vui lòng liên hệ để được tư vấn.');
-    return rows.map(row => ({ ...row, bodyStyle: row.bodyStyle || { name: null, slug: null }, transmission: row.transmission || { name: null, slug: null } }));
+    return rows.map(row => ({ ...row, createdAt: row.createdAt.toISOString(), newArrival: row.newArrival && canEditNewArrival(row.createdAt), bodyStyle: row.bodyStyle || { name: null, slug: null }, transmission: row.transmission || { name: null, slug: null } }));
   }
   async lookups(db: RecommendationDb | RecommendationTx = this.database.db) {
     const [brandRows, bodyRows, transmissionRows, fuelRows] = await Promise.all([
