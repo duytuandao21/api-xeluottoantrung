@@ -9,11 +9,19 @@ import { AppModule } from './app.module.js';
 import { PinoLoggerService } from './common/logging/pino-logger.service.js';
 import { configureChatTransport } from './modules/chatbot/chatbot.transport.js';
 import { configureValuationTransport } from './modules/valuation/valuation.transport.js';
+import { PublicResponseCache } from './common/cache/public-cache.js';
+import { publicCacheState } from './common/cache/public-cache.module.js';
 
 export async function bootstrap(): Promise<NestFastifyApplication> {
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter({ logger: false }), { bufferLogs: true });
   const config = app.get(ConfigService);
   const logger = app.get(PinoLoggerService);
+  const publicCache = app.get(PublicResponseCache);
+  let cacheMetricsTimer: ReturnType<typeof setInterval> | undefined;
+  app.getHttpAdapter().getInstance().addHook('onClose', (_instance, done) => {
+    clearInterval(cacheMetricsTimer);
+    done();
+  });
   configureChatTransport(app.getHttpAdapter().getInstance());
   configureValuationTransport(app.getHttpAdapter().getInstance());
   app.useLogger(logger);
@@ -31,6 +39,13 @@ export async function bootstrap(): Promise<NestFastifyApplication> {
   const swagger = new DocumentBuilder().setTitle('Xe Lướt Toàn Trung API').setDescription('REST API for web and admin').setVersion('1.0').addBearerAuth().build();
   SwaggerModule.setup('api/docs', app, () => SwaggerModule.createDocument(app, swagger), { useGlobalPrefix: false });
   await app.listen({ port: config.getOrThrow<number>('PORT'), host: '0.0.0.0' });
+  logger.instance.info({ ...publicCacheState(config), entries: publicCache.snapshot().entries,
+    declaredProcessCount: config.get<number>('PUBLIC_CACHE_PROCESS_COUNT') }, 'public cache configuration');
+  if (publicCache.enabled) {
+    // Aggregate counters only: no keys, search terms, headers or extra requests.
+    cacheMetricsTimer = setInterval(() => logger.instance.info(publicCache.snapshot(), 'public cache metrics'), 300_000);
+    cacheMetricsTimer.unref();
+  }
   logger.log(`API listening on port ${config.getOrThrow<number>('PORT')}`, 'Bootstrap');
   return app;
 }

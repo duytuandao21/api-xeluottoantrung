@@ -22,10 +22,12 @@ import { SearchModule } from './modules/search/search.module.js';
 import { ChatbotModule } from './modules/chatbot/chatbot.module.js';
 import { ValuationModule } from './modules/valuation/valuation.module.js';
 import { CarRecommendationsModule } from './modules/car-recommendations/module.js';
+import { PublicCacheModule } from './common/cache/public-cache.module.js';
 
 @Module({
   imports: [
     ConfigModule.forRoot(configOptions),
+    PublicCacheModule,
     ThrottlerModule.forRootAsync({ inject: [ConfigService], useFactory: (config: ConfigService) => ({ throttlers: [{ ttl: config.getOrThrow<number>('RATE_LIMIT_TTL_MS'), limit: config.getOrThrow<number>('RATE_LIMIT_MAX') }] }) }),
     DatabaseModule,
     AuthModule,

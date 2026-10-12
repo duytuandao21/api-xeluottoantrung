@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { test } from 'node:test';
 import { BadRequestException, Module, ValidationPipe } from '@nestjs/common';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, type NestFastifyApplication } from '@nestjs/platform-fastify';
 import { PGlite } from '@electric-sql/pglite';
@@ -19,6 +19,8 @@ import { PermissionsGuard } from '../src/modules/auth/permissions.guard.js';
 import { AdminLookupsController, PublicLookupsController } from '../src/modules/lookups/lookups.controller.js';
 import { LookupPermissionsGuard } from '../src/modules/lookups/lookups.guard.js';
 import { LookupsService } from '../src/modules/lookups/lookups.service.js';
+import { PublicResponseCache } from '../src/common/cache/public-cache.js';
+import { PublicCacheInterceptor } from '../src/common/cache/public-cache.interceptor.js';
 
 test('phase 7 lookup CRUD, public visibility, relation checks, and per-resource RBAC', async () => {
   const pg = new PGlite();
@@ -83,6 +85,7 @@ test('phase 7 lookup CRUD, public visibility, relation checks, and per-resource 
       { provide: JwtVerifierService, useValue: { verify: async () => ({ id: profile.authUserId }) } },
       { provide: AdminAccessService, useValue: { forAuthUser: async () => ({ profile, roles: ['TEST'], permissions: granted }) } },
       { provide: APP_GUARD, useClass: JwtAuthGuard }, { provide: APP_GUARD, useClass: PermissionsGuard },
+      { provide: PublicResponseCache, useValue: new PublicResponseCache({ enabled: true }) }, { provide: APP_INTERCEPTOR, useClass: PublicCacheInterceptor },
     ] })
     class LookupsTestModule {}
     const app = await NestFactory.create<NestFastifyApplication>(LookupsTestModule, new FastifyAdapter(), { logger: false });
@@ -91,6 +94,8 @@ test('phase 7 lookup CRUD, public visibility, relation checks, and per-resource 
       app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true }));
       await app.init();
       const server = app.getHttpAdapter().getInstance();
+      const publicStyles = () => server.inject({ method: 'GET', url: '/api/v1/lookups/body-styles?limit=100' });
+      const initialStyles = (await publicStyles()).json().meta.total as number;
       assert.equal((await server.inject({ method: 'GET', url: '/api/v1/branches' })).statusCode, 200);
       assert.equal((await server.inject({ method: 'GET', url: '/api/v1/admin/lookups/branches' })).statusCode, 401);
       const request = () => server.inject({ method: 'GET', url: '/api/v1/admin/lookups/branches', headers: { authorization: 'Bearer test' } });
@@ -105,6 +110,7 @@ test('phase 7 lookup CRUD, public visibility, relation checks, and per-resource 
         payload: { name: 'Sedan', slug: 'sedan', imageUrl: 'https://example.com/sedan.png', status: 'active' } });
       assert.equal(created.statusCode, 201, created.body);
       assert.equal(created.json().name, 'Sedan');
+      assert.equal((await publicStyles()).json().meta.total, initialStyles + 1, 'Lookup create invalidates a warm list');
       const unsupported = await server.inject({ method: 'POST', url: '/api/v1/admin/lookups/body-styles',
         headers: { authorization: 'Bearer test' }, payload: { name: 'Sai', group: 'budget' } });
       assert.equal(unsupported.statusCode, 400, unsupported.body);
@@ -113,8 +119,13 @@ test('phase 7 lookup CRUD, public visibility, relation checks, and per-resource 
         headers: { authorization: 'Bearer test' }, payload: { name: 'Sedan 4 cửa' } });
       assert.equal(updated.statusCode, 200, updated.body);
       assert.equal(updated.json().name, 'Sedan 4 cửa');
+      assert.equal((await publicStyles()).json().data.find((row: { id: string }) => row.id === created.json().id).name, 'Sedan 4 cửa');
       const empty = await server.inject({ method: 'PATCH', url: `/api/v1/admin/lookups/body-styles/${created.json().id}`,
         headers: { authorization: 'Bearer test' }, payload: {} });
+      granted = ['body_style.delete'];
+      assert.equal((await server.inject({ method: 'DELETE', url: `/api/v1/admin/lookups/body-styles/${created.json().id}`,
+        headers: { authorization: 'Bearer test' } })).statusCode, 204);
+      assert.equal((await publicStyles()).json().meta.total, initialStyles, 'Lookup delete invalidates a warm list');
       assert.equal(empty.statusCode, 400, empty.body);
     } finally { await app.close(); }
   } finally { await pg.close(); }

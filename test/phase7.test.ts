@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { test } from 'node:test';
 import { BadRequestException, Module, NotFoundException, ValidationPipe } from '@nestjs/common';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, type NestFastifyApplication } from '@nestjs/platform-fastify';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -30,6 +30,8 @@ import { JwtAuthGuard } from '../src/modules/auth/jwt-auth.guard.js';
 import { PermissionsGuard } from '../src/modules/auth/permissions.guard.js';
 import { JwtVerifierService } from '../src/modules/auth/jwt-verifier.service.js';
 import { AdminAccessService } from '../src/modules/auth/admin-access.service.js';
+import { PublicResponseCache } from '../src/common/cache/public-cache.js';
+import { PublicCacheInterceptor } from '../src/common/cache/public-cache.interceptor.js';
 
 test('phase 7 content, SEO, enquiries and newsletter use real schema and permissions', async () => {
   const pg = new PGlite();
@@ -37,7 +39,8 @@ test('phase 7 content, SEO, enquiries and newsletter use real schema and permiss
     const journal = JSON.parse(await readFile('drizzle/meta/_journal.json', 'utf8')) as { entries: { tag: string }[] };
     for (const { tag: migration } of journal.entries)
       await pg.exec((await readFile(`drizzle/${migration}.sql`, 'utf8')).replaceAll('--> statement-breakpoint', ''));
-    const db = drizzle(pg, { schema });
+    let selects = 0;
+    const db = drizzle(pg, { schema, logger: { logQuery: (sql) => { if (/^select\b/i.test(sql)) selects++; } } });
     const connection = { db } as unknown as DatabaseService;
     const [profile] = await db.insert(profiles).values({ authUserId: '49332fa0-8244-4b20-a8d0-9793b72ef689', fullName: 'Admin' }).returning();
     const audit = { actorProfileId: profile.id, ipAddress: '127.0.0.1', userAgent: 'test', requestId: 'phase7' };
@@ -111,6 +114,7 @@ test('phase 7 content, SEO, enquiries and newsletter use real schema and permiss
     assert.equal((await customers.list(query)).meta.total, 0);
 
     let granted: string[] = [];
+    const publicCache = new PublicResponseCache({ enabled: true });
     @Module({ controllers: [PublicCollectionsController, AdminCollectionsController, PublicContentController,
       AdminContentController, AdminSettingsController, PublicSeoController, AdminSeoController,
       PublicLeadsController, AdminLeadsController, AdminNewsletterController],
@@ -119,6 +123,7 @@ test('phase 7 content, SEO, enquiries and newsletter use real schema and permiss
         { provide: JwtVerifierService, useValue: { verify: async () => ({ id: profile.authUserId }) } },
         { provide: AdminAccessService, useValue: { forAuthUser: async () => ({ profile, roles: ['TEST'], permissions: granted }) } },
         { provide: APP_GUARD, useClass: JwtAuthGuard }, { provide: APP_GUARD, useClass: PermissionsGuard },
+        { provide: PublicResponseCache, useValue: publicCache }, { provide: APP_INTERCEPTOR, useClass: PublicCacheInterceptor },
       ] })
     class Phase7TestModule {}
     const app = await NestFactory.create<NestFastifyApplication>(Phase7TestModule, new FastifyAdapter(), { logger: false });
@@ -127,6 +132,81 @@ test('phase 7 content, SEO, enquiries and newsletter use real schema and permiss
       app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true }));
       await app.init();
       const server = app.getHttpAdapter().getInstance();
+      const publicGet = (url: string, headers: Record<string, string> = {}) => server.inject({ method: 'GET', url, headers });
+      const seoUrl = '/api/v1/seo?route=%2Ftin-tuc';
+      const beforeSeo = selects;
+      const firstSeo = await publicGet(seoUrl);
+      assert.equal(firstSeo.statusCode, 200);
+      assert.equal(firstSeo.headers['cache-control'], 'no-store');
+      assert.deepEqual((await publicGet(seoUrl)).json(), firstSeo.json());
+      assert.equal(selects - beforeSeo, 1, 'Two anonymous SEO requests perform one SELECT');
+      publicCache.invalidate();
+      const beforeConcurrentSeo = selects;
+      const simultaneousSeo = await Promise.all(Array.from({ length: 20 }, () => publicGet(seoUrl)));
+      assert.equal(simultaneousSeo.every(response => response.statusCode === 200), true);
+      assert.equal(selects - beforeConcurrentSeo, 1, 'Twenty cold concurrent SEO reads coalesce into one SELECT');
+      const beforeBypass = selects;
+      const bypassHeaders: Record<string, string>[] = [{ authorization: 'Bearer test-token' }, { cookie: 'session=test' }];
+      for (const headers of bypassHeaders) {
+        await publicGet(seoUrl, headers); await publicGet(seoUrl, headers);
+      }
+      assert.equal(selects - beforeBypass, 4, 'Authorization and cookie requests bypass positive public cache');
+      const beforeUnknown = selects;
+      assert.equal((await publicGet('/api/v1/seo?route=%2Fnew-route')).statusCode, 404);
+      assert.equal((await publicGet('/api/v1/seo?route=%2Fnew-route')).statusCode, 404);
+      assert.equal(selects - beforeUnknown, 2, 'Unknown routes are never negative-cached');
+      granted = ['seo.update'];
+      const updateSeo = (routePath: string, metaTitle: string) => server.inject({ method: 'PUT', url: '/api/v1/admin/seo',
+        headers: { authorization: 'Bearer test-token' }, payload: { routePath, metaTitle } });
+      assert.equal((await updateSeo('/tin-tuc', 'Updated SEO')).statusCode, 200);
+      assert.equal((await publicGet(seoUrl)).json().metaTitle, 'Updated SEO', 'Post-commit mutation invalidates a warm SEO entry');
+      assert.equal((await updateSeo('/new-route', 'Created SEO')).statusCode, 200);
+      assert.equal((await publicGet('/api/v1/seo?route=%2Fnew-route')).json().metaTitle, 'Created SEO');
+      assert.equal((await server.inject({ method: 'DELETE', url: '/api/v1/admin/seo?route=%2Fnew-route',
+        headers: { authorization: 'Bearer test-token' } })).statusCode, 204);
+      assert.equal((await publicGet('/api/v1/seo?route=%2Fnew-route')).statusCode, 404, 'Delete removes positive cache');
+      granted = ['content.create', 'content.update', 'content.delete'];
+      const settingsUrl = '/api/v1/site-settings/thiet-lap-logo';
+      assert.deepEqual((await publicGet(settingsUrl)).json(), []);
+      const saveSetting = (value: string) => server.inject({ method: 'PUT', url: '/api/v1/admin/site-settings/thiet-lap-logo/logo',
+        headers: { authorization: 'Bearer test-token' }, payload: { value } });
+      assert.equal((await saveSetting('/first.png')).statusCode, 200);
+      assert.equal((await publicGet(settingsUrl)).json()[0].value, '/first.png');
+      assert.equal((await saveSetting('/second.png')).statusCode, 200);
+      assert.equal((await publicGet(settingsUrl)).json()[0].value, '/second.png');
+      const group = 'thiet-lap-cac-buoc-mua-xe';
+      const entriesUrl = `/api/v1/content?group=${group}`;
+      assert.deepEqual((await publicGet(entriesUrl)).json(), []);
+      assert.equal((await server.inject({ method: 'POST', url: '/api/v1/admin/content',
+        headers: { authorization: 'Bearer test-token' }, payload: { group, key: 'cache-test', title: 'First step' } })).statusCode, 201);
+      assert.equal((await publicGet(entriesUrl)).json()[0].title, 'First step');
+      assert.equal((await server.inject({ method: 'PATCH', url: `/api/v1/admin/content/${group}/cache-test`,
+        headers: { authorization: 'Bearer test-token' }, payload: { title: 'Updated step' } })).statusCode, 200);
+      assert.equal((await publicGet(entriesUrl)).json()[0].title, 'Updated step');
+      assert.equal((await server.inject({ method: 'DELETE', url: `/api/v1/admin/content/${group}/cache-test`,
+        headers: { authorization: 'Bearer test-token' } })).statusCode, 204);
+      assert.deepEqual((await publicGet(entriesUrl)).json(), []);
+      const faqUrl = '/api/v1/faqs?limit=20&page=1';
+      const beforeFaq = selects;
+      const oldFaq = await publicGet(faqUrl);
+      assert.deepEqual((await publicGet('/api/v1/faqs?page=1&limit=20')).json(), oldFaq.json());
+      assert.equal(selects - beforeFaq, 2, 'Canonical query shares the original count+listing SELECTs');
+      assert.equal((await publicGet('/api/v1/faqs?limit=0')).statusCode, 400, 'Cache cannot bypass DTO validation using another key');
+      const createCacheFaq = await server.inject({ method: 'POST', url: '/api/v1/admin/collections/faqs',
+        headers: { authorization: 'Bearer test-token' }, payload: { question: 'Cache FAQ?', answer: 'First answer' } });
+      assert.equal(createCacheFaq.statusCode, 201, createCacheFaq.body);
+      assert.equal((await publicGet(faqUrl)).json().meta.total, oldFaq.json().meta.total + 1);
+      assert.equal((await publicGet('/api/v1/faqs/cache-faq')).json().answer, 'First answer');
+      const faqId = createCacheFaq.json().id as string;
+      assert.equal((await server.inject({ method: 'PATCH', url: `/api/v1/admin/collections/faqs/${faqId}`,
+        headers: { authorization: 'Bearer test-token' }, payload: { question: 'Cache FAQ New', answer: 'New answer' } })).statusCode, 200);
+      assert.equal((await publicGet('/api/v1/faqs/cache-faq')).statusCode, 404, 'Old slug cache is removed');
+      assert.equal((await publicGet('/api/v1/faqs/cache-faq-new')).json().answer, 'New answer');
+      assert.equal((await server.inject({ method: 'DELETE', url: `/api/v1/admin/collections/faqs/${faqId}`,
+        headers: { authorization: 'Bearer test-token' } })).statusCode, 204);
+      assert.equal((await publicGet('/api/v1/faqs/cache-faq-new')).statusCode, 404);
+      assert.equal((await publicGet(faqUrl)).json().meta.total, oldFaq.json().meta.total);
+      granted = [];
       const invalidLead = await server.inject({ method: 'POST', url: '/api/v1/leads', payload: { type: 'sell', phone: 'x' } });
       assert.equal(invalidLead.statusCode, 400);
       const validLead = await server.inject({ method: 'POST', url: '/api/v1/leads', payload: {

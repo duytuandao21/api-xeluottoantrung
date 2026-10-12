@@ -34,8 +34,12 @@ Tạo admin đầu tiên trong Supabase Auth, rồi dùng `npm run admin:bootstr
 1. `GET /health` trả `database: ok`; `/api/docs` mở được.
 2. Admin đăng nhập, tạo xe, tải ảnh lên R2, publish.
 3. `GET /api/v1/cars` có xe; website liệt kê xe và route `/:slug` có gallery.
-4. Sửa giá admin; kiểm tra API rồi website sau tối đa khoảng 30 giây cache.
+4. Sửa giá admin; kiểm tra API rồi request mới trên website ngay sau commit. Giá/list/count/detail xe không có TTL cache.
 5. Unpublish; API và website không còn trả xe public, trang chi tiết trả 404.
 6. Kiểm tra preflight CORS từ cả origin admin và web; thử lead/newsletter hợp lệ theo nhu cầu vận hành.
 
 Trước khi áp dụng migration lên môi trường có dữ liệu, sao lưu PostgreSQL và kiểm tra thay đổi schema. Sau khi đổi `NEXT_PUBLIC_*`, build lại frontend vì các giá trị đó được đóng vào bundle trình duyệt. Website cần Next.js server để render route động; không dùng static export.
+
+## Public cache và giảm query
+
+API hỗ trợ cache public có giới hạn cho một process Node hoặc **PM2 fork một instance**. Cấu hình, build/restart, log xác minh, monitoring và rollback ở [public-cache-rollout.md](public-cache-rollout.md). Các biến: `PUBLIC_CACHE_ENABLED`, `PUBLIC_CACHE_MODE`, `PUBLIC_CACHE_PROCESS_COUNT`, `PUBLIC_CACHE_MAX_ENTRIES`, `PUBLIC_CACHE_MAX_BYTES`. Mẫu env mặc định tắt; chỉ bật sau khi xác minh tổng số API processes là 1. Không dùng cache process-local với cluster/nhiều replica.

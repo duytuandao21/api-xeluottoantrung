@@ -94,15 +94,16 @@ export class CarsService {
       .where(where);
     const totalRow = await base;
     const rows = await this.database.db.select({
-        id: cars.id, sku: cars.sku, slug: cars.slug, name: cars.name, year: cars.year, price: cars.price,
+        ...(admin ? { id: cars.id, sku: cars.sku, licensePlate: cars.licensePlate,
+          transmissionId: cars.transmissionId, publishedAt: cars.publishedAt, version: carVersions.name } : {}),
+        slug: cars.slug, name: cars.name, year: cars.year, price: cars.price,
         originalPrice: cars.originalPrice, mileage: cars.mileage, seatCount: cars.seatCount,
-        licensePlate: cars.licensePlate, status: cars.status,
-        transmissionId: cars.transmissionId,
+        status: cars.status,
         featured: cars.featured, installment: cars.installment, newArrival: cars.newArrival,
-        publishedAt: cars.publishedAt, createdAt: cars.createdAt,
+        createdAt: cars.createdAt,
         brand: { id: brands.id, name: brands.name, slug: brands.slug },
         model: { id: carModels.id, name: carModels.name, slug: carModels.slug },
-        version: carVersions.name, branch: branches.name,
+        branch: branches.name,
         bodyType: bodyStyles.name, transmission: transmissions.name, color: carColors.name,
         colorSlug: carColors.slug, fuel: cars.fuel,
         cover: carMedia.publicUrl,
@@ -129,7 +130,12 @@ export class CarsService {
   }
 
   async publicDetail(slug: string) {
-    const [row] = await this.database.db.select({ car: cars, brand: { id: brands.id, name: brands.name, slug: brands.slug },
+    const [row] = await this.database.db.select({ car: {
+      id: cars.id, slug: cars.slug, name: cars.name, year: cars.year, price: cars.price, originalPrice: cars.originalPrice,
+      mileage: cars.mileage, fuel: cars.fuel, condition: cars.condition, seatCount: cars.seatCount,
+      description: cars.description, status: cars.status, createdAt: cars.createdAt, featured: cars.featured,
+      installment: cars.installment, newArrival: cars.newArrival,
+    }, brand: { id: brands.id, name: brands.name, slug: brands.slug },
       model: { id: carModels.id, name: carModels.name, slug: carModels.slug },
       version: carVersions.name, bodyType: bodyStyles.name, transmission: transmissions.name,
       color: carColors.name, branch: { id: branches.id, name: branches.name, slug: branches.slug, address: branches.address, phone: branches.phone, mapUrl: branches.mapUrl, imageUrl: branches.imageUrl },

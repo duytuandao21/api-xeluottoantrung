@@ -60,6 +60,10 @@ Các biến đang dùng:
 
 `SUPABASE_SERVICE_ROLE_KEY` có trong file mẫu nhưng backend hiện không dùng. Không đặt service role key hay khóa R2 trong frontend. R2 có thể bỏ trống khi chỉ chạy các module không dùng media; các endpoint media sẽ trả 503 cho đến khi cấu hình đầy đủ.
 
+## Public cache
+
+Public cache cho Node/PM2 fork **một API instance**, cấu hình, invalidation, monitoring và rollback: [docs/public-cache-rollout.md](docs/public-cache-rollout.md). Cache không áp dụng cho giá/kho/private/admin. `.env.example` mặc định off cho deployment chưa xác minh topology.
+
 ## Database
 
 Schema và ERD: [docs/database-schema.md](docs/database-schema.md). Migration ban đầu gồm 32 bảng. Trước khi chạy ứng dụng trên database mới:

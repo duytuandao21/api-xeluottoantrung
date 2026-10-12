@@ -28,6 +28,11 @@ export type AppConfig = {
   CHAT_RATE_WINDOW_MS: number;
   CHAT_TIMEOUT_MS: number;
   CHAT_TRUSTED_PROXY_IPS: string;
+  PUBLIC_CACHE_ENABLED: boolean;
+  PUBLIC_CACHE_MODE: 'off' | 'single-process';
+  PUBLIC_CACHE_PROCESS_COUNT: number;
+  PUBLIC_CACHE_MAX_ENTRIES: number;
+  PUBLIC_CACHE_MAX_BYTES: number;
 };
 
 function positiveInt(value: unknown, name: string, fallback: number): number {
@@ -91,6 +96,11 @@ export function validateEnv(input: Record<string, unknown>): AppConfig {
     CHAT_RATE_WINDOW_MS: positiveInt(input.CHAT_RATE_WINDOW_MS, 'CHAT_RATE_WINDOW_MS', 600000),
     CHAT_TIMEOUT_MS: positiveInt(input.CHAT_TIMEOUT_MS, 'CHAT_TIMEOUT_MS', 30000),
     CHAT_TRUSTED_PROXY_IPS: trustedChatProxies(input.CHAT_TRUSTED_PROXY_IPS),
+    PUBLIC_CACHE_ENABLED: input.PUBLIC_CACHE_ENABLED === 'true' || input.PUBLIC_CACHE_ENABLED === true,
+    PUBLIC_CACHE_MODE: input.PUBLIC_CACHE_MODE === 'single-process' ? 'single-process' : 'off',
+    PUBLIC_CACHE_PROCESS_COUNT: Number(input.PUBLIC_CACHE_PROCESS_COUNT || 0),
+    PUBLIC_CACHE_MAX_ENTRIES: Math.min(positiveInt(input.PUBLIC_CACHE_MAX_ENTRIES, 'PUBLIC_CACHE_MAX_ENTRIES', 256), 1024),
+    PUBLIC_CACHE_MAX_BYTES: Math.min(positiveInt(input.PUBLIC_CACHE_MAX_BYTES, 'PUBLIC_CACHE_MAX_BYTES', 8 * 1024 * 1024), 32 * 1024 * 1024),
   };
 }
 

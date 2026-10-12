@@ -29,12 +29,16 @@ export class CatalogService {
   }
 
   async publicModels(brandSlug: string) {
-    const [brand] = await this.database.db.select({ id: brands.id }).from(brands)
-      .where(and(eq(brands.slug, brandSlug), eq(brands.status, 'active')));
-    if (!brand) throw new NotFoundException('Brand not found');
-    return this.database.db.select({ id: carModels.id, name: carModels.name, slug: carModels.slug, imageUrl: carModels.imageUrl })
-      .from(carModels).where(and(eq(carModels.brandId, brand.id), eq(carModels.status, 'active')))
+    // LEFT JOIN preserves the difference between an unknown brand (404) and
+    // an active brand with no active models ([]), using one database round trip.
+    const rows = await this.database.db.select({ model: {
+      id: carModels.id, name: carModels.name, slug: carModels.slug, imageUrl: carModels.imageUrl,
+    } }).from(brands)
+      .leftJoin(carModels, and(eq(carModels.brandId, brands.id), eq(carModels.status, 'active')))
+      .where(and(eq(brands.slug, brandSlug), eq(brands.status, 'active')))
       .orderBy(asc(carModels.sortOrder), asc(carModels.name));
+    if (!rows.length) throw new NotFoundException('Brand not found');
+    return rows.flatMap(row => row.model ? [row.model] : []);
   }
 
   async adminBrands() {

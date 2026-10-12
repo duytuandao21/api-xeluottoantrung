@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { test } from 'node:test';
 import { ConflictException, Module, NotFoundException, ValidationPipe } from '@nestjs/common';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, type NestFastifyApplication } from '@nestjs/platform-fastify';
 import { PGlite } from '@electric-sql/pglite';
@@ -22,6 +22,9 @@ import type { ListCarsQuery } from '../src/modules/cars/cars.dto.js';
 import { DatabaseService } from '../src/database/database.service.js';
 import { auditLogs, branches, carVersions, profiles } from '../src/database/schema/index.js';
 import * as schema from '../src/database/schema/index.js';
+import { PublicResponseCache } from '../src/common/cache/public-cache.js';
+import { PublicCacheInterceptor } from '../src/common/cache/public-cache.interceptor.js';
+import { AdminBrandsController, AdminModelsController, PublicCatalogController } from '../src/modules/catalog/catalog.controller.js';
 
 test('catalog and car lifecycle, filtering, pagination and audit', async () => {
   const pg = new PGlite();
@@ -144,16 +147,18 @@ test('catalog and car lifecycle, filtering, pagination and audit', async () => {
 
     let granted: string[] = [];
     let assignedRoles: string[] = [];
+    const publicCache = new PublicResponseCache({ enabled: true });
     @Module({
-      controllers: [AdminCarsController, PublicCarsController, SaleCarsController],
+      controllers: [AdminCarsController, PublicCarsController, SaleCarsController, PublicCatalogController, AdminBrandsController, AdminModelsController],
       providers: [
-        { provide: DatabaseService, useValue: connection }, CarsService,
+        { provide: DatabaseService, useValue: connection }, CarsService, CatalogService,
         { provide: JwtVerifierService, useValue: { verify: async () => ({ id: profile.authUserId }) } },
         { provide: AdminAccessService, useValue: { forAuthUser: async () => ({ profile: {
           id: profile.id, authUserId: profile.authUserId, fullName: profile.fullName, email: null, phone: null,
           status: 'active', createdAt: profile.createdAt, updatedAt: profile.updatedAt,
         }, roles: assignedRoles, permissions: granted }) } },
         { provide: APP_GUARD, useClass: JwtAuthGuard }, { provide: APP_GUARD, useClass: PermissionsGuard },
+        { provide: PublicResponseCache, useValue: publicCache }, { provide: APP_INTERCEPTOR, useClass: PublicCacheInterceptor },
       ],
     })
     class TestCarsModule {}
@@ -163,6 +168,32 @@ test('catalog and car lifecycle, filtering, pagination and audit', async () => {
       app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true }));
       await app.init();
       const server = app.getHttpAdapter().getInstance();
+      const catalogGet = (slug: string) => server.inject({ method: 'GET', url: `/api/v1/brands/${slug}/models` });
+      const catalogWrite = (method: 'POST' | 'PATCH' | 'DELETE', path: string, payload?: object) => server.inject({
+        method, url: `/api/v1/admin/${path}`, headers: { authorization: 'Bearer test-token' }, payload });
+      granted = ['brand.create', 'brand.update', 'brand.delete', 'model.create', 'model.update', 'model.delete'];
+      const cacheBrand = await catalogWrite('POST', 'brands', { name: 'Cache Brand', slug: 'cache-brand' });
+      assert.equal(cacheBrand.statusCode, 201);
+      const brandId = cacheBrand.json().id as string;
+      assert.deepEqual((await catalogGet('cache-brand')).json(), []);
+      const cacheModel = await catalogWrite('POST', 'car-models', { brandId, name: 'First model', slug: 'first-model' });
+      assert.equal(cacheModel.statusCode, 201);
+      const modelId = cacheModel.json().id as string;
+      assert.equal((await catalogGet('cache-brand')).json()[0].name, 'First model');
+      assert.equal((await catalogWrite('PATCH', `car-models/${modelId}`, { name: 'New model' })).statusCode, 200);
+      assert.equal((await catalogGet('cache-brand')).json()[0].name, 'New model');
+      assert.equal((await catalogWrite('PATCH', `brands/${brandId}`, { slug: 'cache-brand-new' })).statusCode, 200);
+      assert.equal((await catalogGet('cache-brand')).statusCode, 404, 'Old brand slug cache is invalidated');
+      assert.equal((await catalogGet('cache-brand-new')).json()[0].name, 'New model');
+      assert.equal((await catalogWrite('PATCH', `brands/${brandId}`, { status: 'inactive' })).statusCode, 200);
+      assert.equal((await catalogGet('cache-brand-new')).statusCode, 404, 'Inactive brand cannot leak a warm catalog');
+      assert.equal((await catalogWrite('PATCH', `brands/${brandId}`, { status: 'active' })).statusCode, 200);
+      assert.equal((await catalogGet('cache-brand-new')).json().length, 1);
+      assert.equal((await catalogWrite('DELETE', `car-models/${modelId}`)).statusCode, 204);
+      assert.deepEqual((await catalogGet('cache-brand-new')).json(), []);
+      assert.equal((await catalogWrite('DELETE', `brands/${brandId}`)).statusCode, 204);
+      assert.equal((await catalogGet('cache-brand-new')).statusCode, 404);
+      granted = [];
       const body = { name: 'HTTP Car', brandId: brand.id, modelId: model.id, year: 2020, price: 200_000_000, licensePlate: '43A-12345' };
       const send = (payload: object, token = true) => server.inject({ method: 'POST', url: '/api/v1/admin/cars',
         headers: token ? { authorization: 'Bearer test-token' } : {}, payload });
@@ -182,6 +213,32 @@ test('catalog and car lifecycle, filtering, pagination and audit', async () => {
       assert.equal(publicDetail.statusCode, 200);
       assert.equal(publicDetail.json().price, body.price);
       assert.equal('licensePlate' in publicDetail.json(), false);
+      const liveGet = () => server.inject({ method: 'GET', url: '/api/v1/cars/http-car' });
+      const liveList = () => server.inject({ method: 'GET', url: '/api/v1/cars?limit=100' });
+      const liveBrands = () => server.inject({ method: 'GET', url: '/api/v1/brands' });
+      // Deliberately write outside the interceptor: live inventory must stay
+      // fresh without relying on cache invalidation at all.
+      const cachedEntries = publicCache.snapshot().entries;
+      await liveGet(); await liveGet();
+      await liveList(); await liveBrands();
+      await service.update(createdId, { price: 190_000_000, originalPrice: 220_000_000, status: 'deposit' }, audit);
+      const changedPrice = (await liveGet()).json();
+      assert.equal(changedPrice.price, 190_000_000);
+      assert.equal(changedPrice.originalPrice, 220_000_000);
+      assert.equal(changedPrice.status, 'deposit');
+      assert.equal((await liveList()).json().data.find((row: { slug: string }) => row.slug === 'http-car').price, 190_000_000);
+      assert.equal((await liveBrands()).json().find((row: { slug: string }) => row.slug === 'toyota').stockCount, 1);
+      await service.update(createdId, { status: 'sold' }, audit);
+      assert.equal((await liveGet()).json().status, 'sold');
+      assert.equal((await liveBrands()).json().find((row: { slug: string }) => row.slug === 'toyota').stockCount, 0, 'Brand stock remains live');
+      await service.update(createdId, { status: 'deposit' }, audit);
+      const [image] = await db.insert(schema.carMedia).values({ carId: createdId, publicUrl: 'https://media.test/cover.jpg', isCover: true }).returning();
+      assert.equal((await liveGet()).json().media[0].url, image.publicUrl, 'Media is live even without invalidation');
+      assert.equal((await liveList()).json().data.find((row: { slug: string }) => row.slug === 'http-car').cover, image.publicUrl);
+      await db.delete(schema.carMedia).where(eq(schema.carMedia.id, image.id));
+      assert.deepEqual((await liveGet()).json().media, []);
+      assert.equal((await liveList()).json().data.find((row: { slug: string }) => row.slug === 'http-car').cover, null);
+      assert.equal(publicCache.snapshot().entries, cachedEntries, 'Car detail never enters the shared cache');
       granted = ['car.update'];
       const toggle = (newArrival: unknown) => server.inject({ method: 'PATCH', url: `/api/v1/admin/cars/${createdId}`,
         headers: { authorization: 'Bearer test-token' }, payload: { newArrival } });
