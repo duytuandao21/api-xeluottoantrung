@@ -152,7 +152,7 @@ export class CarsService {
     const specifications = await this.database.db.select({ key: carSpecifications.key, label: carSpecifications.label, value: carSpecifications.value, sortOrder: carSpecifications.sortOrder })
       .from(carSpecifications).where(eq(carSpecifications.carId, row.car.id)).orderBy(asc(carSpecifications.sortOrder));
     const car = row.car;
-    return { slug: car.slug, name: car.name, year: car.year, price: car.price, originalPrice: car.originalPrice,
+    return { id: car.id, slug: car.slug, name: car.name, year: car.year, price: car.price, originalPrice: car.originalPrice,
       mileage: car.mileage, fuel: car.fuel, condition: car.condition, seatCount: car.seatCount,
       description: car.description, status: car.status, createdAt: car.createdAt, featured: car.featured, installment: car.installment,
       newArrival: car.newArrival && canEditNewArrival(car.createdAt), brand: row.brand, model: row.model, version: row.version,

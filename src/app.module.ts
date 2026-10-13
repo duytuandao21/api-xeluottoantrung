@@ -23,6 +23,8 @@ import { ChatbotModule } from './modules/chatbot/chatbot.module.js';
 import { ValuationModule } from './modules/valuation/valuation.module.js';
 import { CarRecommendationsModule } from './modules/car-recommendations/module.js';
 import { PublicCacheModule } from './common/cache/public-cache.module.js';
+import { OwnershipModule } from './modules/ownership/module.js';
+import { PromotionsModule } from './modules/promotions/module.js';
 
 @Module({
   imports: [
@@ -45,6 +47,8 @@ import { PublicCacheModule } from './common/cache/public-cache.module.js';
     ChatbotModule,
     ValuationModule,
     CarRecommendationsModule,
+    OwnershipModule,
+    PromotionsModule,
     HealthModule,
   ],
   providers: [

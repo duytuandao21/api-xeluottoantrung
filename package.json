@@ -31,6 +31,8 @@
     "admin:check-user": "tsx src/database/check-auth-user.ts",
     "admin:bootstrap": "tsx src/database/seed/bootstrap-admin.ts",
     "db:seed-car-recommendations": "tsx src/database/seed/car-recommendations.ts",
+    "db:seed-ownership": "tsx src/database/seed/ownership.ts",
+    "test:ownership": "tsc -p tsconfig.test.json && node --test .test-dist/test/ownership-*.test.js",
     "recommendations:prune": "tsx scripts/prune-car-recommendations.ts"
   },
   "dependencies": {

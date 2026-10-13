@@ -1,0 +1,34 @@
+export const OWNERSHIP_PERMISSIONS = ['ownership.read', 'ownership.settings.update', 'ownership.profiles.update'];
+export type Fuel = 'gasoline' | 'diesel' | 'electric';
+export type Driving = 'city' | 'mixed' | 'highway';
+export type Scope = 'car' | 'version' | 'model' | 'body' | 'fuel';
+export type Maintenance = { key: string; name: string; amount: number; everyKm: number | null; everyMonths: number | null };
+export type Policy = {
+  consumption: Record<Fuel, number>; factors: Record<Driving, number>; chargingLoss: number;
+  maintenanceMode: 'aggregate' | 'scheduled'; maintenancePerKm: number; maintenanceAnnual: number; maintenance: Maintenance[];
+  repairAnnual: number; repairAgeFactor: number; repairOdoFactor: number;
+  depreciationAnnualPct: number; depreciationAgeFactor: number; depreciationOdoFactor: number; residualFloorPct: number;
+};
+export type Fee = { key: string; name: string; kind: 'initial' | 'annual' | 'mandatory' | 'comprehensive' | 'finance';
+  amount: number; pricePct: number; fuel: Fuel | 'any'; bodyId: string | null; region: string; transaction: string };
+export type Answers = { monthlyKm: number; driving: Driving; energyPrice: number; parking: number; wash: number; toll: number;
+  insurance: 'mandatory' | 'comprehensive'; financed: boolean; downPct: number | null; termMonths: number | null; annualRate: number | null;
+  years: number; region: string; transaction: string };
+export type SettingsConfig = { defaultFuel: Fuel; fallbackOdo: number; policy: Policy; energyPrices: Record<Fuel, number>;
+  loanDefaults: { downPct: number; termMonths: number; annualRate: number };
+  defaults: Answers; parkingOptions: number[]; washOptions: number[]; tollOptions: number[]; yearOptions: number[];
+  regions: { key: string; label: string }[]; transactions: { key: string; label: string }[]; fees: Fee[] };
+export type Vehicle = { id: string; name: string; slug: string; price: number; year: number; mileage: number | null; fuel: string | null;
+  modelId: string; versionId: string | null; bodyStyleId: string | null; brand: string; model: string; cover: string | null };
+export type Profile = { id: string; name: string; scope: Scope; target: string; policy: Policy; updatedAt: Date };
+export type Resolved = { fuel: Fuel; odo: number; policy: Policy; profile: { id: string; name: string; scope: Scope } | null; assumptions: string[] };
+export type Breakdown = { key: string; label: string; monthly: number; annual: number; total: number };
+export type Calculation = {
+  vehicle: Vehicle; answers: Answers; resolved: Resolved; consumption: number; energyUnit: string; months: number;
+  operatingMonthly: number; operatingAnnual: number; operatingTotal: number; cashMonthly: number; initialCash: number;
+  initialFees: number; financeFees: number; tco: number; resale: number; netResale: number; depreciation: number;
+  breakdown: Breakdown[]; feeDetails: { name: string; kind: Fee['kind']; amount: number }[];
+  maintenanceEvents: { month: number; odo: number; name: string; amount: number }[]; maintenanceEventCount: number;
+  financing: { downPayment: number; principal: number; monthlyPayment: number; interest: number; remainingPrincipal: number; paidPrincipal: number; payments: number } | null;
+  series: { years: number; tco: number; operating: number; resale: number }[]; explanations: string[];
+};

@@ -7,3 +7,5 @@ export * from './auspicious-date.js';
 export * from './valuation.js';
 export * from './valuation-records.js';
 export * from './car-recommendations.js';
+export * from './ownership.js';
+export * from './promotions.js';

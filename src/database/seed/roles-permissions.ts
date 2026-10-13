@@ -1,4 +1,5 @@
 import { RECOMMENDATION_PERMISSIONS } from '../../modules/car-recommendations/domain.js';
+import { OWNERSHIP_PERMISSIONS } from '../../modules/ownership/domain.js';
 import 'dotenv/config';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
@@ -32,7 +33,7 @@ const resourceActions: Record<string, string[]> = {
   auspicious_date: ['read', 'settings.update', 'rules.read', 'rules.update', 'content.update', 'sources.manage', 'versions.manage', 'publish', 'simulate', 'audit.read'],
 };
 
-const permissionCodes = [...Object.entries(resourceActions).flatMap(([resource, actions]) => actions.map((action) => `${resource}.${action}`)), ...VALUATION_PERMISSIONS, ...RECOMMENDATION_PERMISSIONS];
+const permissionCodes = [...Object.entries(resourceActions).flatMap(([resource, actions]) => actions.map((action) => `${resource}.${action}`)), ...VALUATION_PERMISSIONS, ...RECOMMENDATION_PERMISSIONS, ...OWNERSHIP_PERMISSIONS];
 const assigned: Record<string, string[]> = {
   ADMIN: permissionCodes.filter((code) => !code.startsWith('user.assign_role')),
   CONTENT_EDITOR: permissionCodes.filter((code) => code.startsWith('content.') ||

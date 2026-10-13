@@ -11,6 +11,7 @@ import { configureChatTransport } from './modules/chatbot/chatbot.transport.js';
 import { configureValuationTransport } from './modules/valuation/valuation.transport.js';
 import { PublicResponseCache } from './common/cache/public-cache.js';
 import { publicCacheState } from './common/cache/public-cache.module.js';
+import { configureOwnershipTransport } from './modules/ownership/transport.js';
 
 export async function bootstrap(): Promise<NestFastifyApplication> {
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter({ logger: false }), { bufferLogs: true });
@@ -24,6 +25,7 @@ export async function bootstrap(): Promise<NestFastifyApplication> {
   });
   configureChatTransport(app.getHttpAdapter().getInstance());
   configureValuationTransport(app.getHttpAdapter().getInstance());
+  configureOwnershipTransport(app.getHttpAdapter().getInstance());
   app.useLogger(logger);
   app.getHttpAdapter().getInstance().addHook('onResponse', (request, reply, done) => {
     logger.instance.info({ requestId: request.id, method: request.method, path: request.url.split('?')[0], status: reply.statusCode, durationMs: Math.round(reply.elapsedTime) }, 'request completed');
