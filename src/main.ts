@@ -39,7 +39,7 @@ export async function bootstrap(): Promise<NestFastifyApplication> {
   }));
   const swagger = new DocumentBuilder().setTitle('Xe Lướt Toàn Trung API').setDescription('REST API for web and admin').setVersion('1.0').addBearerAuth().build();
   SwaggerModule.setup('api/docs', app, () => SwaggerModule.createDocument(app, swagger), { useGlobalPrefix: false });
-  await app.listen({ port: config.getOrThrow<number>('PORT'), host: '0.0.0.0' });
+  await app.listen({ port: config.getOrThrow<number>('PORT'), host: '127.0.0.1' });
   logger.instance.info({ ...publicCacheState(config), entries: publicCache.snapshot().entries,
     declaredProcessCount: config.get<number>('PUBLIC_CACHE_PROCESS_COUNT') }, 'public cache configuration');
   if (publicCache.enabled) {
