@@ -23,6 +23,8 @@
     "db:seed-recruitment": "tsx src/database/seed/recruitment-article.ts",
     "db:seed-website-content": "tsx src/database/seed/website-content.ts",
     "db:seed-website-settings": "tsx src/database/seed/website-settings.ts --apply",
+    "db:seed-trade-in-background": "tsx src/database/seed/trade-in-background.ts --apply",
+    "db:seed-sell-car-background": "tsx src/database/seed/sell-car-background.ts --apply",
     "db:seed-seo": "tsx src/database/seed/seo-website.ts --apply",
     "db:seed-auspicious": "tsx src/database/seed/auspicious-date.ts",
     "db:seed-valuation": "tsx src/database/seed/valuation.ts",

@@ -4,9 +4,10 @@
       "image": "/upload/photo/z542696452086627bb2b6a9a249c269886d0a6ef071eaa-4670.jpg"
     },
     "thiet-lap-text-ban-xe": {
+      "background-image": "https://pub-edb90463be404b1d8b79b79517518131.r2.dev/assets/344b52c2-c8d9-4ccd-b6b2-af87d7fb76dc.png",
       "visible": "1",
       "title": "Bán xe của bạn với giá tốt nhất",
-      "subtitle": "Nhập thông tin chi tiết xe của bạn và nhận báo giá ngay",
+      "subtitle": "Nhập thông tin chi tiết xe của bạn",
       "content": "<p><span style=\"font-size:18px\">Liên hệ bán xe nhanh&nbsp;</span></p>",
       "image": "/upload/news/z5430048952628bebc88299e1b87e96914633c2da3326c-removebg-preview-6304.png",
       "seoTitle": "Bán xe của bạn với giá tốt nhất | OTO TOAN TRUNG | O TO CU TPHCM",
@@ -14,6 +15,7 @@
       "seoDescription": ""
     },
     "thiet-lap-text-len-doi": {
+      "background-image": "https://pub-edb90463be404b1d8b79b79517518131.r2.dev/assets/344b52c2-c8d9-4ccd-b6b2-af87d7fb76dc.png",
       "visible": "1",
       "title": "Lên đời xe của bạn",
       "subtitle": "Nhập thông tin chi tiết xe của bạn",

@@ -6,6 +6,11 @@ const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const statusValues = ['active', 'deposit', 'sold', 'inactive'] as const;
 const sortValues = ['newest', 'oldest', 'price_asc', 'price_desc', 'year_desc', 'mileage_asc'] as const;
 
+export class CarMenuQuery {
+  @ApiProperty({ enum: ['new-arrivals', 'discounts'] })
+  @IsIn(['new-arrivals', 'discounts']) section!: 'new-arrivals' | 'discounts';
+}
+
 export class ListCarsQuery {
   @ApiPropertyOptional({ description: 'Search car name; admin also searches SKU' })
   @IsOptional() @IsString() @MaxLength(120) search?: string;
@@ -41,6 +46,10 @@ export class ListCarsQuery {
   @IsOptional() @IsIn(statusValues) status?: typeof statusValues[number];
   @ApiPropertyOptional({ enum: ['true', 'false'], description: 'Only featured or non-featured cars' })
   @IsOptional() @IsIn(['true', 'false']) featured?: 'true' | 'false';
+  @ApiPropertyOptional({ enum: ['true'], description: 'Cars marked new arrival within the last seven days' })
+  @IsOptional() @IsIn(['true']) new_arrival?: 'true';
+  @ApiPropertyOptional({ enum: ['true'], description: 'Cars with original price greater than current price' })
+  @IsOptional() @IsIn(['true']) discounted?: 'true';
   @ApiPropertyOptional({ type: Number, default: 1 })
   @IsOptional() @Type(() => Number) @IsInt() @Min(1) @Max(100_000) page = 1;
   @ApiPropertyOptional({ type: Number, default: 20, maximum: 100 })

@@ -13,6 +13,7 @@ Danh sách xe công khai trả thêm `branch` là tên showroom đang giữ xe, 
 | `GET /brands` | Hãng đang active |
 | `GET /brands/:slug/models` | Dòng đang active của hãng đang active |
 | `GET /cars` | Card xe đã đăng, có lọc và phân trang |
+| `GET /cars/menu?section=new-arrivals` hoặc `discounts` | Tối đa 3 xe cho menu Mua xe; chỉ ảnh, tên, slug, giá và giá cũ |
 | `GET /cars/:slug` | Chi tiết xe đã đăng, gồm gallery và specifications |
 
 | Admin | Quyền |
@@ -41,6 +42,14 @@ Các `:id` admin là UUID. `DELETE /admin/cars/:id` là soft delete; trả 204. 
 ```
 
 Public list trả dữ liệu cho card và URL ảnh cover, cùng `color` (tên màu) và `colorSlug` để web tạo gợi ý lọc từ xe đang đăng. Xe chưa gắn màu trả `null` cho hai trường này. Danh sách không tải full gallery/specifications và không trả SKU, biển số, nguồn import hay trường xóa nội bộ. Public detail trả gallery/specifications và các trường trình bày. Admin detail trả đầy đủ trường xe để chỉnh sửa.
+
+### Nhóm xe cho menu Mua xe
+
+`new_arrival=true` lọc xe bật nhãn Xe mới về, ngày tạo trong 7 ngày gần nhất (không lấy ngày tương lai). `discounted=true` lọc xe có giá cũ lớn hơn giá hiện tại. Hai nhóm công khai chỉ lấy xe `active`, đã đăng, chưa xóa và có hãng/dòng đang hoạt động; phối hợp được với bộ lọc, sắp xếp và phân trang hiện có.
+
+Menu chỉ gọi API khi mở tab xe. Endpoint `/cars/menu` chạy một truy vấn `LIMIT 3`, không đếm tổng, không đọc thông số/gallery; xe mới về theo ngày tạo giảm dần, xe giảm giá chọn 3 xe theo cùng thứ tự ổn định, không `ORDER BY random()`. Nhãn giảm giá được tính bằng giá cũ trừ giá hiện tại.
+
+Menu và danh sách có hai bộ lọc mới dùng cache API tối đa 30 giây khi cấu hình public cache đang bật; các thao tác admin xóa cache qua interceptor hiện có. Request đồng thời được gộp, không lưu lỗi. Danh sách thông thường, chi tiết xe và truy vấn tìm kiếm tự do tiếp tục đọc trực tiếp như trước. Web chỉ giữ tối đa hai kết quả tab trong 30 giây trong vòng đời trang; không prefetch dữ liệu xe hay banner khi menu đóng. Không cần migration.
 
 ## Vòng đời và toàn vẹn dữ liệu
 

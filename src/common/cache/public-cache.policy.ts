@@ -15,7 +15,9 @@ export function publicCachePolicy(rawUrl: string): { key: string; ttlMs: number 
   const path = url.pathname.slice('/api/v1'.length);
   const parts = path.slice(1).split('/');
   let ttlMs: number | undefined;
-  if (path === '/seo' && url.searchParams.has('route')) ttlMs = 300_000;
+  if (path === '/cars/menu' && url.searchParams.size === 1 && ['new-arrivals', 'discounts'].includes(url.searchParams.get('section') ?? '')) ttlMs = 30_000;
+  else if (path === '/cars' && (url.searchParams.get('new_arrival') === 'true' || url.searchParams.get('discounted') === 'true')) ttlMs = 30_000;
+  else if (path === '/seo' && url.searchParams.has('route')) ttlMs = 300_000;
   else if (/^\/brands\/[^/]+\/models$/.test(path)) ttlMs = 900_000;
   else if (parts[0] === 'lookups' && parts.length === 2 && lookups.has(parts[1]))
     ttlMs = ['branches', 'branch-regions'].includes(parts[1]) ? 300_000 : 900_000;

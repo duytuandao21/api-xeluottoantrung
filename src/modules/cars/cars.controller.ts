@@ -5,7 +5,7 @@ import { auditContext } from '../../common/audit.js';
 import { AdminAccessRequired, CurrentUser, Permissions, Public } from '../auth/auth.decorators.js';
 import type { AuthenticatedUser } from '../auth/auth.types.js';
 import { CarsService } from './cars.service.js';
-import { CreateCarDto, ListCarsQuery, UpdateCarDto } from './cars.dto.js';
+import { CarMenuQuery, CreateCarDto, ListCarsQuery, UpdateCarDto } from './cars.dto.js';
 
 @ApiTags('Public cars')
 @Public()
@@ -16,6 +16,10 @@ export class PublicCarsController {
   @Get()
   @ApiOperation({ summary: 'Published cars with filters and pagination' })
   list(@Query() query: ListCarsQuery) { return this.cars.list(query); }
+
+  @Get('menu')
+  @ApiOperation({ summary: 'Three compact available cars for the buy menu; no count or specifications' })
+  menu(@Query() query: CarMenuQuery) { return this.cars.menu(query.section); }
 
   @Get(':slug')
   @ApiOperation({ summary: 'Published car detail by slug' })

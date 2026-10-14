@@ -1,12 +1,12 @@
 import { BadRequestException, ConflictException, Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { and, asc, count, desc, eq, gte, ilike, inArray, isNotNull, isNull, lte, or, sql, type SQL } from 'drizzle-orm';
+import { and, asc, count, desc, eq, gt, gte, ilike, inArray, isNotNull, isNull, lte, or, sql, type SQL } from 'drizzle-orm';
 import { throwOnConstraint } from '../../common/database-errors.js';
 import { toSlug } from '../../common/slug.js';
 import type { AuditContext } from '../../common/audit.js';
 import { DatabaseService } from '../../database/database.service.js';
 import { auditLogs, bodyStyles, branches, brands, carColors, carMedia, carModels, carSpecifications, cars, carVersions, transmissions } from '../../database/schema/index.js';
-import { CreateCarDto, ListCarsQuery, UpdateCarDto } from './cars.dto.js';
-import { canEditNewArrival } from './new-arrival.js';
+import { CarMenuQuery, CreateCarDto, ListCarsQuery, UpdateCarDto } from './cars.dto.js';
+import { canEditNewArrival, NEW_ARRIVAL_DURATION_MS } from './new-arrival.js';
 
 const publicStatuses = ['active', 'deposit', 'sold'] as const;
 type CarRow = typeof cars.$inferSelect;
@@ -43,6 +43,11 @@ function orderFor(sort: ListCarsQuery['sort']) {
   }
 }
 
+function newArrivalCondition() {
+  const now = new Date();
+  return and(eq(cars.newArrival, true), gt(cars.createdAt, new Date(now.getTime() - NEW_ARRIVAL_DURATION_MS)), lte(cars.createdAt, now))!;
+}
+
 @Injectable()
 export class CarsService {
   constructor(@Inject(DatabaseService) private readonly database: DatabaseService) {}
@@ -52,6 +57,7 @@ export class CarsService {
     const filters: SQL[] = [isNull(cars.deletedAt)];
     if (!admin) {
       filters.push(isNotNull(cars.publishedAt), inArray(cars.status, publicStatuses), eq(brands.status, 'active'), eq(carModels.status, 'active'));
+      if (query.new_arrival === 'true' || query.discounted === 'true') filters.push(eq(cars.status, 'active'));
     }
     if (query.search?.trim()) {
       const term = `%${query.search.trim().replace(/[\\%_]/g, '\\$&')}%`;
@@ -78,7 +84,26 @@ export class CarsService {
     if (query.mileage_max !== undefined) filters.push(lte(cars.mileage, query.mileage_max));
     if (query.status) filters.push(eq(cars.status, query.status));
     if (query.featured) filters.push(eq(cars.featured, query.featured === 'true'));
+    if (query.new_arrival === 'true') filters.push(newArrivalCondition());
+    if (query.discounted === 'true') filters.push(gt(cars.originalPrice, cars.price));
     return filters;
+  }
+
+  async menu(section: CarMenuQuery['section']) {
+    // One bounded select; no count, gallery, specifications or lookup hydration.
+    // Stable arbitrary discount selection avoids a full-table ORDER BY random().
+    const rows = await this.database.db.select({ slug: cars.slug, name: cars.name,
+      price: cars.price, originalPrice: cars.originalPrice, cover: carMedia.publicUrl,
+      ...(section === 'new-arrivals' ? { createdAt: cars.createdAt } : {}),
+    }).from(cars)
+      .innerJoin(brands, eq(brands.id, cars.brandId))
+      .innerJoin(carModels, eq(carModels.id, cars.modelId))
+      .leftJoin(carMedia, and(eq(carMedia.carId, cars.id), eq(carMedia.isCover, true), isNull(carMedia.deletionPendingAt)))
+      .where(and(isNull(cars.deletedAt), isNotNull(cars.publishedAt), eq(cars.status, 'active'),
+        eq(brands.status, 'active'), eq(carModels.status, 'active'),
+        section === 'new-arrivals' ? newArrivalCondition() : gt(cars.originalPrice, cars.price)))
+      .orderBy(...orderFor('newest')).limit(3);
+    return { data: rows };
   }
 
   async list(query: ListCarsQuery, admin = false, salePlateSearch = false) {

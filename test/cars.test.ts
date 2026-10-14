@@ -213,6 +213,28 @@ test('catalog and car lifecycle, filtering, pagination and audit', async () => {
       assert.equal(publicDetail.statusCode, 200);
       assert.equal(publicDetail.json().price, body.price);
       assert.equal('licensePlate' in publicDetail.json(), false);
+      const menuGet = (section: string) => server.inject({ method: 'GET', url: `/api/v1/cars/menu?section=${section}` });
+      assert.equal((await menuGet('invalid')).statusCode, 400);
+      assert.equal((await server.inject({ method: 'GET', url: '/api/v1/cars/menu?section=discounts&limit=100' })).statusCode, 400);
+      assert.equal((await server.inject({ method: 'GET', url: '/api/v1/cars?discounted=false' })).statusCode, 400);
+      assert.equal((await menuGet('new-arrivals')).json().data[0].slug, 'http-car');
+      const menuHits = publicCache.snapshot().hit;
+      await menuGet('new-arrivals');
+      assert.equal(publicCache.snapshot().hit, menuHits + 1, 'Repeated menu reads hit API cache');
+      assert.deepEqual((await menuGet('discounts')).json().data, []);
+      granted = ['car.update'];
+      const patchMenu = (payload: object) => server.inject({ method: 'PATCH', url: `/api/v1/admin/cars/${createdId}`,
+        headers: { authorization: 'Bearer test-token' }, payload });
+      assert.equal((await patchMenu({ originalPrice: 220_000_000 })).statusCode, 200);
+      assert.equal((await menuGet('discounts')).json().data[0].price, body.price, 'Admin edits invalidate a cached empty menu');
+      const discountedList = () => server.inject({ method: 'GET', url: '/api/v1/cars?discounted=true&limit=1' });
+      assert.equal((await discountedList()).json().meta.total, 1);
+      assert.equal((await patchMenu({ originalPrice: null, newArrival: false })).statusCode, 200);
+      assert.deepEqual((await menuGet('discounts')).json().data, []);
+      assert.deepEqual((await menuGet('new-arrivals')).json().data, []);
+      assert.equal((await discountedList()).json().meta.total, 0, 'Filtered count also invalidates');
+      assert.equal((await patchMenu({ newArrival: true })).statusCode, 200);
+      publicCache.invalidate();
       const liveGet = () => server.inject({ method: 'GET', url: '/api/v1/cars/http-car' });
       const liveList = () => server.inject({ method: 'GET', url: '/api/v1/cars?limit=100' });
       const liveBrands = () => server.inject({ method: 'GET', url: '/api/v1/brands' });
