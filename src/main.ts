@@ -14,7 +14,7 @@ import { publicCacheState } from './common/cache/public-cache.module.js';
 import { configureOwnershipTransport } from './modules/ownership/transport.js';
 
 export async function bootstrap(): Promise<NestFastifyApplication> {
-  const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter({ logger: false }), { bufferLogs: true });
+  const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter({ logger: false, trustProxy: ['127.0.0.1', '::1'], }), { bufferLogs: true });
   const config = app.get(ConfigService);
   const logger = app.get(PinoLoggerService);
   const publicCache = app.get(PublicResponseCache);
@@ -23,7 +23,6 @@ export async function bootstrap(): Promise<NestFastifyApplication> {
     clearInterval(cacheMetricsTimer);
     done();
   });
-  configureChatTransport(app.getHttpAdapter().getInstance());
   configureValuationTransport(app.getHttpAdapter().getInstance());
   configureOwnershipTransport(app.getHttpAdapter().getInstance());
   app.useLogger(logger);
