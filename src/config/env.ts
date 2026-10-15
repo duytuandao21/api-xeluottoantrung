@@ -9,6 +9,7 @@ export type AppConfig = {
   CORS_ORIGINS: string;
   RATE_LIMIT_TTL_MS: number;
   RATE_LIMIT_MAX: number;
+  PERF_DIAGNOSTICS: boolean;
   SUPABASE_URL: string;
   SUPABASE_ANON_KEY: string;
   SUPABASE_JWT_ISSUER: string;
@@ -80,6 +81,7 @@ export function validateEnv(input: Record<string, unknown>): AppConfig {
     CORS_ORIGINS: corsOrigins,
     RATE_LIMIT_TTL_MS: positiveInt(input.RATE_LIMIT_TTL_MS, 'RATE_LIMIT_TTL_MS', 60_000),
     RATE_LIMIT_MAX: positiveInt(input.RATE_LIMIT_MAX, 'RATE_LIMIT_MAX', 100),
+    PERF_DIAGNOSTICS: input.PERF_DIAGNOSTICS === true || input.PERF_DIAGNOSTICS === 'true',
     SUPABASE_URL: supabaseUrl,
     SUPABASE_ANON_KEY: String(input.SUPABASE_ANON_KEY || ''),
     SUPABASE_JWT_ISSUER: issuer,

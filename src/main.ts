@@ -12,6 +12,7 @@ import { PublicResponseCache } from './common/cache/public-cache.js';
 import { publicCacheState } from './common/cache/public-cache.module.js';
 import { ContentReadDiagnostics } from './common/cache/content-read-diagnostics.js';
 import { configureOwnershipTransport } from './modules/ownership/transport.js';
+import { configureApiPerfDiagnostics } from './common/perf-transport.js';
 
 export async function bootstrap(): Promise<NestFastifyApplication> {
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter({ logger: false, trustProxy: ['127.0.0.1', '::1'], }), { bufferLogs: true });
@@ -29,6 +30,8 @@ export async function bootstrap(): Promise<NestFastifyApplication> {
   configureValuationTransport(app.getHttpAdapter().getInstance());
   configureOwnershipTransport(app.getHttpAdapter().getInstance());
   app.useLogger(logger);
+  configureApiPerfDiagnostics(app.getHttpAdapter().getInstance(), config.get<boolean>('PERF_DIAGNOSTICS') === true,
+    line => logger.instance.info(JSON.parse(line) as Record<string, unknown>, 'performance diagnostics'));
   app.getHttpAdapter().getInstance().addHook('onResponse', (request, reply, done) => {
     logger.instance.info({ requestId: request.id, method: request.method, path: request.url.split('?')[0], status: reply.statusCode, durationMs: Math.round(reply.elapsedTime) }, 'request completed');
     done();

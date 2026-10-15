@@ -116,5 +116,5 @@ export async function createQueryCacheFixture() {
     const url = await app.getUrl();
     return { app, url, cache, clock, metrics, connection: measuredConnection };
   }
-  return { pg, db, createApp, brands, models, cars: seededCars, objects, failDelete: (fail: boolean) => { failStorageDelete = fail; } };
+  return { pg, db, connection, createApp, brands, models, cars: seededCars, objects, failDelete: (fail: boolean) => { failStorageDelete = fail; } };
 }
