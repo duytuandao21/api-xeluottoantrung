@@ -4,6 +4,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import cluster from 'node:cluster';
 import { PublicResponseCache } from './public-cache.js';
 import { PublicCacheInterceptor } from './public-cache.interceptor.js';
+import { ContentReadDiagnostics } from './content-read-diagnostics.js';
 
 type CacheRuntime = { clusterWorker: boolean; pm2Instance?: string; pm2ExecMode?: string };
 export function publicCacheState(config: ConfigService, runtime: CacheRuntime = {
@@ -26,12 +27,13 @@ export function publicCacheEnabled(config: ConfigService, runtime?: CacheRuntime
 
 @Module({
   providers: [
+    ContentReadDiagnostics,
     { provide: PublicResponseCache, inject: [ConfigService], useFactory: (config: ConfigService) => new PublicResponseCache({
       enabled: publicCacheEnabled(config), maxEntries: config.get<number>('PUBLIC_CACHE_MAX_ENTRIES'),
       maxBytes: config.get<number>('PUBLIC_CACHE_MAX_BYTES'),
     }) },
     { provide: APP_INTERCEPTOR, useClass: PublicCacheInterceptor },
   ],
-  exports: [PublicResponseCache],
+  exports: [PublicResponseCache, ContentReadDiagnostics],
 })
 export class PublicCacheModule {}

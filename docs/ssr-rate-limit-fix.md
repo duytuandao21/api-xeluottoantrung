@@ -1,5 +1,7 @@
 # Khắc phục HTTP 429 khi Next.js render Server Components
 
+**Cập nhật điều tra `/content`:** [Nguyên nhân policy CMS còn thiếu, regression và cách xác nhận VPS](content-429-investigation.md). Phần dưới ghi lại lần sửa lookup ban đầu; bản cập nhật bổ sung 5 nhóm CMS và diagnostics theo phút.
+
 ## Nguyên nhân đã kiểm chứng
 
 - `ThrottlerGuard` mặc định tạo khóa từ **controller + handler + tên limiter + IP**. Bảy resource `/lookups/:resource` đều chạy `PublicLookupsController.list`, nên chi nhánh, kiểu dáng, màu sắc… từng tiêu chung một bộ đếm của IP SSR.

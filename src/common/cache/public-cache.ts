@@ -10,6 +10,7 @@ export type CacheOptions = {
   random?: () => number;
 };
 export type CacheLoad = { value: unknown; shareable: boolean };
+export type CacheReadOutcome = 'hit' | 'miss' | 'coalesced' | 'bypass';
 type Entry = { json: string; expiresAt: number; bytes: number };
 
 // One process only. No stale-while-revalidate or stale-if-error responses.
@@ -40,6 +41,12 @@ export class PublicResponseCache {
   hasFresh(key: string): boolean {
     return this.enabled && this.mutations === 0 && (this.entries.get(key)?.expiresAt ?? 0) > this.now();
   }
+  inspect(key: string) {
+    const remainingMs = Math.max(0, (this.entries.get(key)?.expiresAt ?? 0) - this.now());
+    const state = !this.enabled ? 'disabled' : this.mutations ? 'mutating' : remainingMs > 0 ? 'fresh' :
+      this.pending.has(key) ? 'pending' : this.entries.has(key) ? 'expired' : 'absent';
+    return { state, remainingMs } as const;
+  }
   snapshot() {
     return { ...this.counters, enabled: this.enabled, entries: this.entries.size, bytes: this.bytes, pending: this.pending.size };
   }
@@ -55,9 +62,10 @@ export class PublicResponseCache {
   beginMutation() { this.mutations++; this.invalidate(); }
   endMutation() { this.invalidate(); this.mutations--; }
 
-  async read(key: string, ttlMs: number, load: () => Promise<CacheLoad>): Promise<unknown> {
+  async read(key: string, ttlMs: number, load: () => Promise<CacheLoad>, observe?: (outcome: CacheReadOutcome) => void): Promise<unknown> {
     if (!this.enabled || this.mutations || key.length > 4096) {
       this.counters.bypass++;
+      observe?.('bypass');
       return (await load()).value;
     }
     const old = this.entries.get(key);
@@ -67,21 +75,25 @@ export class PublicResponseCache {
         this.entries.set(key, old);
         this.bytes += old.bytes;
         this.counters.hit++;
+        observe?.('hit');
         return JSON.parse(old.json) as unknown;
       }
     }
     const current = this.pending.get(key);
     if (current) {
       this.counters.coalesced++;
+      observe?.('coalesced');
       const result = await current;
       // Responses with cookies/non-200 status must execute their own handler.
       return result.shareable ? result.value : (await load()).value;
     }
     if (this.pending.size >= this.maxPending) {
       this.counters.bypass++;
+      observe?.('bypass');
       return (await load()).value;
     }
     this.counters.miss++;
+    observe?.('miss');
     const epoch = this.epoch;
     const request = Promise.resolve().then(load).then(result => {
       if (result.shareable && epoch === this.epoch && !this.mutations) this.store(key, result.value, ttlMs);

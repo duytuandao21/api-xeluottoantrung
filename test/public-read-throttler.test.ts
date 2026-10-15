@@ -21,11 +21,15 @@ import { JwtAuthGuard } from '../src/modules/auth/jwt-auth.guard.js';
 import { PermissionsGuard } from '../src/modules/auth/permissions.guard.js';
 import { JwtVerifierService } from '../src/modules/auth/jwt-verifier.service.js';
 import { AdminAccessService } from '../src/modules/auth/admin-access.service.js';
+import { PublicContentController } from '../src/modules/content/content.controller.js';
+import { ContentService } from '../src/modules/content/content.service.js';
+import { ContentReadDiagnostics } from '../src/common/cache/content-read-diagnostics.js';
 
 async function fixture(enabled = true, original = false) {
   let now = Date.now(), revision = 1;
   const cache = new PublicResponseCache({ enabled, now: () => now, random: () => 1 });
   const loads = new Map<string, number>();
+  const diagnostics = new ContentReadDiagnostics();
   @Controller() class OtherController {
     @Public() @Get('cars') cars() { return { revision }; }
     @Public() @Get('services') services() { return { revision }; }
@@ -33,8 +37,13 @@ async function fixture(enabled = true, original = false) {
     @Get('admin/fixture') @Permissions('car.read') admin() { return { revision }; }
     @Patch('admin/fixture') @Permissions('car.read') mutate() { return { revision: ++revision }; }
   }
-  @Module({ imports: [ThrottlerModule.forRoot([{ ttl: 60000, limit: 2 }])], controllers: [PublicLookupsController, PublicLeadsController, OtherController], providers: [
+  @Module({ imports: [ThrottlerModule.forRoot([{ ttl: 60000, limit: 2 }])], controllers: [PublicLookupsController, PublicLeadsController, PublicContentController, OtherController], providers: [
     { provide: PublicResponseCache, useValue: cache },
+    { provide: ContentReadDiagnostics, useValue: diagnostics },
+    { provide: ContentService, useValue: { entries: async (group?: string) => {
+      loads.set(`content:${group}`, (loads.get(`content:${group}`) ?? 0) + 1);
+      return revision === 1 ? [{ key: 'fixture', title: group, revision }] : [];
+    } } },
     { provide: LookupsService, useValue: { list: async (resource: string, query: { page: number; limit: number }) => {
       loads.set(resource, (loads.get(resource) ?? 0) + 1);
       return { data: [{ id: resource, name: `revision-${revision}`, slug: resource }], meta: { page: query.page, limit: query.limit, total: 1, totalPages: 1 } };
@@ -57,7 +66,7 @@ async function fixture(enabled = true, original = false) {
       headers: options.headers, remoteAddress: options.ip ?? '127.0.0.1', ...(options.method === 'POST' ? {
         payload: path === 'leads' ? { type: 'callback', phone: '0900000000' } : { email: 'fixture@example.test' },
       } : {}) });
-  return { app, cache, loads, send, expire: () => { now += 900001; } };
+  return { app, cache, loads, diagnostics, send, expire: () => { now += 900001; } };
 }
 
 test('reproduces original guard: different lookup resources share the handler bucket and even cache hits get 429', async () => {
@@ -67,6 +76,26 @@ test('reproduces original guard: different lookup resources share the handler bu
     assert.equal((await f.send('lookups/body-styles')).statusCode, 200);
     assert.equal((await f.send('lookups/branches')).statusCode, 429);
     assert.equal(f.loads.get('branches'), 1);
+  } finally { await f.app.close(); }
+});
+
+test('all SSR content groups warm independently and repeated renders do not exhaust the shared loopback quota', async () => {
+  const f = await fixture();
+  const groups = ['thiet-lap-chinh-sach-dieu-kien', 'thiet-lap-nut-goi', 'thiet-lap-mang-xa-hoi', 'thiet-lap-ung-dung',
+    'thiet-lap-quy-trinh-ban-xe', 'thiet-lap-cac-buoc-mua-xe', 'thiet-lap-cac-buoc-ban-xe', 'thiet-lap-cac-buoc-len-doi',
+    'thiet-lap-banner-dong-xe', 'thiet-lap-goi-y-nam-san-xuat', 'thiet-lap-tai-sao-chon', 'quan-ly-gioi-thieu'];
+  try {
+    for (let render = 0; render < 60; render++) for (const group of groups)
+      assert.equal((await f.send(`content?group=${group}`)).statusCode, 200, `${group}, render ${render}`);
+    for (const group of groups) assert.equal(f.loads.get(`content:${group}`), 1, group);
+    // External readers retain the original shared controller/handler/IP bucket.
+    for (let i = 0; i < 3; i++) assert.equal((await f.send(`content?group=${groups[i]}`, { ip: '198.51.100.30' })).statusCode, i < 2 ? 200 : 429);
+    assert.equal((await f.send('admin/fixture', { method: 'PATCH', headers: { authorization: 'Bearer admin' } })).statusCode, 200);
+    assert.deepEqual((await f.send(`content?group=${groups[0]}`)).json(), [], 'Disabled policies disappear immediately after Admin mutation');
+    assert.equal(f.loads.get(`content:${groups[0]}`), 2);
+    for (let i = 0; i < 20; i++) assert.deepEqual((await f.send(`content?group=${groups[0]}`)).json(), []);
+    f.expire();
+    assert.equal((await f.send(`content?group=${groups[0]}`)).statusCode, 429, 'Expired content still needs origin quota');
   } finally { await f.app.close(); }
 });
 
@@ -97,6 +126,52 @@ test('cache disabled still isolates resources without raising global limit', asy
     for (let i = 0; i < 2; i++) for (const resource of ['branches', 'body-styles'])
       assert.equal((await f.send(`lookups/${resource}`)).statusCode, 200);
     for (const resource of ['branches', 'body-styles']) assert.equal((await f.send(`lookups/${resource}`)).statusCode, 429);
+  } finally { await f.app.close(); }
+});
+
+test('content cache off, credentials, unknown groups and forwarded external IPs retain limits and explain 429 safely', async () => {
+  for (const enabled of [false, true]) {
+    const f = await fixture(enabled);
+    try {
+      const path = 'content?group=thiet-lap-nut-goi';
+      if (!enabled) {
+        for (const group of ['thiet-lap-nut-goi', 'thiet-lap-chinh-sach-dieu-kien'])
+          for (let i = 0; i < 3; i++) assert.equal((await f.send(`content?group=${group}`)).statusCode, i < 2 ? 200 : 429);
+        const rows = f.diagnostics.drain()!.rows;
+        assert.equal(rows.length, 2);
+        assert(rows.every(row => row.received === 3 && row.charged === 3 && row.blocked === 1 && row.reasons.disabled === 3 && row.cache.bypass === 2 && row.limit === 2));
+        continue;
+      }
+      await f.send(path);
+      for (let i = 0; i < 3; i++) assert.equal((await f.send(path, { headers: { 'x-forwarded-for': '198.51.100.71' } })).statusCode, i < 2 ? 200 : 429,
+        'Trusted proxy forwarding an external tracker cannot exempt cache hits');
+      for (let i = 0; i < 3; i++) assert.equal((await f.send(path, { headers: { cookie: 'customer=secret-cookie' } })).statusCode, i < 2 ? 200 : 429);
+      for (let i = 0; i < 3; i++) assert.equal((await f.send(`content?group=unknown-${i}`)).statusCode, 429, 'Unknown groups share the exhausted handler/IP bucket with credentialed requests');
+      const metrics = f.diagnostics.drain()!;
+      assert(metrics.rows.some(row => row.reasons.credentials === 3 && row.blocked === 1));
+      assert(metrics.rows.some(row => row.trackerScope === 'external' && row.blocked === 1));
+      assert(metrics.rows.some(row => row.group === 'other' && row.reasons['no-policy'] === 3));
+      assert(!/198\.51|127\.0|secret-cookie|customer|unknown-/.test(JSON.stringify(metrics)));
+      assert.equal(f.diagnostics.drain(), undefined, 'Draining a window does not repeat old counts');
+    } finally { await f.app.close(); }
+  }
+});
+
+test('content diagnostics distinguish warm hits, expiry and active mutation', async () => {
+  const f = await fixture();
+  try {
+    const path = 'content?group=thiet-lap-chinh-sach-dieu-kien';
+    await f.send(path); await f.send(path);
+    const warm = f.diagnostics.drain()!.rows[0];
+    assert.equal(warm.cache.miss, 1); assert.equal(warm.cache.hit, 1);
+    assert.equal(warm.charged, 1); assert.equal(warm.exempt, 1);
+    assert.equal(warm.ttlMs, 300000); assert(warm.maxRemainingMs > 0 && warm.maxRemainingMs <= 300000);
+    f.expire(); await f.send(path);
+    assert.equal(f.diagnostics.drain()!.rows[0].reasons.expired, 1);
+    f.cache.beginMutation();
+    assert.equal((await f.send(path)).statusCode, 429);
+    f.cache.endMutation();
+    assert.equal(f.diagnostics.drain()!.rows[0].reasons.mutating, 1);
   } finally { await f.app.close(); }
 });
 

@@ -1,14 +1,16 @@
-import { Inject, Injectable, type CallHandler, type ExecutionContext, type NestInterceptor } from '@nestjs/common';
+import { Inject, Injectable, Optional, type CallHandler, type ExecutionContext, type NestInterceptor } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import type { FastifyReply, FastifyRequest } from 'fastify';
 import { defer, finalize, from, lastValueFrom, type Observable } from 'rxjs';
 import { PUBLIC_KEY } from '../../modules/auth/auth.decorators.js';
 import { PublicResponseCache } from './public-cache.js';
 import { publicCachePolicy } from './public-cache.policy.js';
+import { ContentReadDiagnostics } from './content-read-diagnostics.js';
 
 @Injectable()
 export class PublicCacheInterceptor implements NestInterceptor {
-  constructor(@Inject(PublicResponseCache) private readonly cache: PublicResponseCache, private readonly reflector: Reflector) {}
+  constructor(@Inject(PublicResponseCache) private readonly cache: PublicResponseCache, private readonly reflector: Reflector,
+    @Optional() @Inject(ContentReadDiagnostics) private readonly diagnostics?: ContentReadDiagnostics) {}
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
     const http = context.switchToHttp();
@@ -35,6 +37,6 @@ export class PublicCacheInterceptor implements NestInterceptor {
       const value: unknown = await lastValueFrom(next.handle());
       return { value, shareable: reply.statusCode === 200 && reply.getHeader('set-cookie') === undefined &&
         !String(reply.getHeader('cache-control')).includes('private') };
-    }));
+    }, outcome => this.diagnostics?.cacheRead(request, outcome)));
   }
 }

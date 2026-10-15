@@ -16,8 +16,8 @@ import { PUBLIC_KEY } from '../src/modules/auth/auth.decorators.js';
 test('public cache policy preserves query semantics and excludes live/private/free-text data', () => {
   const policy = (path: string) => publicCachePolicy(`/api/v1${path}`);
   for (const path of ['/cars', '/cars/test', '/brands', '/accessories', '/accessories/test', '/search',
-    '/sale/cars', '/admin/seo', '/content', '/site-settings/unknown', '/content?group=thiet-lap-nut-goi',
-    '/content?group=thiet-lap-chinh-sach-dieu-kien', '/articles?search=private', '/faqs?q=private']) assert.equal(policy(path), undefined, path);
+    '/sale/cars', '/admin/seo', '/content', '/site-settings/unknown', '/content?group=unknown',
+    '/content?group=thiet-lap-nut-goi&extra=private', '/articles?search=private', '/faqs?q=private']) assert.equal(policy(path), undefined, path);
   assert.equal(policy('/lookups/body-styles?limit=100&page=2')?.key, policy('/lookups/body-styles?page=2&limit=100')?.key);
   assert.notEqual(policy('/lookups/body-styles?limit=100&page=1')?.key, policy('/lookups/body-styles?limit=100&page=2')?.key);
   assert.notEqual(policy('/articles?featured=false')?.key, policy('/articles')?.key);
@@ -27,7 +27,8 @@ test('public cache policy preserves query semantics and excludes live/private/fr
   assert.equal(policy('/articles/../seo?route=/'), undefined, 'Do not normalize paths into another endpoint');
   assert.equal(policy('/content?group=thiet-lap-cac-buoc-mua-xe&group=private'), undefined);
   for (const path of ['/seo?route=/', '/brands/toyota/models', '/lookups/branch-regions',
-    '/site-settings/thiet-lap-logo', '/content?group=thiet-lap-cac-buoc-mua-xe', '/articles/a', '/services', '/faqs/a']) assert.ok(policy(path), path);
+    '/site-settings/thiet-lap-logo', '/content?group=thiet-lap-cac-buoc-mua-xe', '/content?group=thiet-lap-nut-goi',
+    '/content?group=thiet-lap-chinh-sach-dieu-kien', '/articles/a', '/services', '/faqs/a']) assert.ok(policy(path), path);
 });
 
 test('cache coalesces, expires without stale responses and never retains failures', async () => {

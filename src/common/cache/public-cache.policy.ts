@@ -2,9 +2,21 @@ const settings = new Set(['thiet-lap-thong-tin', 'thiet-lap-logo', 'thiet-lap-fa
 const contentGroups = new Set([
   'thiet-lap-quy-trinh-ban-xe', 'thiet-lap-cac-buoc-mua-xe', 'thiet-lap-cac-buoc-ban-xe',
   'thiet-lap-cac-buoc-len-doi', 'thiet-lap-banner-dong-xe', 'thiet-lap-mang-xa-hoi', 'thiet-lap-ung-dung',
+  // Public CMS publications only. Admin writes invalidate these synchronously.
+  'thiet-lap-chinh-sach-dieu-kien', 'thiet-lap-nut-goi',
+  'thiet-lap-goi-y-nam-san-xuat', 'thiet-lap-tai-sao-chon', 'quan-ly-gioi-thieu',
 ]);
 const lookups = new Set(['car-versions', 'body-styles', 'transmissions', 'car-colors', 'branch-regions', 'branches', 'filter-options']);
 const lists = new Set(['articles', 'article-categories', 'faqs', 'testimonials', 'services', 'recruitments', 'slides', 'accessory-brands', 'accessory-categories']);
+
+// A fixed namespace for both limiter buckets and diagnostics. Unknown groups,
+// extra query parameters and duplicate groups never create new buckets.
+export function publicContentGroup(rawUrl: string): string | undefined {
+  if (rawUrl.split('?')[0] !== '/api/v1/content') return;
+  const query = new URL(rawUrl, 'http://cache.internal').searchParams;
+  const group = query.get('group') ?? '';
+  return query.size === 1 && contentGroups.has(group) ? group : undefined;
+}
 
 export function publicLookupResource(rawUrl: string): string | undefined {
   const match = /^\/api\/v1\/lookups\/([^/?]+)(?:\?|$)/.exec(rawUrl);
@@ -28,7 +40,7 @@ export function publicCachePolicy(rawUrl: string): { key: string; ttlMs: number 
     ttlMs = ['branches', 'branch-regions'].includes(parts[1]) ? 300_000 : 900_000;
   else if (parts[0] === 'branches' && parts.length <= 2) ttlMs = 300_000;
   else if (parts[0] === 'site-settings' && parts.length === 2 && settings.has(parts[1])) ttlMs = 300_000;
-  else if (path === '/content' && contentGroups.has(url.searchParams.get('group') ?? '') && url.searchParams.getAll('group').length === 1) ttlMs = 300_000;
+  else if (path === '/content' && publicContentGroup(rawUrl)) ttlMs = 300_000;
   else if (parts.length === 1 && lists.has(parts[0])) ttlMs = 300_000;
   else if (parts.length === 2 && ['articles', 'faqs', 'services', 'recruitments'].includes(parts[0])) ttlMs = 300_000;
   if (!ttlMs) return;

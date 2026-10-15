@@ -10,6 +10,7 @@ import { PinoLoggerService } from './common/logging/pino-logger.service.js';
 import { configureValuationTransport } from './modules/valuation/valuation.transport.js';
 import { PublicResponseCache } from './common/cache/public-cache.js';
 import { publicCacheState } from './common/cache/public-cache.module.js';
+import { ContentReadDiagnostics } from './common/cache/content-read-diagnostics.js';
 import { configureOwnershipTransport } from './modules/ownership/transport.js';
 
 export async function bootstrap(): Promise<NestFastifyApplication> {
@@ -17,9 +18,12 @@ export async function bootstrap(): Promise<NestFastifyApplication> {
   const config = app.get(ConfigService);
   const logger = app.get(PinoLoggerService);
   const publicCache = app.get(PublicResponseCache);
+  const contentDiagnostics = app.get(ContentReadDiagnostics);
   let cacheMetricsTimer: ReturnType<typeof setInterval> | undefined;
+  let contentMetricsTimer: ReturnType<typeof setInterval> | undefined;
   app.getHttpAdapter().getInstance().addHook('onClose', (_instance, done) => {
     clearInterval(cacheMetricsTimer);
+    clearInterval(contentMetricsTimer);
     done();
   });
   configureValuationTransport(app.getHttpAdapter().getInstance());
@@ -41,6 +45,14 @@ export async function bootstrap(): Promise<NestFastifyApplication> {
   await app.listen({ port: config.getOrThrow<number>('PORT'), host: '127.0.0.1' });
   logger.instance.info({ ...publicCacheState(config), entries: publicCache.snapshot().entries,
     declaredProcessCount: config.get<number>('PUBLIC_CACHE_PROCESS_COUNT') }, 'public cache configuration');
+  // One bounded aggregate per minute, including when cache is disabled. No
+  // request keys, raw queries, IP addresses, credentials or customer data.
+  contentMetricsTimer = setInterval(() => {
+    const metrics = contentDiagnostics.drain();
+    if (metrics) logger.instance.info({ ...metrics, cacheEnabled: publicCache.enabled,
+      rateLimitMax: config.get<number>('RATE_LIMIT_MAX'), rateLimitTtlMs: config.get<number>('RATE_LIMIT_TTL_MS') }, 'public content diagnostics');
+  }, 60_000);
+  contentMetricsTimer.unref();
   if (publicCache.enabled) {
     // Aggregate counters only: no keys, search terms, headers or extra requests.
     cacheMetricsTimer = setInterval(() => logger.instance.info(publicCache.snapshot(), 'public cache metrics'), 300_000);
