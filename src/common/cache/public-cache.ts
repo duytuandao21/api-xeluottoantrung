@@ -37,6 +37,9 @@ export class PublicResponseCache {
   }
 
   get enabled() { return this.options.enabled; }
+  hasFresh(key: string): boolean {
+    return this.enabled && this.mutations === 0 && (this.entries.get(key)?.expiresAt ?? 0) > this.now();
+  }
   snapshot() {
     return { ...this.counters, enabled: this.enabled, entries: this.entries.size, bytes: this.bytes, pending: this.pending.size };
   }

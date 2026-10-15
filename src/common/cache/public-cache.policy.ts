@@ -6,6 +6,11 @@ const contentGroups = new Set([
 const lookups = new Set(['car-versions', 'body-styles', 'transmissions', 'car-colors', 'branch-regions', 'branches', 'filter-options']);
 const lists = new Set(['articles', 'article-categories', 'faqs', 'testimonials', 'services', 'recruitments', 'slides', 'accessory-brands', 'accessory-categories']);
 
+export function publicLookupResource(rawUrl: string): string | undefined {
+  const match = /^\/api\/v1\/lookups\/([^/?]+)(?:\?|$)/.exec(rawUrl);
+  return match && lookups.has(match[1]) ? match[1] : undefined;
+}
+
 export function publicCachePolicy(rawUrl: string): { key: string; ttlMs: number } | undefined {
   // Keep the exact path and all query values. Only parameter name order changes;
   // repeated values retain their order, and DTO defaults/aliases are not guessed.

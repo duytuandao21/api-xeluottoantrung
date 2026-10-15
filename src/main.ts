@@ -7,7 +7,6 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import helmet from '@fastify/helmet';
 import { AppModule } from './app.module.js';
 import { PinoLoggerService } from './common/logging/pino-logger.service.js';
-import { configureChatTransport } from './modules/chatbot/chatbot.transport.js';
 import { configureValuationTransport } from './modules/valuation/valuation.transport.js';
 import { PublicResponseCache } from './common/cache/public-cache.js';
 import { publicCacheState } from './common/cache/public-cache.module.js';

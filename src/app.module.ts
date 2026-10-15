@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
-import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { ThrottlerModule } from '@nestjs/throttler';
+import { PublicReadThrottlerGuard } from './common/cache/public-read-throttler.guard.js';
 import { configOptions } from './config/env.js';
 import { DatabaseModule } from './database/database.module.js';
 import { HealthModule } from './modules/health/health.module.js';
@@ -53,7 +54,7 @@ import { PromotionsModule } from './modules/promotions/module.js';
   ],
   providers: [
     PinoLoggerService,
-    { provide: APP_GUARD, useClass: ThrottlerGuard },
+    { provide: APP_GUARD, useClass: PublicReadThrottlerGuard },
     { provide: APP_FILTER, useClass: ApiExceptionFilter },
   ],
 })
