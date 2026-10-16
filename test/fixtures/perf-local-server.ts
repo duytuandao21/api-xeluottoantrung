@@ -25,7 +25,6 @@ import { ContentReadDiagnostics } from '../../src/common/cache/content-read-diag
 import { configureApiPerfDiagnostics } from '../../src/common/perf-transport.js';
 import * as schema from '../../src/database/schema/index.js';
 import { eq } from 'drizzle-orm';
-import { PublicHomeContentController } from '../../src/modules/content/home-content.controller.js';
 
 const fixture = await createQueryCacheFixture();
 // More than one viewport of inventory; all rows remain synthetic.
@@ -57,7 +56,7 @@ const accessoryBrand = await collections.create('accessory-brands', { name: 'Loc
 for (let i = 0; i < 12; i++) await collections.create('accessories', { name: `Local accessory ${i}`, brandId: String(accessoryBrand.id), price: 2800000 + i * 100000,
   imageUrl: '/images/xe-moi-ve-banner.png', description: '<p>Synthetic accessory.</p>', status: 'active' }, audit);
 @Module({ imports: [ThrottlerModule.forRoot([{ ttl: 60000, limit: 500 }])],
-  controllers: [PublicCatalogController, PublicCarsController, PublicContentController, PublicHomeContentController, PublicCollectionsController, PublicLookupsController, PublicSeoController],
+  controllers: [PublicCatalogController, PublicCarsController, PublicContentController, PublicCollectionsController, PublicLookupsController, PublicSeoController],
   providers: [CatalogService, CarsService, ContentService, CollectionsService, LookupsService, SeoService,
     { provide: DatabaseService, useValue: fixture.connection },
     { provide: PublicResponseCache, useValue: new PublicResponseCache({ enabled: true }) }, ContentReadDiagnostics,
