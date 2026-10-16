@@ -32,6 +32,10 @@ import { SearchService } from '../../src/modules/search/search.service.js';
 import { CarMediaController, MediaUploadController } from '../../src/modules/media/media.controller.js';
 import { MediaService } from '../../src/modules/media/media.service.js';
 import { STORAGE_SERVICE, type StorageService, type StoredObject } from '../../src/modules/media/storage.service.js';
+import { ThrottlerModule } from '@nestjs/throttler';
+import { PublicReadThrottlerGuard } from '../../src/common/cache/public-read-throttler.guard.js';
+import { ContentReadDiagnostics } from '../../src/common/cache/content-read-diagnostics.js';
+import { PublicHomeContentController } from '../../src/modules/content/home-content.controller.js';
 
 // Dedicated local database. No dotenv, pg.Pool, Supabase or real R2 connection.
 export async function createQueryCacheFixture() {
@@ -80,7 +84,7 @@ export async function createQueryCacheFixture() {
     if (failStorageDelete) throw new Error('Simulated storage failure'); objects.delete(key);
   }, presignPut: async key => `https://fixture.invalid/upload/${key}`, publicUrl: key => `https://fixture.invalid/${key}`, ping: async () => {} };
 
-  async function createApp(enabled: boolean, port = 0) {
+  async function createApp(enabled: boolean, port = 0, composition = false) {
     const metrics = { selects: 0, queries: 0, requests: 0, bytes: 0, statuses: {} as Record<string, number> };
     const measuredDb = drizzle(pg, { schema, logger: { logQuery: sql => { metrics.queries++; if (/^select\b/i.test(sql)) metrics.selects++; } } });
     const measuredConnection = { db: measuredDb } as unknown as DatabaseService;
@@ -88,9 +92,10 @@ export async function createQueryCacheFixture() {
     const cache = new PublicResponseCache({ enabled, now: () => clock.now });
     const permissions = ['brand', 'model', 'car', 'body_style', 'transmission', 'color', 'region', 'branch', 'filter', 'version', 'content', 'seo', 'media']
       .flatMap(resource => ['read', 'create', 'update', 'delete', 'publish'].map(action => `${resource}.${action}`));
-    @Module({ controllers: [PublicCatalogController, AdminBrandsController, AdminModelsController, PublicCarsController, AdminCarsController, SaleCarsController,
+    @Module({ imports: composition ? [ThrottlerModule.forRoot([{ ttl: 60000, limit: 500 }])] : [], controllers: [PublicCatalogController, AdminBrandsController, AdminModelsController, PublicCarsController, AdminCarsController, SaleCarsController,
       PublicLookupsController, AdminLookupsController, PublicContentController, AdminContentController, AdminSettingsController,
-      PublicCollectionsController, AdminCollectionsController, PublicSeoController, AdminSeoController, SearchController, CarMediaController, MediaUploadController],
+      PublicCollectionsController, AdminCollectionsController, PublicSeoController, AdminSeoController, SearchController, CarMediaController, MediaUploadController,
+      ...(composition ? [PublicHomeContentController] : [])],
       providers: [CatalogService, CarsService, LookupsService, ContentService, CollectionsService, SeoService, SearchService, MediaService, LookupPermissionsGuard,
         { provide: DatabaseService, useValue: measuredConnection }, { provide: STORAGE_SERVICE, useValue: storage },
         { provide: PublicResponseCache, useValue: cache }, { provide: APP_INTERCEPTOR, useClass: PublicCacheInterceptor },
@@ -99,6 +104,7 @@ export async function createQueryCacheFixture() {
         } } },
         { provide: AdminAccessService, useValue: { forAuthUser: async () => ({ profile, roles: ['ADMIN', 'SALES'], permissions }) } },
         { provide: APP_GUARD, useClass: JwtAuthGuard }, { provide: APP_GUARD, useClass: PermissionsGuard },
+        ...(composition ? [ContentReadDiagnostics, { provide: APP_GUARD, useClass: PublicReadThrottlerGuard }] : []),
       ] })
     class LocalVerificationModule {}
     const app = await NestFactory.create<NestFastifyApplication>(LocalVerificationModule, new FastifyAdapter(), { logger: false });

@@ -1,7 +1,7 @@
 import { createHistogram, monitorEventLoopDelay, performance, type RecordableHistogram } from 'node:perf_hooks';
 
 const metrics = new Set(['ssr.http', 'ssr.prepare', 'ssr.component', 'api.queue', 'api.fetch', 'api.body', 'api.read', 'api.http', 'cheerio.parse', 'cheerio.serialize', 'cheerio.transform', 'html.react_parse', 'legacy.read']);
-const labels = new Set(['home', 'listing', 'sell', 'trade-in', 'other-page', 'layout', 'public-page', 'public-home', 'home-component', 'legacy-page', 'safe-html', 'steps', 'home-bottom', 'markup',
+const labels = new Set(['home-content', 'home', 'listing', 'sell', 'trade-in', 'other-page', 'layout', 'public-page', 'public-home', 'home-component', 'legacy-page', 'safe-html', 'steps', 'home-bottom', 'markup',
   'cars', 'brands', 'seo', 'content', 'slides', 'testimonials', 'articles', 'article-categories', 'services', 'faqs', 'recruitments', 'accessories', 'settings', 'brand-models', 'car-menu', 'read-other',
   ...['branches', 'branch-regions', 'body-styles', 'transmissions', 'car-colors', 'car-versions', 'filter-options'].map(name => `lookup:${name}`)]);
 type Row = { metric: string; label: string; count: number; errors: number; status429: number; status503: number; sumMs: number; maxMs: number; clipped: number; histogram: RecordableHistogram };

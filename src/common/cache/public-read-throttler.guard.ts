@@ -1,4 +1,4 @@
-import { Inject, Injectable, type ExecutionContext } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, HttpException, Inject, Injectable, type ExecutionContext } from '@nestjs/common';
 import { ThrottlerGuard } from '@nestjs/throttler';
 import { THROTTLER_LIMIT } from '@nestjs/throttler/dist/throttler.constants.js';
 import type { ThrottlerLimitDetail } from '@nestjs/throttler/dist/throttler.guard.interface.js';
@@ -7,11 +7,38 @@ import { PUBLIC_KEY } from '../../modules/auth/auth.decorators.js';
 import { PublicResponseCache } from './public-cache.js';
 import { publicCachePolicy, publicContentGroup, publicLookupResource } from './public-cache.policy.js';
 import { ContentReadDiagnostics, isLoopback, type ContentGuardReason } from './content-read-diagnostics.js';
+import { HOME_CONTENT_VIEW, contentReadContext, homeContentGroups, preparedHomeContent, type HomeContentRequest } from './home-content-read.js';
 
 @Injectable()
 export class PublicReadThrottlerGuard extends ThrottlerGuard {
   @Inject(PublicResponseCache) private readonly responseCache!: PublicResponseCache;
   @Inject(ContentReadDiagnostics) private readonly diagnostics!: ContentReadDiagnostics;
+
+  override async canActivate(context: ExecutionContext): Promise<boolean> {
+    if (!this.reflector.get<boolean>(HOME_CONTENT_VIEW, context.getHandler())) return super.canActivate(context);
+    const request = context.switchToHttp().getRequest<HomeContentRequest>();
+    if (request.method !== 'GET' || request.url !== '/api/v1/content/home') {
+      // Invalid requests still consume a bounded handler/IP budget. Rejecting
+      // before the limiter would create an unthrottled malformed-query path.
+      await super.canActivate(context);
+      throw new BadRequestException('This public view accepts no query parameters');
+    }
+    const reads = homeContentGroups.map(group => contentReadContext(request, group));
+    // Charge every source using the SAME original handler/IP/group key. This
+    // view is not a new quota, nor a SkipThrottle route. Warm loopback reads
+    // keep the existing fresh-cache exemption, including explicit-limit checks.
+    for (const read of reads) {
+      try { if (!await super.canActivate(read.context)) throw new ForbiddenException(); }
+      catch (error) {
+        if (!(error instanceof HttpException)) throw error;
+        const retryAfter = Number(read.headers.get('retry-after'));
+        read.failure = { ok: false, status: error.getStatus(),
+          ...(Number.isFinite(retryAfter) && retryAfter > 0 ? { retryAfterSeconds: retryAfter } : {}) };
+      }
+    }
+    request[preparedHomeContent] = reads;
+    return true;
+  }
 
   protected override async shouldSkip(context: ExecutionContext): Promise<boolean> {
     if (context.getType() !== 'http') return false;
