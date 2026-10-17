@@ -234,6 +234,31 @@ test('catalog and car lifecycle, filtering, pagination and audit', async () => {
       assert.deepEqual((await menuGet('new-arrivals')).json().data, []);
       assert.equal((await discountedList()).json().meta.total, 0, 'Filtered count also invalidates');
       assert.equal((await patchMenu({ newArrival: true })).statusCode, 200);
+      // The admin list hides with PATCH inactive and restores with the existing publish action.
+      const publishAgain = (token = true) => server.inject({ method: 'POST', url: `/api/v1/admin/cars/${createdId}/publish`,
+        headers: token ? { authorization: 'Bearer test-token' } : {} });
+      const publicCars = () => server.inject({ method: 'GET', url: '/api/v1/cars?limit=100' });
+      const hasCar = (response: { json: () => { data: { slug: string }[] } }) => response.json().data.some(row => row.slug === 'http-car');
+      await menuGet('new-arrivals'); // Warm the menu before hiding.
+      granted = [];
+      assert.equal((await patchMenu({ status: 'inactive' })).statusCode, 403);
+      assert.equal(hasCar(await publicCars()), true, 'Rejected writes do not hide a car');
+      granted = ['car.update'];
+      assert.equal((await patchMenu({ status: 'inactive' })).statusCode, 200);
+      assert.equal(hasCar(await publicCars()), false);
+      assert.equal((await server.inject({ method: 'GET', url: '/api/v1/cars/http-car' })).statusCode, 404);
+      assert.equal((await menuGet('new-arrivals')).json().data.some((row: { slug: string }) => row.slug === 'http-car'), false,
+        'Hiding invalidates the previously warm menu');
+      assert.equal((await publishAgain(false)).statusCode, 401);
+      assert.equal((await publishAgain()).statusCode, 403, 'Restoring still requires car.publish');
+      assert.equal(hasCar(await publicCars()), false);
+      granted = ['car.publish'];
+      assert.equal((await publishAgain()).statusCode, 201);
+      assert.equal(hasCar(await publicCars()), true);
+      assert.equal((await server.inject({ method: 'GET', url: '/api/v1/cars/http-car' })).json().status, 'active');
+      assert.equal((await server.inject({ method: 'GET', url: '/api/v1/cars/http-car' })).json().price, body.price);
+      assert.equal((await menuGet('new-arrivals')).json().data.some((row: { slug: string }) => row.slug === 'http-car'), true,
+        'Restoring invalidates the previously empty menu');
       publicCache.invalidate();
       const liveGet = () => server.inject({ method: 'GET', url: '/api/v1/cars/http-car' });
       const liveList = () => server.inject({ method: 'GET', url: '/api/v1/cars?limit=100' });
