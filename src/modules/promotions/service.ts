@@ -3,6 +3,7 @@ import { and, asc, count, desc, eq, gt, gte, ilike, isNull, lt, lte, sql } from 
 import type { AuditContext } from '../../common/audit.js';
 import { DatabaseService } from '../../database/database.service.js';
 import { auditLogs, promotionPopup, promotions } from '../../database/schema/index.js';
+import { queueRemovedImages } from '../media/storage-cleanup.js';
 import type { CreatePromotionDto, PromotionQuery, UpdatePromotionDto } from './dto.js';
 
 type Promotion = typeof promotions.$inferSelect;
@@ -94,6 +95,7 @@ export class PromotionsService {
       if(dto.popupEnabled || (disable && selected.promotionId === id)) await tx.update(promotionPopup)
         .set({ promotionId: dto.popupEnabled ? id : null, updatedAt: new Date() }).where(eq(promotionPopup.id, 1));
       await tx.insert(auditLogs).values({ ...audit, action: 'promotion.update', entityType: 'promotions', entityId: id, oldData: old, newData: updated });
+      await queueRemovedImages(tx, old, updated, audit);
     });
     return this.detail(id, true);
   }
@@ -118,6 +120,7 @@ export class PromotionsService {
       if(!old) throw new NotFoundException('Không tìm thấy chương trình.');
       await tx.update(promotionPopup).set({ promotionId: null, updatedAt: new Date() }).where(and(eq(promotionPopup.id, 1), eq(promotionPopup.promotionId, id)));
       await tx.insert(auditLogs).values({ ...audit, action: 'promotion.delete', entityType: 'promotions', entityId: id, oldData: old });
+      await queueRemovedImages(tx, old, null, audit);
     });
   }
 }

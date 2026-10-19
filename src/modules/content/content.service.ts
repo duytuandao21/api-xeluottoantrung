@@ -5,6 +5,7 @@ import { throwOnConstraint } from '../../common/database-errors.js';
 import { DatabaseService } from '../../database/database.service.js';
 import { auditLogs, contentEntries, siteSettings } from '../../database/schema/index.js';
 import { CreateContentEntryDto, UpdateContentEntryDto, UpsertSettingDto } from './content.dto.js';
+import { queueRemovedImages } from '../media/storage-cleanup.js';
 
 @Injectable()
 export class ContentService {
@@ -43,6 +44,7 @@ export class ContentService {
       const [updated] = await tx.update(contentEntries).set({ ...dto, title: dto.title?.trim(), updatedBy: audit.actorProfileId,
         updatedAt: new Date() }).where(eq(contentEntries.id, old.id)).returning();
       await tx.insert(auditLogs).values({ ...audit, action: 'content.update', entityType: 'content_entries', entityId: old.id, oldData: old, newData: updated });
+      await queueRemovedImages(tx, old, updated, audit);
       return updated;
     });
   }
@@ -52,6 +54,7 @@ export class ContentService {
       const [old] = await tx.delete(contentEntries).where(and(eq(contentEntries.group, group), eq(contentEntries.key, key))).returning();
       if (!old) throw new NotFoundException('Content entry not found');
       await tx.insert(auditLogs).values({ ...audit, action: 'content.delete', entityType: 'content_entries', entityId: old.id, oldData: old });
+      await queueRemovedImages(tx, old, null, audit);
     });
   }
 
@@ -76,6 +79,7 @@ export class ContentService {
             updatedBy: audit.actorProfileId, updatedAt: new Date() } }).returning();
       await tx.insert(auditLogs).values({ ...audit, action: 'setting.upsert', entityType: 'site_settings', entityId: updated.id,
         oldData: old ?? null, newData: updated });
+      await queueRemovedImages(tx, old, updated, audit);
       return updated;
     });
   }

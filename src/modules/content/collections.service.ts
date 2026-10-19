@@ -1,3 +1,4 @@
+import { adminOrder } from '../../common/admin-list-query.js';
 import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { sql, type SQL } from 'drizzle-orm';
 import type { AuditContext } from '../../common/audit.js';
@@ -5,6 +6,7 @@ import { throwOnConstraint } from '../../common/database-errors.js';
 import { DatabaseService } from '../../database/database.service.js';
 import { auditLogs } from '../../database/schema/index.js';
 import { CollectionPayloadDto, CollectionQuery, type CollectionName, collectionNames } from './collections.dto.js';
+import { queueRemovedImages } from '../media/storage-cleanup.js';
 
 type CollectionConfig = { table: string; fields: readonly string[]; required: readonly string[];
   search: string; publicStatus?: string; order: string; softDelete?: boolean; detailColumn?: string };
@@ -108,11 +110,13 @@ export class CollectionsService {
     if (name === 'accessories' && query.categoryId) filters.push(sql`category_id = ${query.categoryId}`);
     const where = filters.length ? sql` WHERE ${sql.join(filters, sql` AND `)}` : sql``;
     const table = sql.identifier(config.table);
-    const order = name === 'accessories' && query.sort ? query.sort === 'price-asc' ? sql`price ASC, id ASC`
+    const order = (!publicOnly ? adminOrder(query, [...config.fields.map(dbName), 'created_at', 'updated_at']) : undefined) ?? (name === 'accessories' && query.sort ? query.sort === 'price-asc' ? sql`price ASC, id ASC`
       : query.sort === 'price-desc' ? sql`price DESC, id ASC` : sql`created_at DESC, id ASC`
-      : sql`${sql.identifier(config.order)} ${config.order === 'sort_order' ? sql`ASC` : sql`DESC`}, id ASC`;
+      : sql`${sql.identifier(config.order)} ${config.order === 'sort_order' ? sql`ASC` : sql`DESC`}, id ASC`);
+    const selection = !publicOnly && query.view === 'table' && ['articles', 'driving-experiences'].includes(name)
+      ? sql.join(['id', ...config.fields.filter(field => field !== 'content').map(dbName), 'created_at', 'updated_at', 'published_at', 'deleted_at'].map(field => sql.identifier(field)), sql`, `) : sql`*`;
     const [items, totalResult] = await Promise.all([
-      this.database.db.execute(sql`SELECT * FROM ${table}${where} ORDER BY ${order} LIMIT ${query.limit} OFFSET ${(query.page - 1) * query.limit}`),
+      this.database.db.execute(sql`SELECT ${selection} FROM ${table}${where} ORDER BY ${order} LIMIT ${query.limit} OFFSET ${(query.page - 1) * query.limit}`),
       this.database.db.execute(sql`SELECT count(*)::int AS total FROM ${table}${where}`),
     ]);
     const total = Number(totalResult.rows[0]?.total ?? 0);
@@ -187,6 +191,7 @@ export class CollectionsService {
           await tx.execute(sql`UPDATE accessories SET brand = ${data.name}, updated_at = now() WHERE brand_id = ${id}`);
         await tx.insert(auditLogs).values({ ...audit, action: 'content.update', entityType: config.table,
           entityId: id, oldData: old, newData: updated });
+        await queueRemovedImages(tx, old, updated, audit);
         return updated;
       });
     } catch (error) { return throwOnConstraint(error); }
@@ -202,6 +207,7 @@ export class CollectionsService {
         if (config.softDelete) await tx.execute(sql`UPDATE ${sql.identifier(config.table)} SET deleted_at = now(), updated_at = now() WHERE id = ${id}`);
         else await tx.execute(sql`DELETE FROM ${sql.identifier(config.table)} WHERE id = ${id}`);
         await tx.insert(auditLogs).values({ ...audit, action: 'content.delete', entityType: config.table, entityId: id, oldData: old });
+        await queueRemovedImages(tx, old, null, audit);
       });
     } catch (error) { return throwOnConstraint(error); }
   }

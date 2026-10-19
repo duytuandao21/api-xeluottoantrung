@@ -91,7 +91,15 @@ test('phase 7 content, SEO, enquiries and newsletter use real schema and permiss
     assert.equal((await seo.list()).length, 1);
 
     await assert.rejects(leads.create({ type: 'sell', phone: '0900000000' }), BadRequestException);
-    const lead = await leads.create({ type: 'sell', phone: '0900 000 000', offeredBrand: 'Toyota', offeredModel: 'Vios', offeredYear: '2022' });
+    const completeSell = { phone: '0900000000', offeredBrand: 'Toyota', offeredModel: 'Vios', offeredYear: '2022', offeredVersion: 'G', offeredMileage: '0' };
+    for (const type of ['sell', 'trade_in'] as const) {
+      const complete = { ...completeSell, type, ...(type === 'trade_in' ? { desiredCar: 'Honda City' } : {}) };
+      const requiredFields = ['phone', 'offeredBrand', 'offeredModel', 'offeredYear', 'offeredVersion', 'offeredMileage', ...(type === 'trade_in' ? ['desiredCar'] : [])];
+      for (const field of requiredFields) {
+        for (const missing of [undefined, '   ']) await assert.rejects(leads.create({ ...complete, [field]: missing }), BadRequestException, `${type}: ${field} is required`);
+      }
+    }
+    const lead = await leads.create({ type: 'sell', phone: '0900 000 000', offeredBrand: 'Toyota', offeredModel: 'Vios', offeredYear: '2022', offeredVersion: 'G', offeredMileage: '10000' });
     assert.equal(lead.accepted, true);
     assert.equal('phone' in lead, false);
     assert.equal((await leads.list({ ...query, type: 'sell' })).meta.total, 1);

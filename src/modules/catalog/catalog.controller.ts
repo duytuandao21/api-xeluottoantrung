@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, HttpCode, Param, ParseUUIDPipe, Patch, P
 import { ApiBearerAuth, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Permissions, Public } from '../auth/auth.decorators.js';
 import { CatalogService } from './catalog.service.js';
-import { CreateBrandDto, CreateModelDto, ListModelsQuery, UpdateBrandDto, UpdateModelDto } from './catalog.dto.js';
+import { AdminCatalogQuery, CreateBrandDto, CreateModelDto, ListModelsQuery, UpdateBrandDto, UpdateModelDto } from './catalog.dto.js';
 
 @ApiTags('Public catalog')
 @Public()
@@ -26,7 +26,7 @@ export class AdminBrandsController {
   constructor(private readonly catalog: CatalogService) {}
 
   @Get() @Permissions('brand.read')
-  list() { return this.catalog.adminBrands(); }
+  list(@Query() query: AdminCatalogQuery) { return query.page ? this.catalog.adminPage(false, query) : this.catalog.adminBrands(); }
 
   @Get(':id') @Permissions('brand.read')
   detail(@Param('id', ParseUUIDPipe) id: string) { return this.catalog.adminBrand(id); }
@@ -49,7 +49,7 @@ export class AdminModelsController {
 
   @Get() @Permissions('model.read')
   @ApiQuery({ name: 'brandId', required: false, type: String })
-  list(@Query() query: ListModelsQuery) { return this.catalog.adminModels(query.brandId); }
+  list(@Query() query: ListModelsQuery) { return query.page ? this.catalog.adminPage(true, query) : this.catalog.adminModels(query.brandId); }
 
   @Get(':id') @Permissions('model.read')
   detail(@Param('id', ParseUUIDPipe) id: string) { return this.catalog.adminModel(id); }

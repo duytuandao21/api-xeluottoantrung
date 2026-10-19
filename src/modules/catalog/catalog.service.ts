@@ -1,10 +1,12 @@
+import { adminOrder } from '../../common/admin-list-query.js';
 import { BadRequestException, ConflictException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { and, asc, count, desc, eq, getTableColumns, inArray, isNotNull, isNull, sql } from 'drizzle-orm';
 import { throwOnConstraint } from '../../common/database-errors.js';
 import { toSlug } from '../../common/slug.js';
 import { DatabaseService } from '../../database/database.service.js';
 import { bodyStyles, brands, carModels, cars } from '../../database/schema/index.js';
-import { CreateBrandDto, CreateModelDto, UpdateBrandDto, UpdateModelDto } from './catalog.dto.js';
+import { ListModelsQuery, CreateBrandDto, CreateModelDto, UpdateBrandDto, UpdateModelDto } from './catalog.dto.js';
+import { queueRemovedImages } from '../media/storage-cleanup.js';
 
 function cleanName(value: string): string {
   const name = value.trim();
@@ -41,6 +43,22 @@ export class CatalogService {
     return rows.flatMap(row => row.model ? [row.model] : []);
   }
 
+  async adminPage(models: boolean, query: ListModelsQuery) {
+    const table = sql.identifier(models ? 'car_models' : 'brands');
+    const filters = [];
+    if (models && query.brandId) filters.push(sql`brand_id = ${query.brandId}`);
+    if (query.search?.trim()) filters.push(sql`name ILIKE ${`%${query.search.trim().replace(/[\\%_]/g, '\\$&')}%`}`);
+    const where = filters.length ? sql` WHERE ${sql.join(filters, sql` AND `)}` : sql``;
+    const order = adminOrder(query, ['name', 'slug', 'created_at', 'updated_at']) ?? sql`sort_order ASC, name ASC, id ASC`;
+    const [result, totals] = await Promise.all([
+      this.database.db.execute(sql`SELECT *, (SELECT count(*)::int FROM cars WHERE ${sql.identifier(models ? 'model_id' : 'brand_id')} = ${table}.id AND deleted_at IS NULL) AS count FROM ${table}${where} ORDER BY ${order} LIMIT ${query.limit} OFFSET ${((query.page ?? 1) - 1) * query.limit}`),
+      this.database.db.execute(sql`SELECT count(*)::int AS total FROM ${table}${where}`),
+    ]);
+    const data = result.rows.map(row => Object.fromEntries(Object.entries(row).map(([key,value]) => [key.replace(/_([a-z])/g, (_, c: string) => c.toUpperCase()), value])));
+    const total = Number(totals.rows[0]?.total ?? 0);
+    return { data, meta: { page: query.page ?? 1, limit: query.limit, total, totalPages: Math.ceil(total / query.limit) } };
+  }
+
   async adminBrands() {
     return this.database.db.select({ ...getTableColumns(brands),
       count: sql<number>`(SELECT count(*)::int FROM ${cars} counted_cars WHERE counted_cars.brand_id = ${brands}.id AND counted_cars.deleted_at IS NULL)`,
@@ -64,16 +82,23 @@ export class CatalogService {
   async updateBrand(id: string, dto: UpdateBrandDto) {
     const values = { ...dto, ...(dto.name !== undefined ? { name: cleanName(dto.name) } : {}), updatedAt: new Date() };
     try {
-      const [updated] = await this.database.db.update(brands).set(values).where(eq(brands.id, id)).returning();
-      if (!updated) throw new NotFoundException('Brand not found');
-      return updated;
+      return await this.database.db.transaction(async tx => {
+        const [old] = await tx.select().from(brands).where(eq(brands.id, id)).for('update');
+        if (!old) throw new NotFoundException('Brand not found');
+        const [updated] = await tx.update(brands).set(values).where(eq(brands.id, id)).returning();
+        await queueRemovedImages(tx, old, updated);
+        return updated;
+      });
     } catch (error) { return throwOnConstraint(error); }
   }
 
   async deleteBrand(id: string): Promise<void> {
     try {
-      const [deleted] = await this.database.db.delete(brands).where(eq(brands.id, id)).returning({ id: brands.id });
-      if (!deleted) throw new NotFoundException('Brand not found');
+      await this.database.db.transaction(async tx => {
+        const [deleted] = await tx.delete(brands).where(eq(brands.id, id)).returning();
+        if (!deleted) throw new NotFoundException('Brand not found');
+        await queueRemovedImages(tx, deleted, null);
+      });
     } catch (error) { throwOnConstraint(error); }
   }
 
@@ -121,16 +146,23 @@ export class CatalogService {
     }
     const values = { ...dto, ...(dto.name !== undefined ? { name: cleanName(dto.name) } : {}), updatedAt: new Date() };
     try {
-      const [updated] = await this.database.db.update(carModels).set(values).where(eq(carModels.id, id)).returning();
-      if (!updated) throw new NotFoundException('Model not found');
-      return updated;
+      return await this.database.db.transaction(async tx => {
+        const [old] = await tx.select().from(carModels).where(eq(carModels.id, id)).for('update');
+        if (!old) throw new NotFoundException('Model not found');
+        const [updated] = await tx.update(carModels).set(values).where(eq(carModels.id, id)).returning();
+        await queueRemovedImages(tx, old, updated);
+        return updated;
+      });
     } catch (error) { return throwOnConstraint(error); }
   }
 
   async deleteModel(id: string): Promise<void> {
     try {
-      const [deleted] = await this.database.db.delete(carModels).where(eq(carModels.id, id)).returning({ id: carModels.id });
-      if (!deleted) throw new NotFoundException('Model not found');
+      await this.database.db.transaction(async tx => {
+        const [deleted] = await tx.delete(carModels).where(eq(carModels.id, id)).returning();
+        if (!deleted) throw new NotFoundException('Model not found');
+        await queueRemovedImages(tx, deleted, null);
+      });
     } catch (error) { throwOnConstraint(error); }
   }
 }

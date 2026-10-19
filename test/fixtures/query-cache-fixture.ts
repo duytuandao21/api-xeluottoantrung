@@ -29,9 +29,13 @@ import { PublicSeoController, AdminSeoController } from '../../src/modules/seo/s
 import { SeoService } from '../../src/modules/seo/seo.service.js';
 import { SearchController } from '../../src/modules/search/search.controller.js';
 import { SearchService } from '../../src/modules/search/search.service.js';
+import { AdminLeadsController, AdminNewsletterController } from '../../src/modules/leads/leads.controller.js';
+import { LeadsService } from '../../src/modules/leads/leads.service.js';
 import { CarMediaController, MediaUploadController } from '../../src/modules/media/media.controller.js';
 import { MediaService } from '../../src/modules/media/media.service.js';
 import { STORAGE_SERVICE, type StorageService, type StoredObject } from '../../src/modules/media/storage.service.js';
+import { StorageCleanupService } from '../../src/modules/media/storage-cleanup.service.js';
+import { StorageCleanupInterceptor } from '../../src/modules/media/storage-cleanup.interceptor.js';
 
 // Dedicated local database. No dotenv, pg.Pool, Supabase or real R2 connection.
 export async function createQueryCacheFixture() {
@@ -78,20 +82,21 @@ export async function createQueryCacheFixture() {
   let failStorageDelete = false;
   const storage: StorageService = { head: async key => objects.get(key) ?? null, delete: async key => {
     if (failStorageDelete) throw new Error('Simulated storage failure'); objects.delete(key);
-  }, presignPut: async key => `https://fixture.invalid/upload/${key}`, publicUrl: key => `https://fixture.invalid/${key}`, ping: async () => {} };
+  }, presignPut: async key => `https://fixture.invalid/upload/${key}`, publicUrl: key => `https://fixture.invalid/${key.split('/').map(encodeURIComponent).join('/')}`, ping: async () => {} };
 
-  async function createApp(enabled: boolean, port = 0) {
+  async function createApp(enabled: boolean, port = 0, storageCleanup = false, deniedPermissions: string[] = []) {
     const metrics = { selects: 0, queries: 0, requests: 0, bytes: 0, statuses: {} as Record<string, number> };
     const measuredDb = drizzle(pg, { schema, logger: { logQuery: sql => { metrics.queries++; if (/^select\b/i.test(sql)) metrics.selects++; } } });
     const measuredConnection = { db: measuredDb } as unknown as DatabaseService;
     const clock = { now: Date.now() };
     const cache = new PublicResponseCache({ enabled, now: () => clock.now });
-    const permissions = ['brand', 'model', 'car', 'body_style', 'transmission', 'color', 'region', 'branch', 'filter', 'version', 'content', 'seo', 'media']
-      .flatMap(resource => ['read', 'create', 'update', 'delete', 'publish'].map(action => `${resource}.${action}`));
+    const permissions = ['brand', 'model', 'car', 'body_style', 'transmission', 'color', 'region', 'branch', 'filter', 'version', 'content', 'seo', 'media', 'lead']
+      .flatMap(resource => ['read', 'create', 'update', 'delete', 'publish'].map(action => `${resource}.${action}`)).filter(permission => !deniedPermissions.includes(permission));
     @Module({ controllers: [PublicCatalogController, AdminBrandsController, AdminModelsController, PublicCarsController, AdminCarsController, SaleCarsController,
       PublicLookupsController, AdminLookupsController, PublicContentController, AdminContentController, AdminSettingsController,
-      PublicCollectionsController, AdminCollectionsController, PublicSeoController, AdminSeoController, SearchController, CarMediaController, MediaUploadController],
-      providers: [CatalogService, CarsService, LookupsService, ContentService, CollectionsService, SeoService, SearchService, MediaService, LookupPermissionsGuard,
+      PublicCollectionsController, AdminCollectionsController, PublicSeoController, AdminSeoController, SearchController, CarMediaController, MediaUploadController, AdminLeadsController, AdminNewsletterController],
+      providers: [CatalogService, CarsService, LookupsService, ContentService, CollectionsService, SeoService, SearchService, MediaService, LookupPermissionsGuard, LeadsService,
+        ...(storageCleanup ? [StorageCleanupService, { provide: APP_INTERCEPTOR, useClass: StorageCleanupInterceptor }] : []),
         { provide: DatabaseService, useValue: measuredConnection }, { provide: STORAGE_SERVICE, useValue: storage },
         { provide: PublicResponseCache, useValue: cache }, { provide: APP_INTERCEPTOR, useClass: PublicCacheInterceptor },
         { provide: JwtVerifierService, useValue: { verify: async (token: string) => {
@@ -116,5 +121,5 @@ export async function createQueryCacheFixture() {
     const url = await app.getUrl();
     return { app, url, cache, clock, metrics, connection: measuredConnection };
   }
-  return { pg, db, connection, createApp, brands, models, cars: seededCars, objects, failDelete: (fail: boolean) => { failStorageDelete = fail; } };
+  return { pg, db, connection, createApp, brands, models, cars: seededCars, objects, storage, failDelete: (fail: boolean) => { failStorageDelete = fail; } };
 }

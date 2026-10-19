@@ -14,6 +14,7 @@ test('public brand order follows current stock and excludes unavailable cars', a
   try {
     await pg.exec((await readFile('drizzle/0000_wild_carmella_unuscione.sql', 'utf8')).replaceAll('--> statement-breakpoint', ''));
     await pg.exec(await readFile('drizzle/0001_unusual_nomad.sql', 'utf8'));
+    await pg.exec((await readFile('drizzle/0021_car_listing_order.sql', 'utf8')).replaceAll('--> statement-breakpoint', ''));
     const db = drizzle(pg, { schema });
     const catalog = new CatalogService({ db } as unknown as DatabaseService);
     const [toyota, honda, ford, bmw, hidden] = await db.insert(schema.brands).values([

@@ -4,6 +4,7 @@ import type { AuditContext } from '../../common/audit.js';
 import { DatabaseService } from '../../database/database.service.js';
 import { auditLogs, seoMetadata } from '../../database/schema/index.js';
 import { UpsertSeoDto } from './seo.dto.js';
+import { queueRemovedImages } from '../media/storage-cleanup.js';
 
 @Injectable()
 export class SeoService {
@@ -21,6 +22,7 @@ export class SeoService {
         .onConflictDoUpdate({ target: seoMetadata.routePath, set: { ...dto, updatedBy: audit.actorProfileId, updatedAt: new Date() } }).returning();
       await tx.insert(auditLogs).values({ ...audit, action: 'seo.upsert', entityType: 'seo_metadata', entityId: updated.id,
         oldData: old ?? null, newData: updated });
+      await queueRemovedImages(tx, old, updated, audit);
       return updated;
     });
   }
@@ -29,6 +31,7 @@ export class SeoService {
       const [old] = await tx.delete(seoMetadata).where(eq(seoMetadata.routePath, route)).returning();
       if (!old) throw new NotFoundException('SEO metadata not found');
       await tx.insert(auditLogs).values({ ...audit, action: 'seo.delete', entityType: 'seo_metadata', entityId: old.id, oldData: old });
+      await queueRemovedImages(tx, old, null, audit);
     });
   }
 }

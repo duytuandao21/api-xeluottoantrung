@@ -1,3 +1,4 @@
+import { AdminSortQuery } from '../../common/admin-list-query.js';
 import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger';
 import { IsIn, IsInt, IsOptional, IsString, IsUUID, Matches, Max, MaxLength, Min } from 'class-validator';
 import { Type } from 'class-transformer';
@@ -38,7 +39,12 @@ export class CreateModelDto {
 
 export class UpdateModelDto extends PartialType(CreateModelDto) {}
 
-export class ListModelsQuery {
+export class AdminCatalogQuery extends AdminSortQuery {
+  @IsOptional() @Type(() => Number) @IsInt() @Min(1) page?: number;
+  @IsOptional() @Type(() => Number) @IsInt() @Min(1) @Max(100) limit = 10;
+  @IsOptional() @IsString() @MaxLength(120) search?: string;
+}
+export class ListModelsQuery extends AdminCatalogQuery {
   @ApiPropertyOptional({ format: 'uuid' })
   @IsOptional() @IsUUID() brandId?: string;
 }

@@ -12,6 +12,7 @@ import * as schema from '../src/database/schema/index.js';
 import { PERMISSIONS_KEY } from '../src/modules/auth/auth.decorators.js';
 import { CarMediaController, MediaUploadController } from '../src/modules/media/media.controller.js';
 import { MediaService } from '../src/modules/media/media.service.js';
+import { StorageCleanupService } from '../src/modules/media/storage-cleanup.service.js';
 import type { StorageService, StoredObject } from '../src/modules/media/storage.service.js';
 
 test('R2 media registration, cover, ordering, ownership and retryable removal', async () => {
@@ -20,6 +21,7 @@ test('R2 media registration, cover, ordering, ownership and retryable removal', 
     for (const name of ['0000_wild_carmella_unuscione', '0001_unusual_nomad']) {
       await pg.exec((await readFile(`drizzle/${name}.sql`, 'utf8')).replaceAll('--> statement-breakpoint', ''));
     }
+    await pg.exec((await readFile('drizzle/0021_car_listing_order.sql', 'utf8')).replaceAll('--> statement-breakpoint', ''));
     const db = drizzle(pg, { schema });
     const [profile] = await db.insert(profiles).values({ authUserId: '49332fa0-8244-4b20-a8d0-9793b72ef689', fullName: 'Admin' }).returning();
     const audit = { actorProfileId: profile.id, ipAddress: '127.0.0.1', userAgent: 'test', requestId: 'media-test' };
@@ -37,6 +39,7 @@ test('R2 media registration, cover, ordering, ownership and retryable removal', 
       ping: async () => {},
     };
     const service = new MediaService({ db } as unknown as DatabaseService, storage);
+    const cleanup = new StorageCleanupService({ db } as unknown as DatabaseService, storage);
     assert.deepEqual(Reflect.getMetadata(PERMISSIONS_KEY, MediaUploadController.prototype.presign), ['media.create']);
     assert.equal(Reflect.getMetadata(PERMISSIONS_KEY, MediaUploadController.prototype.presignAsset), undefined);
     assert.deepEqual(Reflect.getMetadata(PERMISSIONS_KEY, CarMediaController.prototype.delete), ['media.delete']);
@@ -71,12 +74,13 @@ test('R2 media registration, cover, ordering, ownership and retryable removal', 
     await assert.rejects(service.reorder(car.id, { mediaIds: [savedFirst.id, savedFirst.id] }, audit), BadRequestException);
     assert.deepEqual((await service.reorder(car.id, { mediaIds: [savedSecond.id, savedFirst.id] }, audit)).map((item) => item.id), [savedSecond.id, savedFirst.id]);
     failDelete = true;
-    await assert.rejects(service.delete(car.id, savedSecond.id, audit), /R2 unavailable/);
+    await service.delete(car.id, savedSecond.id, audit);
+    await cleanup.flush();
     assert.equal((await service.list(car.id)).length, 1);
     assert.equal((await service.list(car.id))[0].isCover, true);
     assert.ok((await db.select().from(carMedia).where(eq(carMedia.id, savedSecond.id)))[0].deletionPendingAt);
     failDelete = false;
-    await service.delete(car.id, savedSecond.id, audit);
+    await cleanup.flush();
     assert.equal(objects.has(second.storageKey), false);
     assert.equal((await db.select().from(carMedia).where(eq(carMedia.id, savedSecond.id))).length, 0);
     const actions = (await db.select({ action: auditLogs.action }).from(auditLogs)).map((item) => item.action);

@@ -1,3 +1,4 @@
+import { AdminSortQuery } from '../../common/admin-list-query.js';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { ArrayMaxSize, IsArray, IsBoolean, IsIn, IsInt, IsOptional, IsString, IsUUID, Matches, Max, MaxLength, Min } from 'class-validator';
@@ -5,7 +6,8 @@ import { ArrayMaxSize, IsArray, IsBoolean, IsIn, IsInt, IsOptional, IsString, Is
 export const collectionNames = ['articles', 'driving-experiences', 'article-categories', 'pages', 'faqs', 'testimonials', 'services', 'recruitments', 'slides', 'accessories', 'accessory-brands', 'accessory-categories'] as const;
 export type CollectionName = typeof collectionNames[number];
 
-export class CollectionQuery {
+export class CollectionQuery extends AdminSortQuery {
+  @IsOptional() @IsIn(['table']) view?: 'table';
   @ApiPropertyOptional({ type: Number, default: 1 }) @IsOptional() @Type(() => Number) @IsInt() @Min(1) page = 1;
   @ApiPropertyOptional({ type: Number, default: 20 }) @IsOptional() @Type(() => Number) @IsInt() @Min(1) @Max(100) limit = 20;
   @ApiPropertyOptional() @IsOptional() @IsString() @MaxLength(120) search?: string;

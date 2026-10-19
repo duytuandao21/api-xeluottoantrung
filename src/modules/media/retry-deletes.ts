@@ -1,10 +1,11 @@
 import 'dotenv/config';
 import { ConfigService } from '@nestjs/config';
-import { and, eq, isNotNull } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/node-postgres';
+import { sql } from 'drizzle-orm';
 import { Pool } from 'pg';
 import { validateEnv } from '../../config/env.js';
-import { auditLogs, carMedia } from '../../database/schema/index.js';
+import { DatabaseService } from '../../database/database.service.js';
+import { StorageCleanupService } from './storage-cleanup.service.js';
 import { R2StorageService } from './storage.service.js';
 
 async function main() {
@@ -13,25 +14,16 @@ async function main() {
   const pool = new Pool({ connectionString: config.DATABASE_URL, max: 2 });
   try {
     const db = drizzle(pool);
-    const pending = await db.select().from(carMedia).where(isNotNull(carMedia.deletionPendingAt));
-    let recovered = 0;
-    for (const media of pending) {
-      try {
-        if (media.storageKey) await storage.delete(media.storageKey);
-        await db.transaction(async (tx) => {
-          const [removed] = await tx.delete(carMedia).where(and(eq(carMedia.id, media.id),
-            isNotNull(carMedia.deletionPendingAt))).returning();
-          if (removed) await tx.insert(auditLogs).values({ action: 'media.delete_recovered', entityType: 'car_media',
-            entityId: media.id, oldData: { carId: media.carId, storageKey: media.storageKey, type: media.type }, newData: null });
-        });
-        recovered++;
-      } catch (error) {
-        console.error(`Failed to recover media ${media.id}:`, error instanceof Error ? error.message : 'Unknown error');
-      }
-    }
-    console.log(`Recovered ${recovered} of ${pending.length} pending media deletions`);
-    if (recovered !== pending.length) process.exitCode = 1;
+    const cleanup = new StorageCleanupService({ db } as unknown as DatabaseService, storage);
+    await cleanup.flush();
+    const result = await db.execute(sql`SELECT count(*)::int AS total FROM audit_logs p
+      WHERE p.entity_type = 'storage_object' AND p.action = 'storage.delete_pending'
+      AND NOT EXISTS (SELECT 1 FROM audit_logs d WHERE d.entity_type = 'storage_object' AND d.entity_id = p.entity_id
+        AND d.action IN ('storage.deleted', 'storage.retained'))`);
+    const remaining = Number(result.rows[0]?.total ?? 0);
+    console.log(`Processed one bounded cleanup batch (up to 25 objects); ${remaining} pending. API retries every minute.`);
+    if (remaining) process.exitCode = 1;
   } finally { await pool.end(); }
 }
 
-main().catch((error: unknown) => { console.error(error); process.exitCode = 1; });
+main().catch(() => { console.error('Storage cleanup could not finish; inspect API configuration and pending job counts.'); process.exitCode = 1; });

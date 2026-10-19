@@ -1,3 +1,4 @@
+import { adminOrder } from '../../common/admin-list-query.js';
 import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { and, asc, count, desc, eq, ilike, isNull, or, type SQL } from 'drizzle-orm';
 import type { AuditContext } from '../../common/audit.js';
@@ -21,7 +22,7 @@ export class CustomersService {
     }
     const where = and(...filters);
     const [data, totalResult] = await Promise.all([
-      this.database.db.select().from(customers).where(where).orderBy(desc(customers.createdAt), asc(customers.id))
+      this.database.db.select().from(customers).where(where).orderBy(adminOrder(query, ['name', 'email', 'created_at', 'last_login_at']) ?? desc(customers.createdAt), asc(customers.id))
         .limit(query.limit).offset((query.page - 1) * query.limit),
       this.database.db.select({ total: count() }).from(customers).where(where),
     ]);

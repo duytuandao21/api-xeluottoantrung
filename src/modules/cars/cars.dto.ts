@@ -1,3 +1,4 @@
+import { AdminSortQuery } from '../../common/admin-list-query.js';
 import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsBoolean, IsIn, IsInt, IsOptional, IsString, IsUUID, Matches, Max, MaxLength, Min } from 'class-validator';
@@ -11,8 +12,8 @@ export class CarMenuQuery {
   @IsIn(['new-arrivals', 'discounts']) section!: 'new-arrivals' | 'discounts';
 }
 
-export class ListCarsQuery {
-  @ApiPropertyOptional({ description: 'Search car name; admin also searches SKU' })
+export class ListCarsQuery extends AdminSortQuery {
+  @ApiPropertyOptional({ description: 'Search car name; admin also searches SKU and normalized license plate' })
   @IsOptional() @IsString() @MaxLength(120) search?: string;
   @ApiPropertyOptional({ description: 'Brand slug' })
   @IsOptional() @IsString() @MaxLength(160) brand?: string;

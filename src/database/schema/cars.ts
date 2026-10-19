@@ -23,11 +23,13 @@ export const cars = pgTable('cars', {
   newArrival: boolean('new_arrival').default(false).notNull(),
   publishedAt: timestamp('published_at', { withTimezone: true }),
   sourceUrl: text('source_url'), sourceKind: text('source_kind'),
+  listingOrderAt: timestamp('listing_order_at', { withTimezone: true }),
   createdAt: createdAt(), updatedAt: updatedAt(), deletedAt: timestamp('deleted_at', { withTimezone: true }),
 }, (t) => [
   uniqueIndex('cars_slug_uq').on(t.slug), uniqueIndex('cars_legacy_id_uq').on(t.legacyId),
   uniqueIndex('cars_sku_uq').on(t.sku), uniqueIndex('cars_source_url_uq').on(t.sourceUrl),
   index('cars_status_created_idx').on(t.status, t.createdAt),
+  index('cars_listing_order_idx').on(sql`coalesce(${t.listingOrderAt}, ${t.createdAt})`, t.id).where(sql`${t.deletedAt} IS NULL`),
   index('cars_brand_status_idx').on(t.brandId, t.status),
   index('cars_model_idx').on(t.modelId), index('cars_version_idx').on(t.versionId),
   index('cars_body_style_idx').on(t.bodyStyleId), index('cars_branch_idx').on(t.branchId),

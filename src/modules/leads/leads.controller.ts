@@ -22,6 +22,7 @@ export class PublicLeadsController {
 export class AdminLeadsController {
   constructor(private readonly leads: LeadsService) {}
   @Get() @Permissions('lead.read') list(@Query() query: LeadQuery) { return this.leads.list(query); }
+  @Get('counts') @Permissions('lead.read') counts() { return this.leads.unreadCounts(); }
   @Get(':id') @Permissions('lead.read') detail(@Param('id', ParseUUIDPipe) id: string) { return this.leads.detail(id); }
   @Patch(':id') @Permissions('lead.update') update(@Param('id', ParseUUIDPipe) id: string, @Body() dto: UpdateLeadDto,
     @Req() request: FastifyRequest, @CurrentUser() user: AuthenticatedUser) {

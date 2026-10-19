@@ -27,6 +27,7 @@ test('phase 7 lookup CRUD, public visibility, relation checks, and per-resource 
   try {
     for (const migration of ['0000_wild_carmella_unuscione', '0001_unusual_nomad'])
       await pg.exec((await readFile(`drizzle/${migration}.sql`, 'utf8')).replaceAll('--> statement-breakpoint', ''));
+    await pg.exec((await readFile('drizzle/0021_car_listing_order.sql', 'utf8')).replaceAll('--> statement-breakpoint', ''));
     const db = drizzle(pg, { schema });
     const connection = { db } as unknown as DatabaseService;
     const [profile] = await db.insert(profiles).values({ authUserId: '49332fa0-8244-4b20-a8d0-9793b72ef689', fullName: 'Admin' }).returning();

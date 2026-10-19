@@ -1,3 +1,4 @@
+import { AdminSortQuery } from '../../common/admin-list-query.js';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsEmail, IsIn, IsInt, IsOptional, IsString, IsUUID, Matches, Max, MaxLength, Min } from 'class-validator';
@@ -22,7 +23,7 @@ export class CreateLeadDto {
   @ApiPropertyOptional() @IsOptional() @Matches(/^\d{1,15}$/) financeAmount?: string;
   @ApiPropertyOptional() @IsOptional() @Matches(/^\d{1,3}$/) financeTerm?: string;
 }
-export class LeadQuery {
+export class LeadQuery extends AdminSortQuery {
   @ApiPropertyOptional({ enum: leadTypes }) @IsOptional() @IsIn(leadTypes) type?: typeof leadTypes[number];
   @ApiPropertyOptional({ enum: leadStatuses }) @IsOptional() @IsIn(leadStatuses) status?: typeof leadStatuses[number];
   @ApiPropertyOptional() @IsOptional() @IsString() @MaxLength(120) search?: string;
@@ -35,7 +36,7 @@ export class UpdateLeadDto {
 export class NewsletterDto {
   @ApiProperty() @IsEmail() @MaxLength(254) email!: string;
 }
-export class NewsletterQuery {
+export class NewsletterQuery extends AdminSortQuery {
   @ApiPropertyOptional() @IsOptional() @IsString() @MaxLength(120) search?: string;
   @ApiPropertyOptional({ default: 1 }) @IsOptional() @Type(() => Number) @IsInt() @Min(1) page = 1;
   @ApiPropertyOptional({ default: 20 }) @IsOptional() @Type(() => Number) @IsInt() @Min(1) @Max(100) limit = 20;

@@ -70,6 +70,15 @@ test('public car queries omit unused private columns while preserving public/adm
     assert.ok(adminRow.publishedAt);
     assert.ok('version' in adminRow);
     assert.equal(adminRow.version, 'Standard');
+    for (const search of ['30A-12345', '30a12345', '30A 123.45', '30a', '12345', 'LOCAL-SKU', car.name]) {
+      const matched = await cars.list({ ...query, search, limit: 1 }, true);
+      assert.equal(matched.meta.total, 1, `Admin search: ${search}`);
+      assert.equal(matched.data[0].slug, car.slug);
+    }
+    for (const search of ['---', '%', '99Z99999'])
+      assert.equal((await cars.list({ ...query, search }, true)).meta.total, 0, 'Empty normalized plate must not match all cars');
+    assert.equal((await cars.list({ ...query, search: '30A12345' })).meta.total, 0, 'Anonymous search must not match private plates');
+    assert.equal((await cars.list({ ...query, brand: 'honda', search: '30A12345' }, true)).meta.total, 0, 'Plate search preserves other filters');
     statements.length = 0;
     const detail = await cars.publicDetail(car.slug);
     assert.equal(statements.length, 3);

@@ -1,0 +1,2 @@
+ALTER TABLE "cars" ADD COLUMN "listing_order_at" timestamp with time zone;--> statement-breakpoint
+CREATE INDEX "cars_listing_order_idx" ON "cars" USING btree (coalesce("listing_order_at", "created_at"),"id") WHERE "cars"."deleted_at" IS NULL;

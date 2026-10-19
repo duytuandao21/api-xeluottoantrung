@@ -7,6 +7,7 @@ import { DatabaseService } from '../../database/database.service.js';
 import { auditLogs, bodyStyles, branches, brands, carColors, carMedia, carModels, carSpecifications, cars, carVersions, transmissions } from '../../database/schema/index.js';
 import { CarMenuQuery, CreateCarDto, ListCarsQuery, UpdateCarDto } from './cars.dto.js';
 import { canEditNewArrival, NEW_ARRIVAL_DURATION_MS } from './new-arrival.js';
+import { queueStorageDeletes, queueRemovedImages } from '../media/storage-cleanup.js';
 
 const publicStatuses = ['active', 'deposit', 'sold'] as const;
 type CarRow = typeof cars.$inferSelect;
@@ -39,7 +40,9 @@ function orderFor(sort: ListCarsQuery['sort']) {
     case 'price_desc': return [desc(cars.price), desc(cars.createdAt), asc(cars.id)];
     case 'year_desc': return [desc(cars.year), desc(cars.createdAt), asc(cars.id)];
     case 'mileage_asc': return [asc(cars.mileage), desc(cars.createdAt), asc(cars.id)];
-    default: return [desc(cars.createdAt), asc(cars.id)];
+    // Manual placement affects the default inventory order, not the recorded
+    // creation date, new-arrival eligibility or explicit price/date sorting.
+    default: return [desc(sql`coalesce(${cars.listingOrderAt}, ${cars.createdAt})`), asc(cars.id)];
   }
 }
 
@@ -62,9 +65,12 @@ export class CarsService {
     if (query.search?.trim()) {
       const term = `%${query.search.trim().replace(/[\\%_]/g, '\\$&')}%`;
       const plateTerm = `%${query.search.trim().replace(/[^a-z0-9]/gi, '')}%`;
-      const search = admin ? or(ilike(cars.name, term), ilike(cars.sku, term))
+      const plateSearch = (admin || salePlateSearch) && plateTerm !== '%%'
+        ? ilike(sql`regexp_replace(coalesce(${cars.licensePlate}, ''), '[^A-Za-z0-9]', '', 'g')`, plateTerm)
+        : undefined;
+      const search = admin ? or(ilike(cars.name, term), ilike(cars.sku, term), plateSearch)
         : salePlateSearch && plateTerm !== '%%'
-          ? or(ilike(cars.name, term), ilike(sql`regexp_replace(coalesce(${cars.licensePlate}, ''), '[^A-Za-z0-9]', '', 'g')`, plateTerm))
+          ? or(ilike(cars.name, term), plateSearch)
           : ilike(cars.name, term);
       if (search) filters.push(search);
     }
@@ -118,6 +124,10 @@ export class CarsService {
       .leftJoin(branches, eq(branches.id, cars.branchId))
       .where(where);
     const totalRow = await base;
+    const sortColumns = { name: cars.name, price: cars.price, mileage: cars.mileage, createdAt: cars.createdAt };
+    if (admin && query.sortBy && !(query.sortBy in sortColumns)) throw new BadRequestException('Unsupported sort field');
+    const sortColumn = query.sortBy ? sortColumns[query.sortBy as keyof typeof sortColumns] : undefined;
+    const order = admin && sortColumn ? [query.sortDirection === 'desc' ? desc(sortColumn) : asc(sortColumn), asc(cars.id)] : orderFor(query.sort);
     const rows = await this.database.db.select({
         ...(admin ? { id: cars.id, sku: cars.sku, licensePlate: cars.licensePlate,
           transmissionId: cars.transmissionId, publishedAt: cars.publishedAt, version: carVersions.name } : {}),
@@ -141,7 +151,7 @@ export class CarsService {
         .leftJoin(carColors, eq(carColors.id, cars.colorId))
         .leftJoin(branches, eq(branches.id, cars.branchId))
         .leftJoin(carMedia, and(eq(carMedia.carId, cars.id), eq(carMedia.isCover, true), isNull(carMedia.deletionPendingAt)))
-        .where(where).orderBy(...orderFor(query.sort)).limit(query.limit).offset((query.page - 1) * query.limit);
+        .where(where).orderBy(...order).limit(query.limit).offset((query.page - 1) * query.limit);
     const total = totalRow[0]?.total ?? 0;
     return { data: rows.map((row) => admin ? row : ({
       slug: row.slug, name: row.name, year: row.year, price: row.price,
@@ -277,6 +287,7 @@ export class CarsService {
           .where(and(eq(cars.id, id), isNull(cars.deletedAt))).returning();
         await tx.insert(auditLogs).values({ ...audit, action: 'car.update', entityType: 'car', entityId: id,
           oldData: auditSnapshot(old), newData: auditSnapshot(updated) });
+        await queueRemovedImages(tx, { description: old.description }, { description: updated.description }, audit);
         if (old.price !== updated.price) await tx.insert(auditLogs).values({ ...audit, action: 'car.price_change', entityType: 'car', entityId: id,
           oldData: { price: old.price }, newData: { price: updated.price } });
         if (old.status !== updated.status) await tx.insert(auditLogs).values({ ...audit, action: 'car.status_change', entityType: 'car', entityId: id,
@@ -294,6 +305,10 @@ export class CarsService {
         .where(eq(cars.id, id)).returning();
       await tx.insert(auditLogs).values({ ...audit, action: 'car.delete', entityType: 'car', entityId: id,
         oldData: auditSnapshot(old), newData: auditSnapshot(deleted) });
+      const media = await tx.update(carMedia).set({ deletionPendingAt: new Date(), isCover: false })
+        .where(eq(carMedia.carId, id)).returning();
+      await queueStorageDeletes(tx, media.map(row => ({ key: row.storageKey ?? undefined, url: row.publicUrl, mediaId: row.id })), audit);
+      await queueRemovedImages(tx, { description: old.description }, null, audit);
     });
   }
 

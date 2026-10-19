@@ -1,12 +1,13 @@
 import { randomUUID } from 'node:crypto';
 import { BadRequestException, ConflictException, Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { and, asc, eq, isNull, sql } from 'drizzle-orm';
+import { and, asc, eq, isNull } from 'drizzle-orm';
 import type { AuditContext } from '../../common/audit.js';
 import { throwOnConstraint } from '../../common/database-errors.js';
 import { DatabaseService } from '../../database/database.service.js';
 import { auditLogs, carMedia, cars } from '../../database/schema/index.js';
 import { AddMediaDto, mediaMimeTypes, PresignAssetDto, PresignMediaDto, ReorderMediaDto, UpdateMediaDto } from './media.dto.js';
 import { STORAGE_SERVICE, type StorageService } from './storage.service.js';
+import { queueStorageDeletes } from './storage-cleanup.js';
 
 @Injectable()
 export class MediaService {
@@ -116,7 +117,7 @@ export class MediaService {
   }
 
   async delete(carId: string, mediaId: string, audit: AuditContext): Promise<void> {
-    const media = await this.database.db.transaction(async (tx) => {
+    await this.database.db.transaction(async (tx) => {
       const [car] = await tx.select({ id: cars.id }).from(cars).where(and(eq(cars.id, carId), isNull(cars.deletedAt))).for('update');
       if (!car) throw new NotFoundException('Car not found');
       const [row] = await tx.select().from(carMedia).where(and(eq(carMedia.id, mediaId), eq(carMedia.carId, carId)));
@@ -131,14 +132,9 @@ export class MediaService {
             oldData: { mediaId }, newData: { mediaId: replacement?.id ?? null } });
         }
       }
-      return row;
-    });
-    if (media.storageKey) await this.storage.delete(media.storageKey);
-    await this.database.db.transaction(async (tx) => {
-      const [removed] = await tx.delete(carMedia).where(and(eq(carMedia.id, mediaId), eq(carMedia.carId, carId),
-        sql`${carMedia.deletionPendingAt} IS NOT NULL`)).returning();
-      if (removed) await tx.insert(auditLogs).values({ ...audit, action: 'media.delete', entityType: 'car_media', entityId: mediaId,
-        oldData: { carId, storageKey: removed.storageKey, type: removed.type }, newData: null });
+      await queueStorageDeletes(tx, [{ key: row.storageKey ?? undefined, url: row.publicUrl, mediaId: row.id }], audit);
+      await tx.insert(auditLogs).values({ ...audit, action: 'media.delete', entityType: 'car_media', entityId: mediaId,
+        oldData: { carId, storageKey: row.storageKey, type: row.type }, newData: null });
     });
   }
 }

@@ -20,9 +20,12 @@ export class ValuationAdminService {
   constructor(@Inject(ValuationRepository) readonly repo: ValuationRepository) {}
   async current() {
     return this.repo.database.db.transaction(async tx => {
-      const settings = await this.repo.settings(tx), policy = await this.repo.current(tx), snapshot = await this.repo.snapshot(policy.id, tx);
+      const settings = await this.repo.settings(tx), policy = await this.repo.current(tx);
+      const options = await tx.select().from(valuationOptions).where(eq(valuationOptions.policyId, policy.id)).orderBy(asc(valuationOptions.category), asc(valuationOptions.sortOrder));
+      const [references] = await tx.select({ total: count() }).from(valuationReferencePrices).where(eq(valuationReferencePrices.policyId, policy.id));
+      const [rules] = await tx.select({ total: count() }).from(valuationRules).where(eq(valuationRules.policyId, policy.id));
       return { settings, configuration: { id: policy.id, name: policy.name, revision: policy.revision, config: policy.config, updatedAt: policy.updatedAt, validationReport: policy.validationReport },
-        options: snapshot.options, referenceCount: snapshot.references.length, ruleCount: snapshot.rules.length };
+        options, referenceCount: references.total, ruleCount: rules.total };
     }, { isolationLevel: 'repeatable read', accessMode: 'read only' });
   }
   async currentList(kind: 'reference' | 'rule' | 'option', query: CurrentListQuery) {

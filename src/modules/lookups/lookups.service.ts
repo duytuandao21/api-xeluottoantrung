@@ -1,3 +1,4 @@
+import { adminOrder } from '../../common/admin-list-query.js';
 import { BadRequestException, ConflictException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { sql, type SQL } from 'drizzle-orm';
 import type { AuditContext } from '../../common/audit.js';
@@ -5,6 +6,7 @@ import { throwOnConstraint } from '../../common/database-errors.js';
 import { toSlug } from '../../common/slug.js';
 import { DatabaseService } from '../../database/database.service.js';
 import { auditLogs } from '../../database/schema/index.js';
+import { queueRemovedImages } from '../media/storage-cleanup.js';
 import { LookupPayloadDto, LookupQuery, lookupNames, type LookupName } from './lookups.dto.js';
 import { optionRange } from './filter-ranges.js';
 
@@ -71,13 +73,18 @@ export class LookupsService {
     if (query.group && name !== 'filter-options') throw new BadRequestException('group filter is only valid for filter-options');
     if (query.modelId && name !== 'car-versions') throw new BadRequestException('modelId filter is only valid for car-versions');
     if (query.regionId && name !== 'branches') throw new BadRequestException('regionId filter is only valid for branches');
+    if (query.brandId && (publicOnly || name !== 'car-versions')) throw new BadRequestException('Unsupported brand filter');
     const filters: SQL[] = [];
+    if (query.brandId) filters.push(sql`model_id IN (SELECT id FROM car_models WHERE brand_id = ${query.brandId})`);
     if (publicOnly) filters.push(sql`status = 'active'`);
     else if (query.status) filters.push(sql`status = ${query.status}`);
     if (query.group) filters.push(sql`"group" = ${query.group}`);
     if (query.modelId) filters.push(sql`model_id = ${query.modelId}`);
     if (query.regionId) filters.push(sql`region_id = ${query.regionId}`);
-    if (query.search?.trim()) filters.push(sql`name ILIKE ${`%${query.search.trim().replace(/[\\%_]/g, '\\$&')}%`}`);
+    if (query.search?.trim()) {
+      const term = `%${query.search.trim().replace(/[\\%_]/g, '\\$&')}%`;
+      filters.push(!publicOnly && name === 'car-versions' ? sql`(name ILIKE ${term} OR slug ILIKE ${term})` : sql`name ILIKE ${term}`);
+    }
     const where = filters.length ? sql` WHERE ${sql.join(filters, sql` AND `)}` : sql``;
     const table = sql.identifier(config.table);
     if (name === 'filter-options' && query.group === 'budget') {
@@ -89,14 +96,19 @@ export class LookupsService {
         return { ...item, minValue: bounds?.min ?? null, maxValue: bounds?.max ?? null };
       }).sort((a, b) => (a.minValue ?? Infinity) - (b.minValue ?? Infinity) ||
         (a.maxValue ?? Infinity) - (b.maxValue ?? Infinity) || String(a.id).localeCompare(String(b.id)));
+      if (!publicOnly && query.sortBy) {
+        adminOrder(query, ['name', 'slug', 'created_at', 'updated_at']);
+        items.sort((a, b) => String(a[query.sortBy!] ?? '').localeCompare(String(b[query.sortBy!] ?? '')) * (query.sortDirection === 'desc' ? -1 : 1) || String(a.id).localeCompare(String(b.id)));
+      }
       return { data: items.slice((query.page - 1) * query.limit, query.page * query.limit),
         meta: { page: query.page, limit: query.limit, total: items.length, totalPages: Math.ceil(items.length / query.limit) } };
     }
+    const order = !publicOnly ? adminOrder(query, ['name', 'slug', 'created_at', 'updated_at']) : undefined;
     const carCount = !publicOnly && name === 'car-versions'
       ? sql`, (SELECT count(*)::int FROM cars WHERE version_id = ${table}.id AND deleted_at IS NULL) AS count`
       : sql``;
     const [items, countResult] = await Promise.all([
-      this.database.db.execute(sql`SELECT *${carCount} FROM ${table}${where} ORDER BY sort_order ASC, name ASC, id ASC LIMIT ${query.limit} OFFSET ${(query.page - 1) * query.limit}`),
+      this.database.db.execute(sql`SELECT *${carCount} FROM ${table}${where} ORDER BY ${order ?? sql`sort_order ASC, name ASC, id ASC`} LIMIT ${query.limit} OFFSET ${(query.page - 1) * query.limit}`),
       this.database.db.execute(sql`SELECT count(*)::int AS total FROM ${table}${where}`),
     ]);
     const total = Number(countResult.rows[0]?.total ?? 0);
@@ -147,6 +159,7 @@ export class LookupsService {
         const updated = rows(result)[0];
         await tx.insert(auditLogs).values({ ...audit, action: 'lookup.update', entityType: config.table,
           entityId: id, oldData: old, newData: updated });
+        await queueRemovedImages(tx, old, updated, audit);
         return updated;
       });
     } catch (error) { return throwOnConstraint(error); }
@@ -161,6 +174,7 @@ export class LookupsService {
         if (!old) throw new NotFoundException('Lookup item not found');
         await tx.insert(auditLogs).values({ ...audit, action: 'lookup.delete', entityType: config.table,
           entityId: id, oldData: old });
+        await queueRemovedImages(tx, old, null, audit);
       });
     } catch (error) { return throwOnConstraint(error); }
   }

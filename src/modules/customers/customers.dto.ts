@@ -1,8 +1,9 @@
+import { AdminSortQuery } from '../../common/admin-list-query.js';
 import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsEmail, IsIn, IsInt, IsOptional, IsString, Matches, Max, MaxLength, Min } from 'class-validator';
 
-export class CustomerQuery {
+export class CustomerQuery extends AdminSortQuery {
   @ApiPropertyOptional() @IsOptional() @IsString() @MaxLength(120) search?: string;
   @ApiPropertyOptional({ enum: ['active', 'blocked'] }) @IsOptional() @IsIn(['active', 'blocked']) status?: 'active' | 'blocked';
   @ApiPropertyOptional({ default: 1 }) @IsOptional() @Type(() => Number) @IsInt() @Min(1) page = 1;

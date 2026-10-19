@@ -1,11 +1,13 @@
+import { adminOrder } from '../../common/admin-list-query.js';
 import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { and, asc, count, desc, eq, ilike, isNull, or, type SQL } from 'drizzle-orm';
+import { and, asc, count, desc, eq, ilike, isNull, or, sql, type SQL } from 'drizzle-orm';
 import type { AuditContext } from '../../common/audit.js';
 import { DatabaseService } from '../../database/database.service.js';
 import { auditLogs, cars, leads, newsletterSubscribers } from '../../database/schema/index.js';
 import { CreateLeadDto, LeadQuery, NewsletterDto, NewsletterQuery, UpdateLeadDto, UpdateNewsletterDto } from './leads.dto.js';
 
 function normalizePhone(value: string): string {
+  if (typeof value !== 'string' || !value.trim()) throw new BadRequestException('phone is required');
   const phone = value.replace(/[()\s.-]/g, '');
   if (!/^(?:\+84|0)[0-9]{9,10}$/.test(phone)) throw new BadRequestException('Invalid Vietnamese phone number');
   return phone;
@@ -22,6 +24,7 @@ export class LeadsService {
     if (dto.type === 'sell' || dto.type === 'trade_in') {
       required(dto.offeredBrand, 'offeredBrand'); required(dto.offeredModel, 'offeredModel');
       required(dto.offeredYear, 'offeredYear');
+      required(dto.offeredVersion, 'offeredVersion'); required(dto.offeredMileage, 'offeredMileage');
     }
     if (dto.type === 'trade_in') required(dto.desiredCar, 'desiredCar');
     if (dto.type === 'finance') { required(dto.name, 'name'); required(dto.financeAmount, 'financeAmount'); required(dto.financeTerm, 'financeTerm'); }
@@ -34,6 +37,14 @@ export class LeadsService {
     return { id: created.id, createdAt: created.createdAt, accepted: true };
   }
 
+  async unreadCounts() {
+    const [result] = await this.database.db.select({
+      sell: sql<number>`count(*) FILTER (WHERE type = 'sell')::int`,
+      trade_in: sql<number>`count(*) FILTER (WHERE type = 'trade_in')::int`,
+      callback: sql<number>`count(*) FILTER (WHERE type = 'callback')::int`,
+    }).from(leads).where(eq(leads.status, 'unread'));
+    return result;
+  }
   async list(query: LeadQuery) {
     const filters: SQL[] = [];
     if (query.type) filters.push(eq(leads.type, query.type));
@@ -45,7 +56,7 @@ export class LeadsService {
     }
     const where = and(...filters);
     const [data, totalResult] = await Promise.all([
-      this.database.db.select().from(leads).where(where).orderBy(desc(leads.createdAt), asc(leads.id))
+      this.database.db.select().from(leads).where(where).orderBy(adminOrder(query, ['created_at']) ?? desc(leads.createdAt), asc(leads.id))
         .limit(query.limit).offset((query.page - 1) * query.limit),
       this.database.db.select({ total: count() }).from(leads).where(where),
     ]);
@@ -91,7 +102,7 @@ export class LeadsService {
   async subscribers(query: NewsletterQuery) {
     const where = query.search?.trim() ? ilike(newsletterSubscribers.email, `%${query.search.trim().replace(/[\\%_]/g, '\\$&')}%`) : undefined;
     const [data, totalResult] = await Promise.all([
-      this.database.db.select().from(newsletterSubscribers).where(where).orderBy(desc(newsletterSubscribers.createdAt))
+      this.database.db.select().from(newsletterSubscribers).where(where).orderBy(adminOrder(query, ['created_at']) ?? desc(newsletterSubscribers.createdAt), asc(newsletterSubscribers.id))
         .limit(query.limit).offset((query.page - 1) * query.limit),
       this.database.db.select({ total: count() }).from(newsletterSubscribers).where(where),
     ]);

@@ -1,3 +1,4 @@
+import { AdminSortQuery } from '../../common/admin-list-query.js';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsIn, IsInt, IsOptional, IsString, IsUUID, Matches, Max, MaxLength, Min } from 'class-validator';
@@ -5,7 +6,8 @@ import { IsIn, IsInt, IsOptional, IsString, IsUUID, Matches, Max, MaxLength, Min
 export const lookupNames = ['car-versions', 'body-styles', 'transmissions', 'car-colors', 'branch-regions', 'branches', 'filter-options'] as const;
 export type LookupName = typeof lookupNames[number];
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
-export class LookupQuery {
+export class LookupQuery extends AdminSortQuery {
+  @IsOptional() @IsUUID() brandId?: string;
   @ApiPropertyOptional() @IsOptional() @IsString() @MaxLength(120) search?: string;
   @ApiPropertyOptional() @IsOptional() @Matches(slugPattern) @MaxLength(80) group?: string;
   @ApiPropertyOptional({ format: 'uuid' }) @IsOptional() @IsUUID() modelId?: string;
