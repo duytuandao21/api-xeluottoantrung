@@ -141,7 +141,7 @@ export class CarsService {
         branch: branches.name,
         bodyType: bodyStyles.name, transmission: transmissions.name, color: carColors.name,
         colorSlug: carColors.slug, fuel: cars.fuel,
-        cover: carMedia.publicUrl,
+        cover: carMedia.publicUrl, coverWidth: carMedia.width, coverHeight: carMedia.height,
       }).from(cars)
         .innerJoin(brands, eq(brands.id, cars.brandId))
         .innerJoin(carModels, eq(carModels.id, cars.modelId))
@@ -160,7 +160,7 @@ export class CarsService {
       featured: row.featured, installment: row.installment, newArrival: row.newArrival && canEditNewArrival(row.createdAt),
       brand: row.brand, model: row.model, bodyType: row.bodyType, transmission: row.transmission,
       color: row.color, colorSlug: row.colorSlug,
-      fuel: row.fuel, cover: row.cover, branch: row.branch,
+      fuel: row.fuel, cover: row.cover, coverWidth: row.coverWidth, coverHeight: row.coverHeight, branch: row.branch,
     })), meta: { page: query.page, limit: query.limit, total, totalPages: Math.ceil(total / query.limit) } };
   }
 
@@ -182,7 +182,7 @@ export class CarsService {
       .where(and(eq(cars.slug, slug), isNull(cars.deletedAt), isNotNull(cars.publishedAt), inArray(cars.status, publicStatuses),
         eq(brands.status, 'active'), eq(carModels.status, 'active')));
     if (!row) throw new NotFoundException('Car not found');
-    const media = await this.database.db.select({ type: carMedia.type, url: carMedia.publicUrl, altText: carMedia.altText, isCover: carMedia.isCover, sortOrder: carMedia.sortOrder })
+    const media = await this.database.db.select({ type: carMedia.type, url: carMedia.publicUrl, altText: carMedia.altText, isCover: carMedia.isCover, sortOrder: carMedia.sortOrder, width: carMedia.width, height: carMedia.height })
       .from(carMedia).where(and(eq(carMedia.carId, row.car.id), isNull(carMedia.deletionPendingAt))).orderBy(desc(carMedia.isCover), asc(carMedia.sortOrder));
     const specifications = await this.database.db.select({ key: carSpecifications.key, label: carSpecifications.label, value: carSpecifications.value, sortOrder: carSpecifications.sortOrder })
       .from(carSpecifications).where(eq(carSpecifications.carId, row.car.id)).orderBy(asc(carSpecifications.sortOrder));

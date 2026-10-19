@@ -11,6 +11,7 @@ import { auditLogs, brands, carMedia, carModels, cars, profiles } from '../src/d
 import * as schema from '../src/database/schema/index.js';
 import { PERMISSIONS_KEY } from '../src/modules/auth/auth.decorators.js';
 import { CarMediaController, MediaUploadController } from '../src/modules/media/media.controller.js';
+import { CarsService } from '../src/modules/cars/cars.service.js';
 import { MediaService } from '../src/modules/media/media.service.js';
 import { StorageCleanupService } from '../src/modules/media/storage-cleanup.service.js';
 import type { StorageService, StoredObject } from '../src/modules/media/storage.service.js';
@@ -55,7 +56,7 @@ test('R2 media registration, cover, ordering, ownership and retryable removal', 
     const first = await service.presign({ carId: car.id, type: 'image', mimeType: 'image/jpeg', sizeBytes: 100 });
     assert.equal(first.headers['Content-Type'], 'image/jpeg');
     assert.match(first.storageKey, new RegExp(`^cars/${car.id}/[0-9a-f-]{36}\\.jpg$`));
-    const firstDto = { storageKey: first.storageKey, type: 'image' as const, mimeType: 'image/jpeg' as const, sizeBytes: 100 };
+    const firstDto = { storageKey: first.storageKey, type: 'image' as const, mimeType: 'image/jpeg' as const, sizeBytes: 100, width: 825, height: 450 };
     await assert.rejects(service.add(car.id, firstDto, audit), BadRequestException);
     objects.set(first.storageKey, { mimeType: 'image/jpeg', sizeBytes: 101 });
     await assert.rejects(service.add(car.id, firstDto, audit), BadRequestException);
@@ -63,6 +64,17 @@ test('R2 media registration, cover, ordering, ownership and retryable removal', 
     await assert.rejects(service.add(other.id, firstDto, audit), BadRequestException);
     const savedFirst = await service.add(car.id, firstDto, audit);
     assert.equal(savedFirst.isCover, true);
+    assert.equal(savedFirst.width, 825);
+    assert.equal(savedFirst.height, 450);
+    await db.update(cars).set({status:'active',publishedAt:new Date()}).where(eq(cars.id,car.id));
+    const publicCars = new CarsService({db} as unknown as DatabaseService);
+    const detail = await publicCars.publicDetail(car.slug);
+    assert.deepEqual({width:detail.media[0].width,height:detail.media[0].height},{width:825,height:450});
+    const list = await publicCars.list({page:1,limit:20,sort:'newest'});
+    const listed = list.data.find(row=>row.slug===car.slug)!;
+    assert.equal(listed.coverWidth,825);assert.equal(listed.coverHeight,450);
+    assert.equal('licensePlate' in listed,false);
+    assert.equal((await publicCars.menu('discounts')).data.length,0);
     await assert.rejects(service.add(car.id, firstDto, audit), /already exists|unique/i);
     const second = await service.presign({ carId: car.id, type: 'image', mimeType: 'image/png', sizeBytes: 200 });
     objects.set(second.storageKey, { mimeType: 'image/png', sizeBytes: 200 });
