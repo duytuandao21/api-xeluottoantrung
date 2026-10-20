@@ -30,6 +30,7 @@ const resourceActions: Record<string, string[]> = {
   user: ['read', 'create', 'update', 'delete', 'assign_role'],
   audit: ['read'],
   dashboard: ['read'],
+  analytics: ['read'],
   auspicious_date: ['read', 'settings.update', 'rules.read', 'rules.update', 'content.update', 'sources.manage', 'versions.manage', 'publish', 'simulate', 'audit.read'],
 };
 

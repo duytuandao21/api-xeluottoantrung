@@ -19,6 +19,10 @@ export type AppConfig = {
   R2_SECRET_ACCESS_KEY: string;
   R2_BUCKET: string;
   R2_PUBLIC_BASE_URL: string;
+  CLOUDFLARE_API_TOKEN: string;
+  CLOUDFLARE_ZONE_ID: string;
+  CLOUDFLARE_ACCOUNT_ID: string;
+  CLOUDFLARE_ANALYTICS_HOSTNAME: string;
   AI_PROVIDER: 'openrouter' | 'groq' | '';
   OPENROUTER_API_KEY: string;
   OPENROUTER_MODEL: string;
@@ -74,6 +78,14 @@ export function validateEnv(input: Record<string, unknown>): AppConfig {
     if (publicUrl.protocol !== 'https:' || publicUrl.username || publicUrl.password || publicUrl.search || publicUrl.hash)
       throw new Error('R2_PUBLIC_BASE_URL must be an HTTPS URL');
   }
+  const cloudflareZone = String(input.CLOUDFLARE_ZONE_ID || '').trim();
+  const cloudflareAccount = String(input.CLOUDFLARE_ACCOUNT_ID || '').trim();
+  for (const [name, value] of [['CLOUDFLARE_ZONE_ID', cloudflareZone], ['CLOUDFLARE_ACCOUNT_ID', cloudflareAccount]]) {
+    if (value && !/^[a-f0-9]{32}$/i.test(value)) throw new Error(`${name} must be a 32 character ID`);
+  }
+  const analyticsHostname = String(input.CLOUDFLARE_ANALYTICS_HOSTNAME || 'toantrungxeluot.io.vn').trim().toLowerCase();
+  if (!/^(?!admin\.|api\.|cdn\.)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(analyticsHostname))
+    throw new Error('CLOUDFLARE_ANALYTICS_HOSTNAME must be the public website hostname, without scheme, path or port');
   return {
     NODE_ENV: mode as AppConfig['NODE_ENV'],
     PORT: positiveInt(input.PORT, 'PORT', 4000),
@@ -91,6 +103,10 @@ export function validateEnv(input: Record<string, unknown>): AppConfig {
     R2_SECRET_ACCESS_KEY: r2.R2_SECRET_ACCESS_KEY,
     R2_BUCKET: r2.R2_BUCKET,
     R2_PUBLIC_BASE_URL: r2.R2_PUBLIC_BASE_URL,
+    CLOUDFLARE_API_TOKEN: String(input.CLOUDFLARE_API_TOKEN || '').trim(),
+    CLOUDFLARE_ZONE_ID: cloudflareZone,
+    CLOUDFLARE_ACCOUNT_ID: cloudflareAccount,
+    CLOUDFLARE_ANALYTICS_HOSTNAME: analyticsHostname,
     ...validateAIConfig(input),
     OPENROUTER_API_KEY: String(input.OPENROUTER_API_KEY || '').trim(),
     GROQ_API_KEY: String(input.GROQ_API_KEY || '').trim(),
