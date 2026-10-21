@@ -1,13 +1,14 @@
 import { BadRequestException, ConflictException, Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { and, asc, count, desc, eq, gt, gte, ilike, inArray, isNotNull, isNull, lte, or, sql, type SQL } from 'drizzle-orm';
+import { and, asc, count, desc, eq, gt, gte, ilike, inArray, isNotNull, isNull, like, lte, or, sql, type SQL } from 'drizzle-orm';
 import { throwOnConstraint } from '../../common/database-errors.js';
 import { toSlug } from '../../common/slug.js';
 import type { AuditContext } from '../../common/audit.js';
 import { DatabaseService } from '../../database/database.service.js';
-import { auditLogs, bodyStyles, branches, brands, carColors, carMedia, carModels, carSpecifications, cars, carVersions, transmissions } from '../../database/schema/index.js';
+import { articles, auditLogs, bodyStyles, branches, brands, carColors, carMedia, carModels, carSpecifications, cars, carVersions, pages, transmissions } from '../../database/schema/index.js';
 import { CarMenuQuery, CreateCarDto, ListCarsQuery, UpdateCarDto } from './cars.dto.js';
 import { canEditNewArrival, NEW_ARRIVAL_DURATION_MS } from './new-arrival.js';
 import { queueStorageDeletes, queueRemovedImages } from '../media/storage-cleanup.js';
+import { carSlugCandidate, isReservedCarSlug } from './car-slug.js';
 
 const publicStatuses = ['active', 'deposit', 'sold'] as const;
 type CarRow = typeof cars.$inferSelect;
@@ -248,13 +249,42 @@ export class CarsService {
   async create(dto: CreateCarDto, audit: AuditContext) {
     const name = dto.name.trim();
     if (!name) throw new BadRequestException('Name is required');
+    const { confirmDuplicateSlug = false, ...values } = dto;
+    const base = carSlugCandidate(dto.slug ?? toSlug(name));
     try {
       return await this.database.db.transaction(async (tx) => {
         const refs = await this.validateReferences(dto, tx);
-        const [created] = await tx.insert(cars).values({ ...dto, name, slug: dto.slug ?? toSlug(name),
-          bodyStyleId: refs.bodyStyleId, publishedAt: null, newArrival: true }).returning();
-        await tx.insert(auditLogs).values({ ...audit, action: 'car.create', entityType: 'car', entityId: created.id, newData: auditSnapshot(created) });
-        return created;
+        let candidate = base, suffix = 2;
+        // ON CONFLICT handles competing creators without aborting the transaction.
+        // Only slug conflicts are retried; SKU/source URL errors still surface normally.
+        for (let attempt = 0; attempt < 32; attempt++) {
+          const route = isReservedCarSlug(candidate) ? true : (await tx.execute(sql`SELECT EXISTS (
+            SELECT 1 FROM ${articles} WHERE ${articles.slug} = ${candidate}
+            UNION ALL SELECT 1 FROM ${pages} WHERE ${pages.path} = ${`/${candidate}`}
+            UNION ALL SELECT 1 FROM ${brands} WHERE ${brands.slug} = ${candidate}
+            UNION ALL SELECT 1 FROM ${carModels} WHERE ${carModels.slug} = ${candidate}
+            UNION ALL SELECT 1 FROM ${bodyStyles} WHERE ${bodyStyles.slug} = ${candidate}
+          ) AS occupied`)).rows[0]?.occupied === true;
+          if (!route) {
+            const [created] = await tx.insert(cars).values({ ...values, name, slug: candidate,
+              bodyStyleId: refs.bodyStyleId, publishedAt: null, newArrival: true })
+              .onConflictDoNothing({ target: cars.slug }).returning();
+            if (created) {
+              await tx.insert(auditLogs).values({ ...audit, action: 'car.create', entityType: 'car', entityId: created.id, newData: auditSnapshot(created) });
+              return created;
+            }
+          }
+          if (!confirmDuplicateSlug) throw new ConflictException({
+            details: { code: 'CAR_SLUG_CONFIRMATION_REQUIRED', slug: base },
+            message: 'Đường dẫn từ tên xe đã được sử dụng. Vui lòng xác nhận để tự tạo đường dẫn mới hoặc đổi tên xe.',
+          });
+          // Read only this name's slug family, including sold/hidden/soft-deleted cars.
+          const family = await tx.select({ slug: cars.slug }).from(cars).where(like(cars.slug, `${base.slice(0, 200)}%`));
+          const occupied = new Set(family.map(row => row.slug));
+          occupied.add(candidate);
+          do { candidate = carSlugCandidate(base, suffix++); } while (occupied.has(candidate) || isReservedCarSlug(candidate));
+        }
+        throw new ConflictException('Chưa thể cấp đường dẫn riêng do có nhiều thao tác đồng thời. Vui lòng lưu lại.');
       });
     } catch (error) { return throwOnConstraint(error); }
   }

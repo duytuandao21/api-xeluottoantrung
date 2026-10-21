@@ -1,5 +1,5 @@
 import { AdminSortQuery } from '../../common/admin-list-query.js';
-import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional, OmitType, PartialType } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsBoolean, IsIn, IsInt, IsOptional, IsString, IsUUID, Matches, Max, MaxLength, Min } from 'class-validator';
 
@@ -64,6 +64,8 @@ export class CreateCarDto {
   @IsString() @MaxLength(240) name!: string;
   @ApiPropertyOptional({ description: 'Generated from name when omitted; stable on name changes' })
   @IsOptional() @Matches(slugPattern) @MaxLength(240) slug?: string;
+  @ApiPropertyOptional({ type: Boolean, default: false, description: 'Explicit confirmation to allocate a numbered slug if the requested URL is already occupied. Creation only.' })
+  @IsOptional() @IsBoolean() confirmDuplicateSlug?: boolean;
   @ApiPropertyOptional({ type: String, nullable: true })
   @IsOptional() @IsString() @MaxLength(100) sku?: string | null;
   @ApiProperty({ format: 'uuid' })
@@ -108,4 +110,4 @@ export class CreateCarDto {
   @IsOptional() @IsBoolean() newArrival?: boolean;
 }
 
-export class UpdateCarDto extends PartialType(CreateCarDto) {}
+export class UpdateCarDto extends PartialType(OmitType(CreateCarDto, ['confirmDuplicateSlug'] as const)) {}

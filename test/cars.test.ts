@@ -24,6 +24,8 @@ import { auditLogs, branches, carVersions, profiles } from '../src/database/sche
 import * as schema from '../src/database/schema/index.js';
 import { PublicResponseCache } from '../src/common/cache/public-cache.js';
 import { PublicCacheInterceptor } from '../src/common/cache/public-cache.interceptor.js';
+import { ApiExceptionFilter } from '../src/common/filters/api-exception.filter.js';
+import type { PinoLoggerService } from '../src/common/logging/pino-logger.service.js';
 import { AdminBrandsController, AdminModelsController, PublicCatalogController } from '../src/modules/catalog/catalog.controller.js';
 
 test('catalog and car lifecycle, filtering, pagination and audit', async () => {
@@ -166,6 +168,7 @@ test('catalog and car lifecycle, filtering, pagination and audit', async () => {
     const app = await NestFactory.create<NestFastifyApplication>(TestCarsModule, new FastifyAdapter(), { logger: false });
     try {
       app.setGlobalPrefix('api/v1');
+      app.useGlobalFilters(new ApiExceptionFilter({ instance: { warn() {}, error() {} } } as unknown as PinoLoggerService));
       app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true }));
       await app.init();
       const server = app.getHttpAdapter().getInstance();
@@ -207,6 +210,13 @@ test('catalog and car lifecycle, filtering, pagination and audit', async () => {
       assert.equal(created.json().newArrival, true, 'Creation cannot override the enabled default');
       const createdId = created.json().id as string;
       assert.ok(createdId);
+      const duplicate = await send(body);
+      assert.equal(duplicate.statusCode, 409);
+      assert.equal(duplicate.json().details.code, 'CAR_SLUG_CONFIRMATION_REQUIRED', 'Production exception filter preserves confirmation code');
+      assert.equal((await send({ ...body, confirmDuplicateSlug: 'true' })).statusCode, 400);
+      const confirmed = await send({ ...body, confirmDuplicateSlug: true });
+      assert.equal(confirmed.statusCode, 201);
+      assert.equal(confirmed.json().slug, 'http-car-2');
       granted = ['car.publish'];
       assert.equal((await server.inject({ method: 'POST', url: `/api/v1/admin/cars/${createdId}/publish`,
         headers: { authorization: 'Bearer test-token' } })).statusCode, 201);
