@@ -13,6 +13,8 @@ export class CarMenuQuery {
 }
 
 export class ListCarsQuery extends AdminSortQuery {
+  @ApiPropertyOptional({ enum: ['tv'], description: 'First public TV page includes brand ordering/logos in the existing count query' })
+  @IsOptional() @IsIn(['tv']) view?: 'tv';
   @ApiPropertyOptional({ description: 'Search car name; admin also searches SKU and normalized license plate' })
   @IsOptional() @IsString() @MaxLength(120) search?: string;
   @ApiPropertyOptional({ description: 'Brand slug' })

@@ -114,6 +114,12 @@ export class CarsService {
   }
 
   async list(query: ListCarsQuery, admin = false, salePlateSearch = false) {
+    const tv = query.view === 'tv';
+    if (tv && (admin || salePlateSearch || query.page !== 1 || query.status !== 'active' ||
+      ['search', 'brand', 'model', 'version', 'year_from', 'year_to', 'price_min', 'price_max', 'body_type', 'fuel_type',
+        'transmission', 'color', 'branch', 'mileage_min', 'mileage_max', 'featured', 'new_arrival', 'discounted', 'sortBy', 'sortDirection']
+        .some(key => query[key as keyof ListCarsQuery] !== undefined)))
+      throw new BadRequestException('TV view requires the first unfiltered public active-car page');
     const where = and(...this.conditions(query, admin, salePlateSearch));
     const base = this.database.db.select({ total: count(cars.id) }).from(cars)
       .innerJoin(brands, eq(brands.id, cars.brandId))
@@ -124,7 +130,17 @@ export class CarsService {
       .leftJoin(carColors, eq(carColors.id, cars.colorId))
       .leftJoin(branches, eq(branches.id, cars.branchId))
       .where(where);
-    const totalRow = await base;
+    // TV replaces (not supplements) its existing count SELECT with a grouped
+    // count. Same stock definition and tie-breaks as CatalogService.publicBrands.
+    // Other list/detail/admin consumers keep their original query/response.
+    const stockCount = count(cars.id);
+    const tvBrands = tv ? await this.database.db.select({ id: brands.id, name: brands.name, slug: brands.slug,
+      imageUrl: brands.imageUrl, stockCount,
+      activeCount: sql<number>`count(*) FILTER (WHERE ${cars.status} = 'active')::int`,
+    }).from(cars).innerJoin(brands, eq(brands.id, cars.brandId)).innerJoin(carModels, eq(carModels.id, cars.modelId))
+      .where(and(...this.conditions({ ...query, status: undefined }, false), inArray(cars.status, ['active', 'deposit'])))
+      .groupBy(brands.id).orderBy(desc(stockCount), asc(brands.sortOrder), asc(brands.name), asc(brands.id)) : undefined;
+    const total = tvBrands ? tvBrands.reduce((sum, brand) => sum + brand.activeCount, 0) : (await base)[0]?.total ?? 0;
     const sortColumns = { name: cars.name, price: cars.price, mileage: cars.mileage, createdAt: cars.createdAt };
     if (admin && query.sortBy && !(query.sortBy in sortColumns)) throw new BadRequestException('Unsupported sort field');
     const sortColumn = query.sortBy ? sortColumns[query.sortBy as keyof typeof sortColumns] : undefined;
@@ -153,7 +169,6 @@ export class CarsService {
         .leftJoin(branches, eq(branches.id, cars.branchId))
         .leftJoin(carMedia, and(eq(carMedia.carId, cars.id), eq(carMedia.isCover, true), isNull(carMedia.deletionPendingAt)))
         .where(where).orderBy(...order).limit(query.limit).offset((query.page - 1) * query.limit);
-    const total = totalRow[0]?.total ?? 0;
     return { data: rows.map((row) => admin ? row : ({
       slug: row.slug, name: row.name, year: row.year, price: row.price,
       originalPrice: row.originalPrice, mileage: row.mileage, seatCount: row.seatCount,
@@ -162,7 +177,8 @@ export class CarsService {
       brand: row.brand, model: row.model, bodyType: row.bodyType, transmission: row.transmission,
       color: row.color, colorSlug: row.colorSlug,
       fuel: row.fuel, cover: row.cover, coverWidth: row.coverWidth, coverHeight: row.coverHeight, branch: row.branch,
-    })), meta: { page: query.page, limit: query.limit, total, totalPages: Math.ceil(total / query.limit) } };
+    })), meta: { page: query.page, limit: query.limit, total, totalPages: Math.ceil(total / query.limit),
+      ...(tvBrands ? { tvBrands } : {}) } };
   }
 
   async publicDetail(slug: string) {
