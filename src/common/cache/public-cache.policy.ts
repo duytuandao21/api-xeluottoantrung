@@ -1,4 +1,4 @@
-const settings = new Set(['thiet-lap-thong-tin', 'thiet-lap-logo', 'thiet-lap-favicon', 'thiet-lap-footer']);
+const settings = new Set(['thiet-lap-thong-tin', 'thiet-lap-logo', 'thiet-lap-favicon', 'thiet-lap-footer', 'tv-display']);
 const contentGroups = new Set([
   'thiet-lap-quy-trinh-ban-xe', 'thiet-lap-cac-buoc-mua-xe', 'thiet-lap-cac-buoc-ban-xe',
   'thiet-lap-cac-buoc-len-doi', 'thiet-lap-banner-dong-xe', 'thiet-lap-mang-xa-hoi', 'thiet-lap-ung-dung',

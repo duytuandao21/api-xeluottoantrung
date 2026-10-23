@@ -8,5 +8,5 @@ import { R2StorageService, STORAGE_SERVICE } from './storage.service.js';
 
 @Module({ controllers: [MediaUploadController, CarMediaController],
   providers: [MediaService, StorageCleanupService, { provide: APP_INTERCEPTOR, useClass: StorageCleanupInterceptor },
-    { provide: STORAGE_SERVICE, useClass: R2StorageService }] })
+    { provide: STORAGE_SERVICE, useClass: R2StorageService }], exports: [STORAGE_SERVICE] })
 export class MediaModule {}

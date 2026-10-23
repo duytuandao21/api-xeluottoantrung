@@ -7,9 +7,9 @@ import { queueStorageDeletes, type CleanupObject } from './storage-cleanup.js';
 
 const referenceTables = ['brands', 'car_models', 'car_versions', 'body_styles', 'branches', 'cars', 'car_media',
   'accessories', 'accessory_brands', 'content_entries', 'site_settings', 'seo_metadata', 'articles', 'driving_experiences',
-  'faqs', 'testimonials', 'services', 'recruitments', 'slides', 'pages', 'promotions'];
+  'faqs', 'testimonials', 'services', 'recruitments', 'slides', 'pages', 'promotions', 'about_story_assets', 'about_story_pages'];
 const referenceColumns = ['image_url', 'image_urls', 'avatar_url', 'og_image_url', 'body', 'content', 'description',
-  'answer', 'excerpt', 'structured_data', 'value', 'icon', 'link', 'canonical_url', 'public_url', 'storage_key'];
+  'answer', 'excerpt', 'structured_data', 'value', 'icon', 'link', 'canonical_url', 'public_url', 'storage_key', 'published_snapshot'];
 
 @Injectable()
 export class StorageCleanupService implements OnApplicationBootstrap, OnModuleDestroy {

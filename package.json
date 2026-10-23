@@ -22,6 +22,7 @@
     "db:seed-call-contacts": "tsx src/database/seed/call-contacts.ts --apply",
     "db:seed-recruitment": "tsx src/database/seed/recruitment-article.ts",
     "db:seed-website-content": "tsx src/database/seed/website-content.ts",
+    "db:seed-about-story": "tsx src/database/seed/about-story.ts",
     "db:seed-website-settings": "tsx src/database/seed/website-settings.ts --apply",
     "db:seed-trade-in-background": "tsx src/database/seed/trade-in-background.ts --apply",
     "db:seed-sell-car-background": "tsx src/database/seed/sell-car-background.ts --apply",

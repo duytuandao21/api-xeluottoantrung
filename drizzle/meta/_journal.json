@@ -155,6 +155,13 @@
       "when": 1792371704711,
       "tag": "0021_car_listing_order",
       "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1792641890782,
+      "tag": "0022_about_story",
+      "breakpoints": true
     }
   ]
 }

@@ -26,6 +26,7 @@ import { CarRecommendationsModule } from './modules/car-recommendations/module.j
 import { PublicCacheModule } from './common/cache/public-cache.module.js';
 import { OwnershipModule } from './modules/ownership/module.js';
 import { PromotionsModule } from './modules/promotions/module.js';
+import { AboutStoryModule } from './modules/about-story/module.js';
 
 @Module({
   imports: [
@@ -50,6 +51,7 @@ import { PromotionsModule } from './modules/promotions/module.js';
     CarRecommendationsModule,
     OwnershipModule,
     PromotionsModule,
+    AboutStoryModule,
     HealthModule,
   ],
   providers: [

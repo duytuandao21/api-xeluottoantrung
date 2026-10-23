@@ -6,6 +6,7 @@ import { DatabaseService } from '../../database/database.service.js';
 import { auditLogs, contentEntries, siteSettings } from '../../database/schema/index.js';
 import { CreateContentEntryDto, UpdateContentEntryDto, UpsertSettingDto } from './content.dto.js';
 import { queueRemovedImages } from '../media/storage-cleanup.js';
+import { validateTVDisplaySetting } from './tv-display.settings.js';
 
 @Injectable()
 export class ContentService {
@@ -66,6 +67,7 @@ export class ContentService {
 
   async upsertSetting(group: string, key: string, dto: UpsertSettingDto, audit: AuditContext) {
     const type = dto.valueType ?? 'text';
+    if (group === 'tv-display') dto = { ...dto, value: validateTVDisplaySetting(key, dto.value, type) };
     if (type === 'number' && !Number.isFinite(Number(dto.value))) throw new BadRequestException('Invalid number setting');
     if (type === 'boolean' && !['true', 'false'].includes(dto.value)) throw new BadRequestException('Invalid boolean setting');
     if (type === 'json') { try { JSON.parse(dto.value); } catch { throw new BadRequestException('Invalid JSON setting'); } }
