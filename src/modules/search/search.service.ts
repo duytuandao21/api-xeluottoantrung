@@ -32,7 +32,7 @@ function publicProducts(query: string, sellingOnly = false): SQL {
     WHERE c.deleted_at IS NULL AND c.published_at IS NOT NULL AND c.status IN ('active', 'deposit', 'sold')
       AND (${sellingOnly} = false OR c.status IN ('active', 'deposit')) AND ${nameMatch(sql`(c.name || ' ' || b.name || ' ' || model.name)`, query)}
     UNION ALL
-    SELECT a.id::text, 'accessory'::text, a.name, ('/phu-kien-o-to/' || a.id::text), a.image_url,
+    SELECT a.id::text, 'accessory'::text, a.name, ('/phu-kien-o-to/' || a.slug), a.image_url,
       a.price, ${rank(sql`a.name`, query)}, false, a.created_at
     FROM accessories a LEFT JOIN accessory_brands ab ON ab.id = a.brand_id
     WHERE a.status = 'active' AND ${nameMatch(sql`(a.name || ' ' || coalesce(ab.name, a.brand))`, query)}

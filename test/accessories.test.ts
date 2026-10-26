@@ -11,7 +11,7 @@ import { CollectionsService } from '../src/modules/content/collections.service.j
 test('admin accessories appear on the public list with cover, price and gallery', async () => {
   const pg = new PGlite();
   try {
-    for (const migration of ['0000_wild_carmella_unuscione', '0001_unusual_nomad', '0002_lonely_vance_astro', '0003_wonderful_stone_men', '0004_ambitious_dark_phoenix'])
+    for (const migration of ['0000_wild_carmella_unuscione', '0001_unusual_nomad', '0002_lonely_vance_astro', '0003_wonderful_stone_men', '0004_ambitious_dark_phoenix', '0023_accessory_slugs'])
       await pg.exec((await readFile(`drizzle/${migration}.sql`, 'utf8')).replaceAll('--> statement-breakpoint', ''));
     const db = drizzle(pg, { schema });
     const [profile] = await db.insert(schema.profiles).values({ authUserId: '49332fa0-8244-4b20-a8d0-9793b72ef689', fullName: 'Admin' }).returning();

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, ParseUUIDPipe, Patch, Post, Query, Req } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, HttpCode, Param, ParseUUIDPipe, Patch, Post, Query, Req } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import type { FastifyRequest } from 'fastify';
 import { auditContext } from '../../common/audit.js';
@@ -33,7 +33,12 @@ export class PublicCollectionsController {
   }
   @Get('slides') slides(@Query() query: CollectionQuery) { return this.collections.list('slides', query, true); }
   @Get('accessories') accessories(@Query() query: CollectionQuery) { return this.collections.list('accessories', query, true); }
-  @Get('accessories/:id') accessory(@Param('id', ParseUUIDPipe) id: string) { return this.collections.detail('accessories', id, true); }
+  @Get('accessories/:key') accessory(@Param('key') key: string) {
+    const isId = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(key);
+    if (key.length > 100 || !isId && !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(key))
+      throw new BadRequestException('Invalid accessory slug or ID');
+    return this.collections.detail('accessories', key, true, !isId);
+  }
   @Get('accessory-brands') accessoryBrands(@Query() query: CollectionQuery) { return this.collections.list('accessory-brands', query, true); }
   @Get('accessory-categories') accessoryCategories(@Query() query: CollectionQuery) { return this.collections.list('accessory-categories', query, true); }
   @Get('pages/by-path') @ApiOperation({ summary: 'Published page by its absolute path' })

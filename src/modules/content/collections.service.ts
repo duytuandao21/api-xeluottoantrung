@@ -29,7 +29,7 @@ const configs: Record<CollectionName, CollectionConfig> = {
   slides: { table: 'slides', fields: ['title', 'imageUrl', 'link', 'sortOrder', 'status'],
     required: ['title', 'imageUrl'], search: 'title', publicStatus: 'active', order: 'sort_order' },
   accessories: { table: 'accessories', fields: ['name', 'brandId', 'categoryId', 'price', 'imageUrl', 'imageUrls', 'description', 'sortOrder', 'status'],
-    required: ['name', 'brandId', 'price', 'imageUrl'], search: 'name', publicStatus: 'active', order: 'sort_order' },
+    required: ['name', 'brandId', 'price', 'imageUrl'], search: 'name', publicStatus: 'active', order: 'sort_order', detailColumn: 'slug' },
   'accessory-brands': { table: 'accessory_brands', fields: ['name', 'imageUrl', 'sortOrder', 'status'],
     required: ['name'], search: 'name', publicStatus: 'active', order: 'sort_order' },
   'accessory-categories': { table: 'accessory_categories', fields: ['name', 'sortOrder', 'status'],

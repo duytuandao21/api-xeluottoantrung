@@ -21,6 +21,7 @@ test('public search: visibility, Vietnamese names, combined limit, ranking, pagi
     await pg.exec((await readFile('drizzle/0021_car_listing_order.sql', 'utf8')).replaceAll('--> statement-breakpoint', ''));
     await pg.exec(await readFile('drizzle/0003_wonderful_stone_men.sql', 'utf8'));
     await pg.exec(await readFile('drizzle/0004_ambitious_dark_phoenix.sql', 'utf8'));
+    await pg.exec(await readFile('drizzle/0023_accessory_slugs.sql', 'utf8'));
     const db = drizzle(pg, { schema });
     const connection = { db } as unknown as DatabaseService;
     const search = new SearchService(connection);
@@ -79,7 +80,7 @@ test('public search: visibility, Vietnamese names, combined limit, ranking, pagi
     assert.equal(pages[0].meta.totalPages, 3);
     const accentless = await search.suggestions('giam xoc');
     assert.equal(accentless.items[0].id, accessories[0].id);
-    assert.equal(accentless.items[0].href, `/phu-kien-o-to/${accessories[0].id}`);
+    assert.equal(accentless.items[0].href, `/phu-kien-o-to/${accessories[0].slug}`);
     assert.deepEqual((await search.suggestions('GIẢM XÓC')).items, accentless.items);
     assert.equal((await search.suggestions('den')).items[0].name, 'Đèn Toyota Vios');
     assert.equal((await search.suggestions('%_')).total, 1);

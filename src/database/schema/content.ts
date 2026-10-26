@@ -81,6 +81,8 @@ export const accessoryCategories = pgTable('accessory_categories', {
 
 export const accessories = pgTable('accessories', {
   id: id(), name: text('name').notNull(), brand: text('brand').notNull(),
+  // The insert trigger replaces this default with a unique name-based slug.
+  slug: text('slug').default('').notNull(),
   brandId: uuid('brand_id').references(() => accessoryBrands.id),
   categoryId: uuid('category_id').references(() => accessoryCategories.id),
   price: bigint('price', { mode: 'number' }).notNull(),
@@ -88,7 +90,9 @@ export const accessories = pgTable('accessories', {
   description: text('description'), status: text('status').default('active').notNull(),
   sortOrder: integer('sort_order').default(0).notNull(),
   createdAt: createdAt(), updatedAt: updatedAt(),
-}, (t) => [index('accessories_status_order_idx').on(t.status, t.sortOrder), index('accessories_brand_idx').on(t.brandId), index('accessories_category_idx').on(t.categoryId)]);
+}, (t) => [uniqueIndex('accessories_slug_uq').on(t.slug),
+  check('accessories_slug_ck', sql`char_length(${t.slug}) <= 100 AND ${t.slug} ~ '^[a-z0-9]+(-[a-z0-9]+)*$' AND ${t.slug} !~ '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'`),
+  index('accessories_status_order_idx').on(t.status, t.sortOrder), index('accessories_brand_idx').on(t.brandId), index('accessories_category_idx').on(t.categoryId)]);
 
 // Ordered admin-managed blocks: introduction, steps, social links, call buttons, banners, colors excluded.
 export const contentEntries = pgTable('content_entries', {
