@@ -17,6 +17,10 @@ export class PublicCacheInterceptor implements NestInterceptor {
     const request = http.getRequest<FastifyRequest>();
     const reply = http.getResponse<FastifyReply>();
     const path = request.routeOptions?.url ?? request.url.split('?')[0];
+    // A long TV audio PUT only writes a private staging object, never published settings.
+    // Do not suspend public business caches for the duration of this stream.
+    // Publishing/removing playlist entries still uses the normal mutation boundary below.
+    if (request.method === 'PUT' && /^\/api\/v1\/admin\/tv-music\/uploads\/[^/]+$/.test(path)) return next.handle();
     // All audited catalog/content/SEO writes are admin HTTP mutations. Clear on
     // success AND error: media workflows can commit before an external failure.
     if (path.startsWith('/api/v1/admin/') && ['POST', 'PUT', 'PATCH', 'DELETE'].includes(request.method)) {

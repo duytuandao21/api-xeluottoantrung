@@ -4,7 +4,7 @@ import type { AuditContext } from '../../common/audit.js';
 import type { DatabaseService } from '../../database/database.service.js';
 
 export type CleanupTransaction = Parameters<Parameters<DatabaseService['db']['transaction']>[0]>[0];
-export type CleanupObject = { url?: string; key?: string; mediaId?: string };
+export type CleanupObject = { url?: string; key?: string; mediaId?: string; notBefore?: string };
 
 // Only persisted old values are candidates. Uploading, cancelling a form or changing
 // an unrelated field never authorizes deletion. Static/external URLs are not owned assets.
@@ -14,7 +14,8 @@ export function imageUrls(value: unknown): Set<string> {
     if (typeof item === 'string') {
       for (const match of item.matchAll(/https:\/\/[^\s"'<>\\]+/g)) {
         const url = match[0].replace(/&amp;/g, '&');
-        if (/\.(?:jpg|jpeg|png|webp|avif|ico|gif|svg|mp4|webm)(?:[?#]|$)/i.test(url)) found.add(url);
+        if (/\.(?:jpg|jpeg|png|webp|avif|ico|gif|svg|mp4|webm)(?:[?#]|$)/i.test(url) ||
+          /\/tv\/music\/[0-9a-f-]{36}\.mp3$/.test(url)) found.add(url);
       }
     } else if (Array.isArray(item)) item.forEach(visit);
     else if (item && typeof item === 'object' && !(item instanceof Date)) Object.values(item).forEach(visit);

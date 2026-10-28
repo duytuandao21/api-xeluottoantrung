@@ -1,5 +1,6 @@
 import { BadRequestException } from '@nestjs/common';
 import { parseTVAnniversary } from './tv-anniversary-settings.js';
+import { parseTVMusic } from './tv-music.settings.js';
 
 /** One atomic JSON setting in the existing site_settings table. */
 export function validateTVDisplaySetting(key: string, value: string, valueType: string): string {
@@ -9,7 +10,7 @@ export function validateTVDisplaySetting(key: string, value: string, valueType: 
   try { raw = JSON.parse(value); } catch { fail('Cấu hình TV Display không hợp lệ.'); }
   if (!raw || typeof raw !== 'object' || Array.isArray(raw)) fail('Cấu hình TV Display không hợp lệ.');
   const data = raw as Record<string, unknown>;
-  const fields = ['logoUrl', 'title', 'hotlineTitle', 'carIntervalSeconds', 'hotlineIntervalSeconds', 'syncSalesContacts', 'hotlines', 'theme', 'anniversary'];
+  const fields = ['logoUrl', 'title', 'hotlineTitle', 'carIntervalSeconds', 'hotlineIntervalSeconds', 'syncSalesContacts', 'hotlines', 'theme', 'anniversary', 'music'];
   if (Object.keys(data).some(field => !fields.includes(field))) fail('Cấu hình TV Display có trường không được hỗ trợ.');
   const theme = data.theme === undefined ? 'standard' : data.theme;
   if (theme !== 'standard' && theme !== 'anniversary-4') fail('Giao diện TV Display không hợp lệ.');
@@ -47,7 +48,9 @@ export function validateTVDisplaySetting(key: string, value: string, valueType: 
     return { name: (contact.name as string).trim(), phone };
   });
   if (!data.syncSalesContacts && !hotlines.length) fail('Cần ít nhất một hotline khi dùng danh sách riêng.');
-  return JSON.stringify({ theme, anniversary, logoUrl, title: text('title', 60), hotlineTitle: text('hotlineTitle', 24),
+  let music;
+  try { music = parseTVMusic(data.music); } catch { return fail('Nhạc TV không hợp lệ: tối đa 10 bài và tổng dung lượng 1 GB.'); }
+  return JSON.stringify({ theme, anniversary, music, logoUrl, title: text('title', 60), hotlineTitle: text('hotlineTitle', 24),
     carIntervalSeconds: seconds('carIntervalSeconds', 5, 300), hotlineIntervalSeconds: seconds('hotlineIntervalSeconds', 2, 120),
     syncSalesContacts: data.syncSalesContacts, hotlines });
 }

@@ -4,6 +4,7 @@ import { DatabaseService } from '../../database/database.service.js';
 import { auditLogs, carMedia } from '../../database/schema/index.js';
 import { STORAGE_SERVICE, type StorageService } from './storage.service.js';
 import { queueStorageDeletes, type CleanupObject } from './storage-cleanup.js';
+import { lockTVMusic } from './tv-music-lock.js';
 
 const referenceTables = ['brands', 'car_models', 'car_versions', 'body_styles', 'branches', 'cars', 'car_media',
   'accessories', 'accessory_brands', 'content_entries', 'site_settings', 'seo_metadata', 'articles', 'driving_experiences',
@@ -41,9 +42,9 @@ export class StorageCleanupService implements OnApplicationBootstrap, OnModuleDe
     return this.storage.publicUrl(key) === candidate.href ? key : undefined;
   }
 
-  async isReferenced(key: string): Promise<boolean> {
+  async isReferenced(key: string, executor: Pick<DatabaseService['db'], 'execute'> = this.database.db): Promise<boolean> {
     const needles = [...new Set([key, key.split('/').map(encodeURIComponent).join('/')])];
-    const columns = await this.database.db.execute(sql`SELECT table_name, column_name FROM information_schema.columns
+    const columns = await executor.execute(sql`SELECT table_name, column_name FROM information_schema.columns
       WHERE table_schema = 'public' AND table_name IN (${sql.join(referenceTables.map(name => sql`${name}`), sql`, `)})`);
     const tables = new Map<string, Set<string>>();
     for (const row of columns.rows) {
@@ -62,7 +63,7 @@ export class StorageCleanupService implements OnApplicationBootstrap, OnModuleDe
         (${sql.join(fields.flatMap(name => needles.map(needle => sql`position(${needle} in ${sql.identifier(name)}::text) > 0`)), sql` OR `)})${live}${media}`);
     }
     if (!probes.length) return false;
-    const result = await this.database.db.execute(sql`SELECT EXISTS (${sql.join(probes, sql` UNION ALL `)}) AS used`);
+    const result = await executor.execute(sql`SELECT EXISTS (${sql.join(probes, sql` UNION ALL `)}) AS used`);
     return result.rows[0]?.used === true;
   }
 
@@ -92,15 +93,36 @@ export class StorageCleanupService implements OnApplicationBootstrap, OnModuleDe
     }
     const pending = await this.database.db.execute(sql`SELECT p.entity_id, p.new_data FROM audit_logs p
       WHERE p.entity_type = 'storage_object' AND p.action = 'storage.delete_pending'
+      AND (p.new_data->>'notBefore' IS NULL OR (p.new_data->>'notBefore')::timestamptz <= now())
       ${requestId ? sql`AND (p.request_id = ${requestId} OR p.request_id IS NULL)` : sql``}
       AND NOT EXISTS (SELECT 1 FROM audit_logs done WHERE done.entity_type = 'storage_object'
         AND done.entity_id = p.entity_id AND done.action IN ('storage.deleted', 'storage.retained'))
-      ORDER BY p.created_at, p.id LIMIT 25`);
+      ORDER BY CASE WHEN p.new_data->>'key' LIKE 'tv/music/%' OR p.new_data->>'url' LIKE '%/tv/music/%' THEN 0 ELSE 1 END,
+        p.created_at, p.id LIMIT 25`);
     let failed = 0;
     for (const job of pending.rows) {
       try {
         const object = job.new_data as CleanupObject;
         const key = this.keyFor(object);
+        const musicId = key && /^tv\/music\/([0-9a-f-]{36})\.mp3$/.exec(key)?.[1];
+        if (musicId) {
+          await this.database.db.transaction(async tx => {
+            await lockTVMusic(tx);
+            const events = await tx.select({ action: auditLogs.action, data: auditLogs.newData }).from(auditLogs)
+              .where(and(eq(auditLogs.entityType, 'tv_music_upload'), eq(auditLogs.entityId, musicId)));
+            const actions = new Set(events.map(event => event.action));
+            const reservation = events.find(event => event.action === 'tv_music.reserved')?.data as { expiresAt?: string } | undefined;
+            // Never race an in-flight PUT. The transport aborts it after 10 minutes;
+            // a crashed process is recoverable after the 20-minute reservation TTL.
+            if (actions.has('tv_music.started') && !actions.has('tv_music.uploaded') && !actions.has('tv_music.failed') &&
+              Date.parse(reservation?.expiresAt ?? '') > Date.now()) return;
+            const retained = await this.isReferenced(key!, tx);
+            if (!retained) await this.storage.delete(key!);
+            await tx.insert(auditLogs).values({ action: retained ? 'storage.retained' : 'storage.deleted', entityType: 'storage_object', entityId: String(job.entity_id) });
+            if (!retained) await tx.insert(auditLogs).values({ action: 'tv_music.released', entityType: 'tv_music_upload', entityId: musicId });
+          });
+          continue;
+        }
         const retained = !key || await this.isReferenced(key);
         if (key && !retained) await this.storage.delete(key);
         await this.database.db.transaction(async tx => {

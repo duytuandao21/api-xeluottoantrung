@@ -2,6 +2,7 @@ import { Inject, Injectable, ServiceUnavailableException } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config';
 import { DeleteObjectCommand, HeadBucketCommand, HeadObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import type { Readable } from 'node:stream';
 
 export type StoredObject = { sizeBytes: number; mimeType: string };
 export interface StorageService {
@@ -10,12 +11,14 @@ export interface StorageService {
   delete(key: string): Promise<void>;
   publicUrl(key: string): string;
   ping(): Promise<void>;
+  putAudio?(key: string, body: Readable, sizeBytes: number, signal: AbortSignal): Promise<void>;
 }
 export const STORAGE_SERVICE = Symbol('STORAGE_SERVICE');
 
 @Injectable()
 export class R2StorageService implements StorageService {
   private readonly client: S3Client | null;
+  private audioClient?: S3Client;
   private readonly bucket: string;
   private readonly publicBaseUrl: string;
 
@@ -47,6 +50,16 @@ export class R2StorageService implements StorageService {
       if (error && typeof error === 'object' && 'name' in error && ['NotFound', 'NoSuchKey'].includes(String(error.name))) return null;
       throw error;
     }
+  }
+
+  async putAudio(key: string, body: Readable, sizeBytes: number, signal: AbortSignal): Promise<void> {
+    const existing = this.ready();
+    // Keep the existing image/video signer configuration untouched. Audio streaming
+    // uses a separate lazy client to avoid optional aws-chunked checksums on R2.
+    this.audioClient ??= new S3Client({ region: 'auto', endpoint: existing.config.endpoint, credentials: existing.config.credentials,
+      forcePathStyle: true, requestChecksumCalculation: 'WHEN_REQUIRED' });
+    await this.audioClient.send(new PutObjectCommand({ Bucket: this.bucket, Key: key, Body: body,
+      ContentLength: sizeBytes, ContentType: 'audio/mpeg', CacheControl: 'public, max-age=31536000, immutable' }), { abortSignal: signal });
   }
 
   async delete(key: string): Promise<void> {

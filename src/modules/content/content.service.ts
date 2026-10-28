@@ -1,4 +1,4 @@
-import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException, Optional, ServiceUnavailableException } from '@nestjs/common';
 import { and, asc, eq } from 'drizzle-orm';
 import type { AuditContext } from '../../common/audit.js';
 import { throwOnConstraint } from '../../common/database-errors.js';
@@ -7,10 +7,14 @@ import { auditLogs, contentEntries, siteSettings } from '../../database/schema/i
 import { CreateContentEntryDto, UpdateContentEntryDto, UpsertSettingDto } from './content.dto.js';
 import { queueRemovedImages } from '../media/storage-cleanup.js';
 import { validateTVDisplaySetting } from './tv-display.settings.js';
+import { TVMusicService } from '../media/tv-music.service.js';
+import { lockTVMusic } from '../media/tv-music-lock.js';
+import { parseTVMusic } from './tv-music.settings.js';
 
 @Injectable()
 export class ContentService {
-  constructor(@Inject(DatabaseService) private readonly database: DatabaseService) {}
+  constructor(@Inject(DatabaseService) private readonly database: DatabaseService,
+    @Optional() @Inject(TVMusicService) private readonly music?: TVMusicService) {}
 
   entries(group?: string, admin = false) {
     const predicates = [group ? eq(contentEntries.group, group) : undefined,
@@ -74,7 +78,15 @@ export class ContentService {
     if (type === 'url') { try { const url = new URL(dto.value); if (url.protocol !== 'https:') throw new Error(); }
       catch { throw new BadRequestException('URL setting must use HTTPS'); } }
     return this.database.db.transaction(async (tx) => {
+      if (group === 'tv-display' && this.music) await lockTVMusic(tx);
       const [old] = await tx.select().from(siteSettings).where(and(eq(siteSettings.group, group), eq(siteSettings.key, key))).for('update');
+      if (group === 'tv-display') {
+        const data = JSON.parse(dto.value);
+        const incoming = parseTVMusic(data.music);
+        if (this.music) data.music = await this.music.prepareSave(tx, incoming, parseTVMusic(old?.value ? JSON.parse(old.value).music : undefined));
+        else if (incoming.tracks.length) throw new ServiceUnavailableException('Nhạc TV chưa được cấu hình.');
+        dto = { ...dto, value: JSON.stringify(data) };
+      }
       const [updated] = await tx.insert(siteSettings).values({ group, key, value: dto.value, valueType: type,
         description: dto.description, updatedBy: audit.actorProfileId }).onConflictDoUpdate({ target: [siteSettings.group, siteSettings.key],
           set: { value: dto.value, valueType: type, ...(dto.description !== undefined ? { description: dto.description } : {}),

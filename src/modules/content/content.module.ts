@@ -3,7 +3,8 @@ import { AdminCollectionsController, PublicCollectionsController } from './colle
 import { CollectionsService } from './collections.service.js';
 import { AdminContentController, AdminSettingsController, PublicContentController } from './content.controller.js';
 import { ContentService } from './content.service.js';
+import { MediaModule } from '../media/media.module.js';
 
-@Module({ controllers: [PublicCollectionsController, AdminCollectionsController, PublicContentController,
+@Module({ imports: [MediaModule], controllers: [PublicCollectionsController, AdminCollectionsController, PublicContentController,
   AdminContentController, AdminSettingsController], providers: [CollectionsService, ContentService] })
 export class ContentModule {}
