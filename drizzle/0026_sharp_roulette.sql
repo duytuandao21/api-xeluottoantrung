@@ -1,0 +1,2 @@
+CREATE INDEX "newsletter_created_idx" ON "newsletter_subscribers" USING btree ("created_at");--> statement-breakpoint
+CREATE INDEX "newsletter_viewed_created_idx" ON "newsletter_subscribers" USING btree ("viewed_at","created_at");

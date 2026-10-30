@@ -6,6 +6,8 @@ import { CurrentUser, Permissions, Public } from '../auth/auth.decorators.js';
 import type { AuthenticatedUser } from '../auth/auth.types.js';
 import { ContentGroupQuery, CreateContentEntryDto, UpdateContentEntryDto, UpsertSettingDto } from './content.dto.js';
 import { ContentService } from './content.service.js';
+import { DisplayOrderService } from './display-order.service.js';
+import { SaveDisplayOrderDto } from './display-order.dto.js';
 
 @ApiTags('Public content')
 @Public()
@@ -24,7 +26,14 @@ export class PublicContentController {
 @ApiBearerAuth()
 @Controller('admin/content')
 export class AdminContentController {
-  constructor(private readonly content: ContentService) {}
+  constructor(private readonly content: ContentService, private readonly displayOrder: DisplayOrderService) {}
+  @Get('order/:group') @Permissions('content.read')
+  order(@Param('group') group: string) { return this.displayOrder.entries(group); }
+  @Patch('order/:group') @Permissions('content.update')
+  saveOrder(@Param('group') group: string, @Body() dto: SaveDisplayOrderDto,
+    @Req() request: FastifyRequest, @CurrentUser() user: AuthenticatedUser) {
+    return this.displayOrder.saveEntries(group, dto, auditContext(request, user));
+  }
   @Get() @Permissions('content.read')
   list(@Query() query: ContentGroupQuery) { return this.content.entries(query.group, true); }
   @Get(':group/:key') @Permissions('content.read')

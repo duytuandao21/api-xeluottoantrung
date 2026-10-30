@@ -5,17 +5,17 @@ import type { FastifyRequest } from 'fastify';
 import { auditContext } from '../../common/audit.js';
 import { CurrentUser, Permissions, Public } from '../auth/auth.decorators.js';
 import type { AuthenticatedUser } from '../auth/auth.types.js';
-import { CreateLeadDto, LeadQuery, NewsletterDto, NewsletterQuery, UpdateLeadDto, UpdateNewsletterDto } from './leads.dto.js';
+import { BulkLeadStatusDto, BulkNewsletterViewDto, CreateLeadDto, LeadQuery, NewsletterDto, NewsletterQuery, NewsletterViewDto, UpdateLeadDto, UpdateNewsletterDto } from './leads.dto.js';
 import { LeadsService } from './leads.service.js';
 
 @ApiTags('Public enquiries') @Public() @Controller()
 export class PublicLeadsController {
   constructor(private readonly leads: LeadsService) {}
-  @Post('leads') @Throttle({ default: { limit: 5, ttl: 60_000 } })
+  @Post('leads') @Header('Cache-Control', 'no-store') @Throttle({ default: { limit: 5, ttl: 60_000 } })
   @ApiOperation({ summary: 'Submit sell, trade-in, callback, or finance enquiry' })
-  create(@Body() dto: CreateLeadDto) { return this.leads.create(dto); }
-  @Post('newsletter-subscriptions') @Throttle({ default: { limit: 5, ttl: 60_000 } })
-  subscribe(@Body() dto: NewsletterDto) { return this.leads.subscribe(dto); }
+  create(@Body() dto: CreateLeadDto, @Req() request: FastifyRequest) { return this.leads.create(dto, request); }
+  @Post('newsletter-subscriptions') @Header('Cache-Control', 'no-store') @Throttle({ default: { limit: 5, ttl: 60_000 } })
+  subscribe(@Body() dto: NewsletterDto, @Req() request: FastifyRequest) { return this.leads.subscribe(dto, request); }
 }
 
 @ApiTags('Admin leads') @ApiBearerAuth() @Controller('admin/leads')
@@ -23,6 +23,10 @@ export class AdminLeadsController {
   constructor(private readonly leads: LeadsService) {}
   @Get() @Permissions('lead.read') list(@Query() query: LeadQuery) { return this.leads.list(query); }
   @Get('counts') @Permissions('lead.read') counts() { return this.leads.unreadCounts(); }
+  @Patch('bulk-status') @Permissions('lead.update') bulkStatus(@Body() dto: BulkLeadStatusDto,
+    @Req() request: FastifyRequest, @CurrentUser() user: AuthenticatedUser) {
+    return this.leads.bulkUpdate(dto.ids, dto.status, auditContext(request, user));
+  }
   @Get(':id') @Permissions('lead.read') detail(@Param('id', ParseUUIDPipe) id: string) { return this.leads.detail(id); }
   @Patch(':id') @Permissions('lead.update') update(@Param('id', ParseUUIDPipe) id: string, @Body() dto: UpdateLeadDto,
     @Req() request: FastifyRequest, @CurrentUser() user: AuthenticatedUser) {
@@ -41,6 +45,18 @@ export class AdminNewsletterController {
   @Get('export') @Permissions('lead.read') @Header('Content-Type', 'text/csv; charset=utf-8')
   @Header('Content-Disposition', 'attachment; filename="newsletter-subscribers.csv"')
   export() { return this.leads.exportSubscribers(); }
+  @Patch('bulk-view') @Permissions('lead.update') bulkView(@Body() dto: BulkNewsletterViewDto,
+    @Req() request: FastifyRequest, @CurrentUser() user: AuthenticatedUser) {
+    return this.leads.setSubscriberViewed(dto.ids, dto.viewed, auditContext(request, user));
+  }
+  @Patch(':id/view') @Permissions('lead.update') view(@Param('id', ParseUUIDPipe) id: string, @Body() dto: NewsletterViewDto,
+    @Req() request: FastifyRequest, @CurrentUser() user: AuthenticatedUser) {
+    return this.leads.setSubscriberViewed([id], dto.viewed, auditContext(request, user));
+  }
+  @Patch(':id/viewed') @Permissions('lead.update') @HttpCode(204)
+  viewed(@Param('id', ParseUUIDPipe) id: string, @Req() request: FastifyRequest, @CurrentUser() user: AuthenticatedUser) {
+    return this.leads.markSubscriberViewed(id, auditContext(request, user));
+  }
   @Patch(':id') @Permissions('lead.update') update(@Param('id', ParseUUIDPipe) id: string, @Body() dto: UpdateNewsletterDto,
     @Req() request: FastifyRequest, @CurrentUser() user: AuthenticatedUser) {
     return this.leads.updateSubscriber(id, dto, auditContext(request, user));

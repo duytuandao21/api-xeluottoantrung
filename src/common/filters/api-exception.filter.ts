@@ -1,6 +1,7 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import type { FastifyReply, FastifyRequest } from 'fastify';
 import { PinoLoggerService } from '../logging/pino-logger.service.js';
+import { FormRateLimitException } from '../../modules/leads/form-protection.service.js';
 
 @Catch()
 @Injectable()
@@ -17,10 +18,12 @@ export class ApiExceptionFilter implements ExceptionFilter {
     const message = statusCode === 500 ? 'Internal server error' : typeof body.message === 'string' ? body.message : typeof response === 'string' ? response : exception instanceof HttpException ? exception.message : 'Request failed';
     const details = body.details ?? (Array.isArray(body.message) ? body.message : undefined);
     const path = request.url.split('?')[0], privateValuation = /^\/api\/v1\/(?:admin\/)?(?:valuation|car-recommendations|ownership)(?:\/|$)/.test(path) || /^\/api\/v1\/cars\/[^/]+\/ownership-/.test(path);
+    const privateInput = privateValuation || path === '/api/v1/leads' || path === '/api/v1/newsletter-subscriptions';
     if (statusCode === 429) this.logger.instance.warn({ requestId: request.id, method: request.method, path,
       status: statusCode, reason: 'rate_limit_exceeded' }, 'request rate limited');
     // Drizzle error messages can contain SQL parameter values, including contact PII.
-    if (statusCode >= 500) this.logger.instance.error({ requestId: request.id, method: request.method, path, status: statusCode, err: exception instanceof Error ? { name: exception.name, ...(!privateValuation ? { message: exception.message } : {}) } : undefined }, 'server error');
+    if (statusCode >= 500) this.logger.instance.error({ requestId: request.id, method: request.method, path, status: statusCode, err: exception instanceof Error ? { name: exception.name, ...(!privateInput ? { message: exception.message } : {}) } : undefined }, 'server error');
+    if (exception instanceof FormRateLimitException) reply.header('Retry-After', String(exception.retryAfter));
     reply.status(statusCode).send({ statusCode, error: HttpStatus[statusCode] ? String(HttpStatus[statusCode]).replaceAll('_', ' ').toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase()) : 'Error', message, ...(details !== undefined ? { details } : {}) });
   }
 }

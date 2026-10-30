@@ -6,6 +6,8 @@ import { CurrentUser, Permissions, Public } from '../auth/auth.decorators.js';
 import type { AuthenticatedUser } from '../auth/auth.types.js';
 import { CollectionPayloadDto, CollectionQuery } from './collections.dto.js';
 import { CollectionsService } from './collections.service.js';
+import { DisplayOrderService } from './display-order.service.js';
+import { SaveDisplayOrderDto } from './display-order.dto.js';
 
 @ApiTags('Public content collections')
 @Public()
@@ -49,7 +51,16 @@ export class PublicCollectionsController {
 @ApiBearerAuth()
 @Controller('admin/collections')
 export class AdminCollectionsController {
-  constructor(private readonly collections: CollectionsService) {}
+  constructor(private readonly collections: CollectionsService, private readonly displayOrder: DisplayOrderService) {}
+
+  @Get(':collection/order') @Permissions('content.read')
+  order(@Param('collection') collection: string) { return this.displayOrder.collection(collection); }
+
+  @Patch(':collection/order') @Permissions('content.update')
+  saveOrder(@Param('collection') collection: string, @Body() dto: SaveDisplayOrderDto,
+    @Req() request: FastifyRequest, @CurrentUser() user: AuthenticatedUser) {
+    return this.displayOrder.saveCollection(collection, dto, auditContext(request, user));
+  }
 
   @Get(':collection') @Permissions('content.read')
   list(@Param('collection') collection: string, @Query() query: CollectionQuery) { return this.collections.list(collection, query, false); }

@@ -1,8 +1,9 @@
-import { Inject, Injectable, type ExecutionContext } from '@nestjs/common';
+import { Inject, Injectable, Optional, type ExecutionContext } from '@nestjs/common';
 import { ThrottlerGuard } from '@nestjs/throttler';
 import { THROTTLER_LIMIT } from '@nestjs/throttler/dist/throttler.constants.js';
 import type { ThrottlerLimitDetail } from '@nestjs/throttler/dist/throttler.guard.interface.js';
 import type { FastifyRequest } from 'fastify';
+import { ConfigService } from '@nestjs/config';
 import { PUBLIC_KEY } from '../../modules/auth/auth.decorators.js';
 import { PublicResponseCache } from './public-cache.js';
 import { publicCachePolicy, publicContentGroup, publicLookupResource } from './public-cache.policy.js';
@@ -10,12 +11,23 @@ import { ContentReadDiagnostics, isLoopback, type ContentGuardReason } from './c
 
 @Injectable()
 export class PublicReadThrottlerGuard extends ThrottlerGuard {
+  @Optional() @Inject(ConfigService) private readonly config?: ConfigService;
   @Inject(PublicResponseCache) private readonly responseCache!: PublicResponseCache;
   @Inject(ContentReadDiagnostics) private readonly diagnostics!: ContentReadDiagnostics;
 
   protected override async shouldSkip(context: ExecutionContext): Promise<boolean> {
     if (context.getType() !== 'http') return false;
     const request = context.switchToHttp().getRequest<FastifyRequest>();
+    if (request.method === 'POST') {
+      const path = request.url.split('?')[0];
+      if (path === '/api/v1/newsletter-subscriptions' && this.config?.get<boolean>('FORM_PROTECTION_NEWSLETTER_ENABLED')) return true;
+      if (path === '/api/v1/leads') {
+        const type = (request.body as { type?: string } | undefined)?.type;
+        const flag = type === 'sell' ? 'FORM_PROTECTION_SELL_ENABLED' : type === 'trade_in' ? 'FORM_PROTECTION_TRADE_IN_ENABLED'
+          : type === 'callback' ? 'FORM_PROTECTION_CALLBACK_ENABLED' : '';
+        if (flag && this.config?.get<boolean>(flag)) return true;
+      }
+    }
     const targets = [context.getHandler(), context.getClass()];
     if (request.method !== 'GET') return false;
     const policy = publicCachePolicy(request.url);

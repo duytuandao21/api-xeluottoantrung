@@ -1,4 +1,4 @@
-import { index, jsonb, pgEnum, pgTable, text, uniqueIndex, uuid } from 'drizzle-orm/pg-core';
+import { index, jsonb, pgEnum, pgTable, text, timestamp, uniqueIndex, uuid } from 'drizzle-orm/pg-core';
 import { createdAt, id, updatedAt } from './common.js';
 import { profiles } from './auth.js';
 import { cars } from './cars.js';
@@ -19,8 +19,9 @@ export const leads = pgTable('leads', {
 
 export const newsletterSubscribers = pgTable('newsletter_subscribers', {
   id: id(), email: text('email').notNull(), status: text('status').default('active').notNull(),
-  source: text('source'), createdAt: createdAt(), updatedAt: updatedAt(),
-}, (t) => [uniqueIndex('newsletter_subscribers_email_uq').on(t.email)]);
+  source: text('source'), viewedAt: timestamp('viewed_at', { withTimezone: true }), createdAt: createdAt(), updatedAt: updatedAt(),
+}, (t) => [uniqueIndex('newsletter_subscribers_email_uq').on(t.email),
+  index('newsletter_created_idx').on(t.createdAt), index('newsletter_viewed_created_idx').on(t.viewedAt, t.createdAt)]);
 
 export const auditLogs = pgTable('audit_logs', {
   id: id(), actorProfileId: uuid('actor_profile_id').references(() => profiles.id, { onDelete: 'set null' }),

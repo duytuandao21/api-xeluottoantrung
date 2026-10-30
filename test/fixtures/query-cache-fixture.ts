@@ -25,6 +25,7 @@ import { PublicContentController, AdminContentController, AdminSettingsControlle
 import { ContentService } from '../../src/modules/content/content.service.js';
 import { PublicCollectionsController, AdminCollectionsController } from '../../src/modules/content/collections.controller.js';
 import { CollectionsService } from '../../src/modules/content/collections.service.js';
+import { DisplayOrderService } from '../../src/modules/content/display-order.service.js';
 import { PublicSeoController, AdminSeoController } from '../../src/modules/seo/seo.controller.js';
 import { SeoService } from '../../src/modules/seo/seo.service.js';
 import { SearchController } from '../../src/modules/search/search.controller.js';
@@ -95,7 +96,7 @@ export async function createQueryCacheFixture() {
     @Module({ controllers: [PublicCatalogController, AdminBrandsController, AdminModelsController, PublicCarsController, AdminCarsController, SaleCarsController,
       PublicLookupsController, AdminLookupsController, PublicContentController, AdminContentController, AdminSettingsController,
       PublicCollectionsController, AdminCollectionsController, PublicSeoController, AdminSeoController, SearchController, CarMediaController, MediaUploadController, AdminLeadsController, AdminNewsletterController],
-      providers: [CatalogService, CarsService, LookupsService, ContentService, CollectionsService, SeoService, SearchService, MediaService, LookupPermissionsGuard, LeadsService,
+      providers: [CatalogService, CarsService, LookupsService, ContentService, CollectionsService, DisplayOrderService, SeoService, SearchService, MediaService, LookupPermissionsGuard, LeadsService,
         ...(storageCleanup ? [StorageCleanupService, { provide: APP_INTERCEPTOR, useClass: StorageCleanupInterceptor }] : []),
         { provide: DatabaseService, useValue: measuredConnection }, { provide: STORAGE_SERVICE, useValue: storage },
         { provide: PublicResponseCache, useValue: cache }, { provide: APP_INTERCEPTOR, useClass: PublicCacheInterceptor },

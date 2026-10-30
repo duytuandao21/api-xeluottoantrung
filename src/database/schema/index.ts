@@ -10,3 +10,4 @@ export * from './car-recommendations.js';
 export * from './ownership.js';
 export * from './promotions.js';
 export * from './about-story.js';
+export * from './form-protection.js';

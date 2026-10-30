@@ -38,6 +38,14 @@ export type AppConfig = {
   PUBLIC_CACHE_PROCESS_COUNT: number;
   PUBLIC_CACHE_MAX_ENTRIES: number;
   PUBLIC_CACHE_MAX_BYTES: number;
+  FORM_DEDUPE_HMAC_KEY: string;
+  FORM_PROTECTION_SELL_ENABLED: boolean;
+  FORM_PROTECTION_TRADE_IN_ENABLED: boolean;
+  FORM_PROTECTION_CALLBACK_ENABLED: boolean;
+  FORM_PROTECTION_NEWSLETTER_ENABLED: boolean;
+  TURNSTILE_ENABLED: boolean;
+  TURNSTILE_SECRET_KEY: string;
+  TURNSTILE_EXPECTED_HOSTNAMES: string;
 };
 
 function positiveInt(value: unknown, name: string, fallback: number): number {
@@ -86,6 +94,17 @@ export function validateEnv(input: Record<string, unknown>): AppConfig {
   const analyticsHostname = String(input.CLOUDFLARE_ANALYTICS_HOSTNAME || 'toantrungxeluot.io.vn').trim().toLowerCase();
   if (!/^(?!admin\.|api\.|cdn\.)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(analyticsHostname))
     throw new Error('CLOUDFLARE_ANALYTICS_HOSTNAME must be the public website hostname, without scheme, path or port');
+  const enabled = (name: string) => input[name] === true || input[name] === 'true';
+  const protectedForms = ['FORM_PROTECTION_SELL_ENABLED', 'FORM_PROTECTION_TRADE_IN_ENABLED',
+    'FORM_PROTECTION_CALLBACK_ENABLED', 'FORM_PROTECTION_NEWSLETTER_ENABLED'];
+  const anyProtected = protectedForms.some(enabled);
+  const hmacKey = String(input.FORM_DEDUPE_HMAC_KEY || '');
+  if (anyProtected && hmacKey.length < 32) throw new Error('FORM_DEDUPE_HMAC_KEY must contain at least 32 characters when form protection is enabled');
+  const turnstileEnabled = enabled('TURNSTILE_ENABLED');
+  const secret = String(input.TURNSTILE_SECRET_KEY || '');
+  const hostnames = String(input.TURNSTILE_EXPECTED_HOSTNAMES || '').trim().toLowerCase();
+  if (anyProtected && turnstileEnabled && (!secret || !hostnames || hostnames.split(',').some(host => !/^[a-z0-9.-]+$/.test(host.trim()))))
+    throw new Error('TURNSTILE_SECRET_KEY and TURNSTILE_EXPECTED_HOSTNAMES are required for protected forms');
   return {
     NODE_ENV: mode as AppConfig['NODE_ENV'],
     PORT: positiveInt(input.PORT, 'PORT', 4000),
@@ -119,6 +138,14 @@ export function validateEnv(input: Record<string, unknown>): AppConfig {
     PUBLIC_CACHE_PROCESS_COUNT: Number(input.PUBLIC_CACHE_PROCESS_COUNT || 0),
     PUBLIC_CACHE_MAX_ENTRIES: Math.min(positiveInt(input.PUBLIC_CACHE_MAX_ENTRIES, 'PUBLIC_CACHE_MAX_ENTRIES', 256), 1024),
     PUBLIC_CACHE_MAX_BYTES: Math.min(positiveInt(input.PUBLIC_CACHE_MAX_BYTES, 'PUBLIC_CACHE_MAX_BYTES', 8 * 1024 * 1024), 32 * 1024 * 1024),
+    FORM_DEDUPE_HMAC_KEY: hmacKey,
+    FORM_PROTECTION_SELL_ENABLED: enabled('FORM_PROTECTION_SELL_ENABLED'),
+    FORM_PROTECTION_TRADE_IN_ENABLED: enabled('FORM_PROTECTION_TRADE_IN_ENABLED'),
+    FORM_PROTECTION_CALLBACK_ENABLED: enabled('FORM_PROTECTION_CALLBACK_ENABLED'),
+    FORM_PROTECTION_NEWSLETTER_ENABLED: enabled('FORM_PROTECTION_NEWSLETTER_ENABLED'),
+    TURNSTILE_ENABLED: turnstileEnabled,
+    TURNSTILE_SECRET_KEY: secret,
+    TURNSTILE_EXPECTED_HOSTNAMES: hostnames,
   };
 }
 
