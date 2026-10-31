@@ -2,7 +2,8 @@ import 'reflect-metadata';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { test } from 'node:test';
-import { BadRequestException, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConflictException, NotFoundException } from '@nestjs/common';
+import { validateSync } from 'class-validator';
 import { PGlite } from '@electric-sql/pglite';
 import { drizzle } from 'drizzle-orm/pglite';
 import { eq } from 'drizzle-orm';
@@ -13,6 +14,7 @@ import { PERMISSIONS_KEY } from '../src/modules/auth/auth.decorators.js';
 import { CarMediaController, MediaUploadController } from '../src/modules/media/media.controller.js';
 import { CarsService } from '../src/modules/cars/cars.service.js';
 import { MediaService } from '../src/modules/media/media.service.js';
+import { ReorderMediaDto, type AddMediaDto } from '../src/modules/media/media.dto.js';
 import { StorageCleanupService } from '../src/modules/media/storage-cleanup.service.js';
 import type { StorageService, StoredObject } from '../src/modules/media/storage.service.js';
 
@@ -97,5 +99,52 @@ test('R2 media registration, cover, ordering, ownership and retryable removal', 
     assert.equal((await db.select().from(carMedia).where(eq(carMedia.id, savedSecond.id))).length, 0);
     const actions = (await db.select({ action: auditLogs.action }).from(auditLogs)).map((item) => item.action);
     for (const action of ['media.create', 'media.update', 'media.cover_change', 'media.reorder', 'media.delete']) assert.ok(actions.includes(action));
+
+    const upload = async (carId: string, type: 'image' | 'video' = 'image'): Promise<AddMediaDto> => {
+      const mimeType = type === 'image' ? 'image/jpeg' : 'video/mp4';
+      const signed = await service.presign({ carId, type, mimeType, sizeBytes: 100 });
+      objects.set(signed.storageKey, { mimeType, sizeBytes: 100 });
+      return { storageKey: signed.storageKey, type, mimeType, sizeBytes: 100 };
+    };
+    const fullImages: typeof savedFirst[] = [];
+    for (let i = 0; i < 25; i++) fullImages.push(await service.add(other.id, await upload(other.id), audit));
+    assert.equal((await service.list(other.id)).length, 25, 'Accept 25 images including the cover');
+    await assert.rejects(service.add(other.id, await upload(other.id), audit), ConflictException, 'Reject image 26');
+    assert.equal((await service.list(other.id)).length, 25, 'Rejected image does not create a media record');
+    assert.equal((await service.list(other.id)).filter(item => item.isCover).length, 1);
+    await db.update(cars).set({ status: 'active', publishedAt: new Date() }).where(eq(cars.id, other.id));
+    assert.equal((await publicCars.publicDetail(other.slug)).media.length, 25, 'Public gallery receives all 25 images');
+
+    const imageOrder = fullImages.map(item => item.id).reverse();
+    assert.equal(validateSync(Object.assign(new ReorderMediaDto(), { mediaIds: imageOrder })).length, 0,
+      'HTTP DTO must accept the complete 25-image order');
+    assert.deepEqual((await service.reorder(other.id, { mediaIds: imageOrder }, audit)).map(item => item.id), imageOrder);
+    await assert.rejects(service.reorder(other.id, { mediaIds: imageOrder.slice(1) }, audit), BadRequestException);
+
+    const changedCover = fullImages[24];
+    await service.update(other.id, changedCover.id, { isCover: true }, audit);
+    assert.equal((await service.list(other.id)).find(item => item.isCover)?.id, changedCover.id);
+    await service.delete(other.id, changedCover.id, audit);
+    const replacement = await service.add(other.id, { ...await upload(other.id), isCover: true }, audit);
+    assert.equal((await service.list(other.id)).length, 25, 'Deleting an image frees a slot before R2 cleanup');
+    assert.equal((await service.list(other.id)).find(item => item.isCover)?.id, replacement.id);
+    assert.equal((await service.list(other.id)).filter(item => item.isCover).length, 1);
+    await cleanup.flush();
+    assert.equal(objects.has(changedCover.storageKey!), false, 'Remove the replaced image from fake storage');
+    assert.equal(objects.has(replacement.storageKey!), true, 'Keep the replacement image');
+
+    const [mixed] = await db.insert(cars).values({ name: 'Mixed media', slug: 'mixed-media',
+      brandId: brand.id, modelId: model.id, year: 2022, price: 400_000_000 }).returning();
+    for (let i = 0; i < 20; i++) await service.add(mixed.id, await upload(mixed.id, 'video'), audit);
+    await assert.rejects(service.add(mixed.id, await upload(mixed.id, 'video'), audit), ConflictException,
+      'The previous maximum of 20 videos must not increase');
+    for (let i = 0; i < 15; i++) await service.add(mixed.id, await upload(mixed.id), audit);
+    const mixedOrder = (await service.list(mixed.id)).map(item => item.id).reverse();
+    assert.equal(mixedOrder.length, 35);
+    await assert.rejects(service.add(mixed.id, await upload(mixed.id), audit), ConflictException, 'Keep a finite total media cap');
+    assert.equal(validateSync(Object.assign(new ReorderMediaDto(), { mediaIds: mixedOrder })).length, 0);
+    assert.deepEqual((await service.reorder(mixed.id, { mediaIds: mixedOrder }, audit)).map(item => item.id), mixedOrder);
+    const tooMany = Object.assign(new ReorderMediaDto(), { mediaIds: [...mixedOrder, fullImages[0].id] });
+    assert.ok(validateSync(tooMany).some(error => error.constraints?.arrayMaxSize), 'DTO rejects more than 35 media IDs');
   } finally { await pg.close(); }
 });

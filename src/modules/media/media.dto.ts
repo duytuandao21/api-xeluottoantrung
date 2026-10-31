@@ -1,6 +1,11 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { ArrayMaxSize, ArrayMinSize, IsArray, IsBoolean, IsIn, IsInt, IsOptional, IsString, IsUUID, Matches, Max, MaxLength, Min } from 'class-validator';
 
+export const MAX_CAR_IMAGES = 25;
+export const MAX_CAR_VIDEOS = 20;
+// Extend the old 20-media cap by the 15 additional image slots.
+export const MAX_CAR_MEDIA = 35;
+
 export const mediaMimeTypes = {
   'image/jpeg': { type: 'image', extension: 'jpg', maxBytes: 10_000_000 },
   'image/png': { type: 'image', extension: 'png', maxBytes: 10_000_000 },
@@ -45,5 +50,5 @@ export class UpdateMediaDto {
 
 export class ReorderMediaDto {
   @ApiProperty({ type: [String], description: 'Every active media ID exactly once, in display order' })
-  @IsArray() @ArrayMinSize(1) @ArrayMaxSize(20) @IsUUID('all', { each: true }) mediaIds!: string[];
+  @IsArray() @ArrayMinSize(1) @ArrayMaxSize(MAX_CAR_MEDIA) @IsUUID('all', { each: true }) mediaIds!: string[];
 }

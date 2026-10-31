@@ -28,7 +28,7 @@ export class CloudflareClient {
     this.token = config.get<string>('CLOUDFLARE_API_TOKEN') || '';
     this.zone = config.get<string>('CLOUDFLARE_ZONE_ID') || '';
     this.account = config.get<string>('CLOUDFLARE_ACCOUNT_ID') || '';
-    this.hostname = config.get<string>('CLOUDFLARE_ANALYTICS_HOSTNAME') || 'toantrungxeluot.io.vn';
+    this.hostname = config.get<string>('CLOUDFLARE_ANALYTICS_HOSTNAME') || 'xeluottoantrung.com';
   }
   get configured() { return Boolean(this.token && this.zone); }
 

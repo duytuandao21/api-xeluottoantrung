@@ -86,7 +86,7 @@ class FakeCloudflare extends CloudflareClient {
       }]));
     } else {
       const filter = variables.filter as Record<string, unknown>;
-      assert.equal(filter[scope === 'zones' ? 'clientRequestHTTPHost' : 'requestHost'], 'toantrungxeluot.io.vn');
+      assert.equal(filter[scope === 'zones' ? 'clientRequestHTTPHost' : 'requestHost'], 'xeluottoantrung.com');
       assert.equal(Date.parse(String(filter.datetime_lt)) - Date.parse(String(filter.datetime_geq)) <= this.maxDuration * 1000, true);
       if (scope === 'zones' && query.includes('httpRequestsAdaptiveGroups')) {
         if (this.failHttp) throw new Error('secret-fixture must never leak');
@@ -244,7 +244,7 @@ test('analytics configuration: preserve server-only options and reject non-publi
   const base = { DATABASE_URL: 'postgresql://localhost/test', SUPABASE_URL: 'https://example.supabase.co' };
   const config = validateEnv({ ...base, CLOUDFLARE_API_TOKEN: 'backend-only', CLOUDFLARE_ZONE_ID: 'a'.repeat(32) });
   assert.equal(config.CLOUDFLARE_API_TOKEN, 'backend-only');
-  assert.equal(config.CLOUDFLARE_ANALYTICS_HOSTNAME, 'toantrungxeluot.io.vn');
+  assert.equal(config.CLOUDFLARE_ANALYTICS_HOSTNAME, 'xeluottoantrung.com');
   for (const hostname of ['https://toantrungxeluot.io.vn', '*.io.vn', 'admin.toantrungxeluot.io.vn', 'api.toantrungxeluot.io.vn'])
     assert.throws(() => validateEnv({ ...base, CLOUDFLARE_ANALYTICS_HOSTNAME: hostname }));
   assert.throws(() => validateEnv({ ...base, CLOUDFLARE_ZONE_ID: 'invalid' }));

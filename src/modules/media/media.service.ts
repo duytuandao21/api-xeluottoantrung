@@ -5,7 +5,7 @@ import type { AuditContext } from '../../common/audit.js';
 import { throwOnConstraint } from '../../common/database-errors.js';
 import { DatabaseService } from '../../database/database.service.js';
 import { auditLogs, carMedia, cars } from '../../database/schema/index.js';
-import { AddMediaDto, mediaMimeTypes, PresignAssetDto, PresignMediaDto, ReorderMediaDto, UpdateMediaDto } from './media.dto.js';
+import { AddMediaDto, MAX_CAR_IMAGES, MAX_CAR_MEDIA, MAX_CAR_VIDEOS, mediaMimeTypes, PresignAssetDto, PresignMediaDto, ReorderMediaDto, UpdateMediaDto } from './media.dto.js';
 import { STORAGE_SERVICE, type StorageService } from './storage.service.js';
 import { queueStorageDeletes } from './storage-cleanup.js';
 
@@ -58,7 +58,8 @@ export class MediaService {
         const [car] = await tx.select({ id: cars.id }).from(cars).where(and(eq(cars.id, carId), isNull(cars.deletedAt))).for('update');
         if (!car) throw new NotFoundException('Car not found');
         const current = await tx.select().from(carMedia).where(and(eq(carMedia.carId, carId), isNull(carMedia.deletionPendingAt)));
-        if (current.length >= 20 || (dto.type === 'image' && current.filter((item) => item.type === 'image').length >= 10))
+        const typeLimit = dto.type === 'image' ? MAX_CAR_IMAGES : MAX_CAR_VIDEOS;
+        if (current.length >= MAX_CAR_MEDIA || current.filter((item) => item.type === dto.type).length >= typeLimit)
           throw new ConflictException('Media limit reached');
         if (dto.type === 'video' && dto.isCover) throw new BadRequestException('Video cannot be a cover');
         const cover = dto.type === 'image' && (dto.isCover === true || !current.some((item) => item.isCover));

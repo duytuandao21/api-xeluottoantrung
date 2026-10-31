@@ -91,7 +91,7 @@ export function validateEnv(input: Record<string, unknown>): AppConfig {
   for (const [name, value] of [['CLOUDFLARE_ZONE_ID', cloudflareZone], ['CLOUDFLARE_ACCOUNT_ID', cloudflareAccount]]) {
     if (value && !/^[a-f0-9]{32}$/i.test(value)) throw new Error(`${name} must be a 32 character ID`);
   }
-  const analyticsHostname = String(input.CLOUDFLARE_ANALYTICS_HOSTNAME || 'toantrungxeluot.io.vn').trim().toLowerCase();
+  const analyticsHostname = String(input.CLOUDFLARE_ANALYTICS_HOSTNAME || 'xeluottoantrung.com').trim().toLowerCase();
   if (!/^(?!admin\.|api\.|cdn\.)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(analyticsHostname))
     throw new Error('CLOUDFLARE_ANALYTICS_HOSTNAME must be the public website hostname, without scheme, path or port');
   const enabled = (name: string) => input[name] === true || input[name] === 'true';
